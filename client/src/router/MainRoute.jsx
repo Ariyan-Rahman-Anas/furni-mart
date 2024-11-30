@@ -19,7 +19,7 @@ const PaymentCancelPage = lazy(() => import("../pages/payments/PaymentCancelPage
 
 // Admin dashboard components
 const AdminDashboardLayout = lazy(() => import("./../pages/adminDashboard/AdminDashboardLayout"));
-const AdminDashboardOverviewPage = lazy(() => import("./../pages/AdminDashboard/AdminDashboardOverviewPage"));
+const AdminDashboardOverviewPage = lazy(() => import("./../pages/adminDashboard/AdminDashboardOverviewPage"));
 const ProductsMS = lazy(() => import("./../pages/AdminDashboard/ProductsMS"));
 
 
