@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 import { CouponModel } from "../models/couponModel.js";
 import ErrorHandler from "../utils/errorHandler.js";
 

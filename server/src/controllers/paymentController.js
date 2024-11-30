@@ -3,9 +3,10 @@ import { ObjectId } from "mongodb";
 import UserModel from "./../models/userModel.js";
 import ProductModel from "./../models/productModel.js";
 import PaymentTransactionModel from "../models/paymentTransactionModel.js";
+import { OrderModel } from "../models/orderModel.js";
 
 export const createPaymentWithSSL = async (req, res, next) => {
-  // console.log("body", req.body);
+  console.log("body", req.body);
 
   const store_id = process.env.SSL_STORE_ID;
   const store_passwd = process.env.SSL_STORE_PASS;
@@ -84,6 +85,8 @@ export const createPaymentWithSSL = async (req, res, next) => {
       product_category: orderedItems.map((item) => item.category).join(", "),
       discount_amount: req.body.discount,
       product_profile: orderedItems.map((item) => item.image).join(", "),
+      product_type: orderedItems.map((item) => item._id).join(", "),
+      topup_number: orderedItems.map((item) => item.variantId).join(", "),
       ship_name: userInfo.name,
       ship_add1: shippingInfo.address,
       ship_add2: shippingInfo.address,
@@ -98,7 +101,7 @@ export const createPaymentWithSSL = async (req, res, next) => {
     await PaymentTransactionModel.create({
       transactionId,
       initiateData,
-      status: "PENDING", // Initial status
+      status: "PENDING",
     });
 
     const sslcz = new sslcommerz(store_id, store_passwd, is_live);
@@ -123,11 +126,10 @@ export const createPaymentWithSSL = async (req, res, next) => {
 
 export const paymentSuccess = async (req, res, next) => {
   const { status, tran_id } = req.body;
+  // console.log("body:", req.body)
 
   try {
-    // Verify that the payment status is "VALID"
     if (status === "VALID") {
-      // Retrieve the transaction details from the database
       const transaction = await PaymentTransactionModel.findOne({
         transactionId: tran_id,
         status: "PENDING",
@@ -144,16 +146,24 @@ export const paymentSuccess = async (req, res, next) => {
       transaction.status = "COMPLETED";
       await transaction.save();
 
-      // Call your Order API with the initiateData
-      // const response = await axios.post(`${process.env.ORDER_API_URL}`, {
-      //   ...transaction.initiateData,
-      // });
+      // Call Order API with the initiateData
+      const { initiateData } = transaction;
 
-      res.status(200).json({
-        success: true,
-        message: "Payment successful and order placed",
-        // orderResponse: response.data,
+      // Create an order using the stored initiateData
+      await OrderModel.create({
+        user: initiateData.cus_email,
+        paymentInfo: initiateData, 
+        status: "Confirmed",
       });
+
+      console.log("Payment successful and order placed");
+
+      // res.status(200).json({
+      //   success: true,
+      //   message: "Payment successful and order placed",
+      //   order,
+      // });
+      res.redirect(`${process.env.CLIENT_URL}/payment-success`);
     } else {
       res.status(400).json({
         success: false,
@@ -164,25 +174,6 @@ export const paymentSuccess = async (req, res, next) => {
     next(error);
   }
 };
-
-
-
-
-
-export const paymentSuccess2 = async (req, res, next) => {
-  try {
-    // const data = req.body
-    // console.log("Payment Successful:", req.body);
-
-    // if (data.status === "VALID") {
-
-    // }
-      res.redirect(`${process.env.CLIENT_URL}/payment-success`);
-  } catch (error) {
-    next(error);
-  }
-};
-
 
 
 

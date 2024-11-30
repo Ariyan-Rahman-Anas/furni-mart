@@ -74,8 +74,6 @@ export const login = async(req, res, next)=>{
         email: user.email,
       });
         
-        console.log("token", token)
-
       // Return success response
       res.status(200).json({
         success: true,

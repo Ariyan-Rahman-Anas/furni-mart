@@ -261,7 +261,7 @@ const CheckoutPage = () => {
                     }
                 </div>
 
-                <div className="text-sm space-y-1.5 pb-8 ">
+                <div className="text-sm space-y-1.5">
                     <div className="flex items-center justify-between">
                         <p>Sub-total</p>
                         <p className="font-semibold" >{subtotal}.00</p>
@@ -281,9 +281,8 @@ const CheckoutPage = () => {
                 <Button
                     onClick={proceedToPaymentHandler}
                     type="submit"
-                    form="checkout-form" // Link the button to the form by id
-                    className="full-w-btn mt-6 absolute bottom-4 left-4 right-4 "
-                >
+                    form="checkout-form" 
+                    className="w-full md:w-fit mx-auto mt-8 md:absolute bottom-4 left-4 right-4">
                     Proceed to Payment →
                 </Button>
             </Card>

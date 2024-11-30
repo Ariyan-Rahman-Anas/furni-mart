@@ -30,13 +30,11 @@ import MobileNav from "./admin/MobileNav"
 import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
 
 const Navbar = () => {
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state?.auth?.user)
 
     const [logOutUser, { data, isSuccess, isLoading, error }] = useLogOutUserMutation()
-
     const handleLogout = () => {
         logOutUser("")
     }
@@ -45,13 +43,11 @@ const Navbar = () => {
         if (error) {
             toast.error(error?.data?.message)
         }
-
         if (isSuccess) {
             dispatch(logout())
             toast.success(data?.message)
             navigate("/login")
         }
-
     }, [data?.message, navigate, dispatch, error, isSuccess])
 
     const navItems = [
@@ -63,8 +59,7 @@ const Navbar = () => {
     const { data: wishlistData } = useAnUserWishlistQuery(user?._id)
     const wishlistItems = wishlistData?.wishlist?.products?.length >= 1 ? wishlistData.wishlist.products?.length : 0
 
-
-
+    // nav link for mobile nav
     const links = [
         { icon: <Home className="h-5 w-5" />, label: "Home", to: "/" },
         { icon: <Package className="h-5 w-5" />, label: "Products", to: "/search" },
@@ -73,21 +68,15 @@ const Navbar = () => {
         { icon: <LineChart className="h-5 w-5" />, label: "Analytics", to: "/analytics" },
     ];
 
+    // sheet/mobile nav closer function
     const handleUpgradeClick = () => {
         alert("Upgrade clicked!");
     };
 
-
     return (
-        <nav className="sticky top-0 w-full p-4 md:p-2 flex items-center justify-between bg-white z-50 ">
+        <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-lg flex items-center justify-between bg-white z-50 ">
             <div className="md:hidden">
-                {
-                    user
-                        ?
-                        <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
-                        :
-                        <Link to={"/login"}  ><LogIn /> </Link>
-                }
+                <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
             </div>
 
             <Link
@@ -153,9 +142,11 @@ const Navbar = () => {
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             {
-                                                user.isAdmin === true && <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
+                                                user.isAdmin === true && <>
+                                                    <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
+                                                    <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
+                                                </>
                                             }
-                                            <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
                                     <DropdownMenuSeparator />
