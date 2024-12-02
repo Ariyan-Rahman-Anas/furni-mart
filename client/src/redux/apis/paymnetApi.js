@@ -12,7 +12,8 @@ export const paymentApi = createApi({
                 url: "/ssl",
                 method: "POST",
                 body: payload
-            })
+            }),
+            invalidatesTags:["payment"]
         })
     })
 });

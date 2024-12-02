@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { Loader2, LogIn, LogOut, Menu } from "lucide-react";
 import { Card, CardContent, CardTitle } from "../ui/card";
 import { useDispatch, useSelector } from "react-redux";
-import {  DropdownMenuSeparator, DropdownMenuShortcut } from "./../../components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./../../components/ui/avatar";
-import { useLogOutUserMutation } from "./../../redux/apis/authApi";
+import { DropdownMenuSeparator, DropdownMenuShortcut } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useLogOutUserMutation } from "../../redux/apis/authApi";
 import { toast } from "sonner";
-import { logout } from "./../../redux/slices/authSlice";
+import { logout } from "../../redux/slices/authSlice";
 
 /**
  * @param {Object} props
@@ -17,7 +17,7 @@ import { logout } from "./../../redux/slices/authSlice";
  * @param {Function} props.onUpgradeClick - Callback for the upgrade button
  */
 export default function MobileNav({ links = [], onUpgradeClick }) {
-
+    const location = useLocation()
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -63,7 +63,8 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                             key={index}
                             to={to}
                             onClick={handleLinkClick}
-                            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2 ${location.pathname.includes(to) ? "bg-gray-200 text-primary" : "text-muted-foreground"
+                                } transition-all hover:bg-gray-100 hover:text-primary`}
                         >
                             {icon}
                             {label}
@@ -84,7 +85,7 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                                 <DropdownMenuSeparator />
 
                                 <CardContent className="mt-2 space-y-2 ">
-                                    <Link to={"/profile"}>My Profile</Link>
+                                    <Link to={"/user/profile"}>My Profile</Link>
                                     <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
 
                                     <DropdownMenuSeparator />
@@ -92,6 +93,20 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                                         user.isAdmin === true && <>
                                             <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
                                             <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
+                                        </>
+                                    }
+                                    {
+                                        location.pathname.includes("user") && <>
+                                            <DropdownMenuSeparator />
+                                            <Link to={"/"}>Back to home</Link>
+                                            <DropdownMenuShortcut>⇧⌘H</DropdownMenuShortcut>
+                                        </>
+                                    }
+                                    {
+                                        location.pathname.includes("admin") && <>
+                                            <DropdownMenuSeparator />
+                                            <Link to={"/"}>Back to home</Link>
+                                            <DropdownMenuShortcut>⇧⌘H</DropdownMenuShortcut>
                                         </>
                                     }
                                     <DropdownMenuSeparator />

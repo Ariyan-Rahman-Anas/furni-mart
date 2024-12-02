@@ -7,6 +7,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { productApi } from "./apis/productApi";
 import { wishlistApi } from "./apis/wishlistApi";
 import { paymentApi } from "./apis/paymnetApi";
+import { orderApi } from "./apis/orderApi";
 
 const persistConfig = {
     key: "root",
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,
   [paymentApi.reducerPath]: paymentApi.reducer,
+  [orderApi.reducerPath]: orderApi.reducer,
   auth: authReducer,
   cart: cartReducer,
 });
@@ -34,7 +36,9 @@ const store = configureStore({
       authApi.middleware,
       productApi.middleware,
       wishlistApi.middleware,
-      paymentApi.middleware),
+      paymentApi.middleware,
+      orderApi.middleware
+    ),
   // devTools: process.env.NODE_ENV !== "production",
 });
 

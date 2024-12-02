@@ -5,23 +5,21 @@ import { useAnUserWishlistQuery, useRemoveFromWishlistMutation } from "@/redux/a
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import usePageTitle from "@/hooks/usePageTitle";
+import { Card } from "@/components/ui/card";
 
 const WishlistPage = () => {
-  // usePageTitle("Wishlist")
-
+  usePageTitle("Wishlist")
   const user = useSelector(state => state?.auth?.user)
 
   const { data: wishlistData, isLoading, error: wishlistQueryError } = useAnUserWishlistQuery(user?._id)
   const wishlistItems = wishlistData?.wishlist.products || []
 
-  console.log("wishlistData", wishlistData)
-
-
   const [removeFromWishlist, { data, isSuccess, error }] = useRemoveFromWishlistMutation()
   const handleRemoveWishlistItem = (id) => {
     const payload = {
       userId: user._id,
-      productId:id
+      productId: id
     }
     removeFromWishlist(payload)
   }
@@ -29,14 +27,10 @@ const WishlistPage = () => {
     if (error?.data) {
       toast.error(error?.data?.message, { duration: 3000 });
     }
-
     if (isSuccess) {
       toast.success(data?.message, { duration: 3000 });
     }
   }, [error, isSuccess, data?.message]);
-
-  console.log("data", data)
-
 
   const columns = [
     {
@@ -55,17 +49,17 @@ const WishlistPage = () => {
     {
       accessorKey: "name",
       header: "Name",
-      cell: ({ row }) => <b>{row.original.productId?.name}</b>,
+      cell: ({ row }) => <h1>{row.original.productId?.name}</h1>,
     },
     {
       accessorKey: "price",
       header: "Price",
-      cell: ({ row }) => <b>{row.original.productId?.variants[0].price}</b>,
+      cell: ({ row }) => <p>{row.original.productId?.variants[0].price}</p>,
     },
     {
       accessorKey: "stock",
       header: "Stock",
-      cell: ({ row }) => <b>{row.original.productId?.variants[0].stock}</b>,
+      cell: ({ row }) => <p>{row.original.productId?.variants[0].stock}</p>,
     },
     {
       accessorKey: "action",
@@ -88,16 +82,15 @@ const WishlistPage = () => {
     },
   ]
 
-
   return (
-    <div className="w-full md:w-[75%] mx-auto pt-10 pb-4 space-y-16 ">
+    <Card className="w-full md:w-[75%] mx-auto p-4 my-10 ">
       <ModularTable
         columns={columns}
         data={wishlistItems}
-        showPagination={false}
+        showPagination={true}
+        filterPlaceholder="Search by name..."
       />
-    </div>
+    </Card>
   )
 }
-
 export default WishlistPage

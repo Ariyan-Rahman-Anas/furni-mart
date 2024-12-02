@@ -4,7 +4,7 @@ import { protectRoute } from './../middlewares/protectRoute.js';
 
 const router = express.Router()
 
-router.post("/add", protectRoute, addToWishlist)
+router.post("/add", addToWishlist)
 router.get("/:id", anUserWishlist)
 router.delete("/delete", removeFromWishlist)
 export default router

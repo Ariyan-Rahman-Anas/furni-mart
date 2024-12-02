@@ -96,3 +96,21 @@ export const logout = async (req, res, next) => {
         next(error)
     }
 }
+
+
+export const allUser = async (req, res, next) => {
+  try {
+    const users = await UserModel.find({})
+    if (users.length < 1) {
+      return next(new ErrorHandler("There is no user yet", 404));
+    }
+    return res.status(200).json({
+      success: true,
+      message: "All users retrieved successfully",
+      totalUser: users.length,
+      users
+    })
+  } catch (error) {
+    next(error)
+  }
+}

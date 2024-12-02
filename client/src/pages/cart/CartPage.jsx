@@ -147,8 +147,6 @@ const CartPage = () => {
     },
   ]
 
-  console.log("check", cartItems, total, finalTotal, discount)
-
   return (
     <>
       {/* {cartItems?.length >= 1 ? ( */}
@@ -163,16 +161,12 @@ const CartPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
           <Card className="col-span-7 md:col-span-5 p-4 ">
             <h1 className="heading">Cart Items</h1>
-            {/* <ModularTable /> */}
-
             <ModularTable
               columns={columns}
               data={cartItems}
               showPagination={true}
-              // filterPlaceholder="Search emails..."
+              filterPlaceholder="Search by name..."
             />
-
-
           </Card>
 
           <Card className="col-span-7 md:col-span-2 section-grant p-4 w-full">

@@ -6,7 +6,7 @@ import PaymentTransactionModel from "../models/paymentTransactionModel.js";
 import { OrderModel } from "../models/orderModel.js";
 
 export const createPaymentWithSSL = async (req, res, next) => {
-  console.log("body", req.body);
+  // console.log("body", req.body);
 
   const store_id = process.env.SSL_STORE_ID;
   const store_passwd = process.env.SSL_STORE_PASS;
@@ -74,9 +74,8 @@ export const createPaymentWithSSL = async (req, res, next) => {
       cus_name: userInfo.name,
       cus_email: userInfo.email,
       cus_add1: shippingInfo.address,
-      cus_add2: shippingInfo.address,
-      cus_city: shippingInfo.city,
       cus_state: shippingInfo.state,
+      cus_city: shippingInfo.city,
       cus_postcode: shippingInfo.zipCode,
       cus_country: shippingInfo.country,
       cus_phone: shippingInfo.mobile,
@@ -85,14 +84,7 @@ export const createPaymentWithSSL = async (req, res, next) => {
       product_category: orderedItems.map((item) => item.category).join(", "),
       discount_amount: req.body.discount,
       product_profile: orderedItems.map((item) => item.image).join(", "),
-      product_type: orderedItems.map((item) => item._id).join(", "),
-      topup_number: orderedItems.map((item) => item.variantId).join(", "),
-      ship_name: userInfo.name,
-      ship_add1: shippingInfo.address,
-      ship_add2: shippingInfo.address,
-      ship_city: shippingInfo.city,
-      ship_state: shippingInfo.state,
-      ship_postcode: shippingInfo.zipCode,
+      product_type: JSON.stringify(orderedItems),
       ship_country: shippingInfo.country,
       multi_card_name: "mastercard,visacard,amexcard",
     };
@@ -148,11 +140,35 @@ export const paymentSuccess = async (req, res, next) => {
 
       // Call Order API with the initiateData
       const { initiateData } = transaction;
+      console.log("initiateData", initiateData);
+
+      // Check stock before placing the order
+      // for (let i = 0; i < orderedItems.length; i++) {
+      //   const order = orderedItems[i];
+      //   const product = await ProductModel.findById(order.productId).session(
+      //     session
+      //   );
+
+      //   if (!product) {
+      //     throw new ErrorHandler(
+      //       `Product not found: ${order.name}, Id: ${order.productId}`,
+      //       404
+      //     );
+      //   }
+
+      //   if (product.stock < order.quantity) {
+      //     throw new ErrorHandler(`Not enough stock for ${product.name}`, 400);
+      //   }
+
+      //   // Adjust stock within the same transaction
+      //   product.stock -= order.quantity;
+      //   await product.save({ session });
+      // }
 
       // Create an order using the stored initiateData
       await OrderModel.create({
         user: initiateData.cus_email,
-        paymentInfo: initiateData, 
+        paymentInfo: initiateData,
         status: "Confirmed",
       });
 

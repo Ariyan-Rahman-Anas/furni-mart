@@ -20,18 +20,25 @@ export const allOrders = async (req, res, next) => {
 
 
 export const anUserOrders = async (req, res, next) => {
-    try {
-        const isOrders = await OrderModel.find({ user: req.body.email,});
-        if (!isOrders) {
-            return next(new ErrorHandler("You've not made any order yet", 404));
-        }
-        return res.status(200).json({
-            success: true,
-            message: "User's orders retrieved successfully",
-            totalOrders: isOrders.length,
-            isOrders
-        })
-    } catch (error) {
-        next(error);
+  try {
+    const userEmail = req.query.email;
+    if (!userEmail) {
+      return next(new ErrorHandler("Please provide your email"));
     }
+    const orders = await OrderModel.find({ user: userEmail });
+    if (orders.length < 1) {
+      return next(new ErrorHandler("You've not made any order yet", 404));
+    }
+    return res.status(200).json({
+      success: true,
+      message: "User's orders retrieved successfully",
+      totalOrders: orders.length,
+      orders,
+    });
+  } catch (error) {
+    next(error);
+  }
 }
+
+
+

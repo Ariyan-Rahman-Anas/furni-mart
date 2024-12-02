@@ -26,7 +26,7 @@ import { getActiveItemsLengthInCart } from "@/redux/slices/cartSlice"
 import { useAnUserWishlistQuery } from "@/redux/apis/wishlistApi"
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import MobileNav from "./admin/MobileNav"
+import MobileNav from "./dashboard/MobileNav"
 import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
 
 const Navbar = () => {
@@ -64,8 +64,6 @@ const Navbar = () => {
         { icon: <Home className="h-5 w-5" />, label: "Home", to: "/" },
         { icon: <Package className="h-5 w-5" />, label: "Products", to: "/search" },
         { icon: <ShoppingCart className="h-5 w-5" />, label: "Orders", to: "/orders" },
-        { icon: <Users className="h-5 w-5" />, label: "Customers", to: "/customers" },
-        { icon: <LineChart className="h-5 w-5" />, label: "Analytics", to: "/analytics" },
     ];
 
     // sheet/mobile nav closer function
@@ -137,7 +135,7 @@ const Navbar = () => {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem>
-                                            <Link to={"/profile"}>My Profile</Link>
+                                            <Link to={"/user/profile"}>My Profile</Link>
                                             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>

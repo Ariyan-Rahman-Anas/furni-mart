@@ -18,10 +18,16 @@ const PaymentCancelPage = lazy(() => import("../pages/payments/PaymentCancelPage
 
 
 // Admin dashboard components
-const AdminDashboardLayout = lazy(() => import("../pages/adminDashboard/AdminDashboardLayout"));
-const AdminDashboardOverviewPage = lazy(() => import("../pages/adminDashboard/AdminDashboardOverviewPage"));
-// const ProductsMS = lazy(() => import("./../pages/AdminDashboard/ProductsMS"));
-const ProductsMS = lazy(() => import("../pages/adminDashboard/ProductsMS"));
+const DashboardLayout = lazy(() => import("../pages/dashboard/DashboardLayout"));
+const AdminDashboardOverviewPage = lazy(() => import("../pages/dashboard/admin/AdminDashboardOverviewPage"));
+const ProductsManagement = lazy(() => import("../pages/dashboard/admin/ProductsManagement"));
+const OrdersManagement = lazy(() => import("../pages/dashboard/admin/OrdersManagement"));
+const CustomersManagement = lazy(() => import("../pages/dashboard/admin/CustomersManagement"));
+
+
+// User profile components
+const UserProfileOverviewPage = lazy(() => import("../pages/dashboard/user/UserProfileOverviewPage"));
+const MyOrdersPage = lazy(() => import("../pages/dashboard/user/MyOrdersPage"));
 
 
 const MainRoute = createBrowserRouter([
@@ -49,13 +55,29 @@ const MainRoute = createBrowserRouter([
         element: (
             // <ProtectedRoute requiredRole="admin">
                 <Suspense fallback={<Loader />}>
-                    <AdminDashboardLayout />
+                    <DashboardLayout />
                 </Suspense>
             // {/* </ProtectedRoute> */}
         ),
         children: [
             { path: "dashboard", element: <AdminDashboardOverviewPage /> },
-            { path: "products", element: <ProductsMS /> },
+            { path: "products", element: <ProductsManagement /> },
+            { path: "orders", element: <OrdersManagement /> },
+            { path: "customers", element: <CustomersManagement /> },
+        ]
+    },
+    {
+        path: "/user",
+        element: (
+            // <ProtectedRoute requiredRole="admin">
+            <Suspense fallback={<Loader />}>
+                <DashboardLayout />
+            </Suspense>
+            // {/* </ProtectedRoute> */}
+        ),
+        children: [
+            { path: "profile", element: <UserProfileOverviewPage /> },
+            { path: "orders", element: <MyOrdersPage /> },
         ]
     }
 ])
