@@ -59,7 +59,7 @@ const OrdersManagement = () => {
     ]
 
     return (
-        <Card className="w-full m-4 p-4 ">
+        <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4 ">
             <CardTitle>Order Management</CardTitle>
             <ModularTable
                 columns={columns}

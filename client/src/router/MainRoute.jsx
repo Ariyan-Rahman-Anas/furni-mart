@@ -26,6 +26,7 @@ const OrdersManagement = lazy(() => import("../pages/dashboard/admin/OrdersManag
 const CustomersManagement = lazy(() => import("../pages/dashboard/admin/CustomersManagement"));
 const CouponsManagement = lazy(() => import("../pages/dashboard/admin/coupons/CouponsManagement"));
 const CreateCouponPage = lazy(() => import("../pages/dashboard/admin/coupons/CreateCouponPage"));
+const CouponDetailsPage = lazy(() => import("../pages/dashboard/admin/coupons/CouponDetailsPage"));
 
 
 // User profile components
@@ -71,6 +72,7 @@ const MainRoute = createBrowserRouter([
             { path: "customers", element: <CustomersManagement />},
             { path: "coupons", element: <CouponsManagement />},
             { path: "coupons/create", element: <CreateCouponPage />},
+            { path: "coupons/:id", element: <CouponDetailsPage />},
         ]
     },
     {

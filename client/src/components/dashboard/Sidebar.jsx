@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { logout } from "@/redux/slices/authSlice";
 import { Loader2, LogOut, Package2 } from "lucide-react";
+import ThemeSwitch from "@/components/ThemeSwitch";
 
 export default function Sidebar({ navItems }) {
     const location =  useLocation()
@@ -59,11 +60,14 @@ export default function Sidebar({ navItems }) {
                         </nav>
                     </div>
                     <div className="mt-auto p-4">
-                        <Card>
+                        <Card className="relative">
                             <Avatar>
                                 <AvatarImage src="https://github.com/shadcn.png" />
                                 <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
+                            <div className="absolute top-1 right-1">
+                                <ThemeSwitch />
+                            </div>
                             <CardTitle className="pl-6 mt-4">{user?.name || "User"}</CardTitle>
                             <DropdownMenuSeparator />
                             <CardContent className="mt-2 space-y-2">

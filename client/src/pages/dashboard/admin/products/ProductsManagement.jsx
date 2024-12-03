@@ -76,7 +76,7 @@ const ProductsManagement = () => {
   ]
 
   return (
-    <Card className="w-full p-4 m-4 relative">
+    <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4 relative">
       <CardTitle className="mb-2">Product Management</CardTitle>
       <Link to={"/admin/products/create"} className="absolute -top-2 -right-2"><Plus className="h-8 w-8 p-1 text-white bg-black rounded-full" /></Link>
 

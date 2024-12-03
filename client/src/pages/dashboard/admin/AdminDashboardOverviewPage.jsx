@@ -4,7 +4,7 @@ import ProductInventory from "@/components/dashboard/admin/overview/ProductInven
 const AdminDashboardOverviewPage = () => {
 
   return (
-    <div className="w-full p-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
+    <div className="w-[98%] mx-auto my-2 md:w-full md:m-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
       <main className="-2 w-full col-span-12 lg:col-span-8 ">
       <TopCardsOverview  />
 

@@ -111,7 +111,9 @@ const Navbar = () => {
                 <Link to="/search" className="hidden md:block p-1.5 " >
                     <Search />
                 </Link>
-                <ThemeSwitch />
+                <div className="hidden md:block ">
+                    <ThemeSwitch />
+                </div>
                 <Link to="/wishlist" className="relative p-1 " >
                     <Heart />
                     <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center " > {wishlistItems} </p>
@@ -149,7 +151,6 @@ const Navbar = () => {
                                             }
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
-                                    <DropdownMenuSeparator />
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
                                         <Button

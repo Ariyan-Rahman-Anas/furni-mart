@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useLogOutUserMutation } from "../../redux/apis/authApi";
 import { toast } from "sonner";
 import { logout } from "../../redux/slices/authSlice";
+import ThemeSwitch from "@/components/ThemeSwitch";
 
 /**
  * @param {Object} props
@@ -72,8 +73,8 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                     ))}
                 </nav>
 
-                {/* CTA Section (Upgrade to Pro) */}
-                <div className="mt-auto">
+                {/* logged in user account*/}
+                <div className="mt-auto relative ">
                     {
                         user
                             ? <Card>
@@ -81,6 +82,9 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                                     <AvatarImage src="https://github.com/shadcn.png" />
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
+                                <div className="absolute top-1 right-1 " >
+                                    <ThemeSwitch />
+                                </div>
                                 <CardTitle className="pl-6 mt-4 " >{user.name}</CardTitle>
                                 <DropdownMenuSeparator />
 
