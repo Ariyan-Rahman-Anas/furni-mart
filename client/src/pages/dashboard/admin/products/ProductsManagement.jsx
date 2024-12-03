@@ -6,9 +6,7 @@ import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 const ProductsManagement = () => {
-
   const { data: allProducts, isLoading, error } = useAllProductsQuery()
-  console.log("allProducts", allProducts)
   
   const columns = [
     {
@@ -76,7 +74,6 @@ const ProductsManagement = () => {
       ),
     },
   ]
-
 
   return (
     <Card className="w-full p-4 m-4 relative">

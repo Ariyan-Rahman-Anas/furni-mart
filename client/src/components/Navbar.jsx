@@ -64,7 +64,7 @@ const Navbar = () => {
     const links = [
         { icon: <Home className="h-5 w-5" />, label: "Home", to: "/" },
         { icon: <Package className="h-5 w-5" />, label: "Products", to: "/search" },
-        { icon: <ShoppingCart className="h-5 w-5" />, label: "Orders", to: "/orders" },
+        { icon: <ShoppingCart className="h-5 w-5" />, label: "Orders", to: "/cart" },
     ];
 
     // sheet/mobile nav closer function

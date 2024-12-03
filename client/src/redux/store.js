@@ -9,6 +9,7 @@ import { productApi } from "./apis/productApi";
 import { wishlistApi } from "./apis/wishlistApi";
 import { paymentApi } from "./apis/paymnetApi";
 import { orderApi } from "./apis/orderApi";
+import { couponApi } from "./apis/couponApi";
 
 const persistConfig = {
     key: "root",
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   [wishlistApi.reducerPath]: wishlistApi.reducer,
   [paymentApi.reducerPath]: paymentApi.reducer,
   [orderApi.reducerPath]: orderApi.reducer,
+  [couponApi.reducerPath]: couponApi.reducer,
   auth: authReducer,
   cart: cartReducer,
   theme: themeReducer,
@@ -39,7 +41,8 @@ const store = configureStore({
       productApi.middleware,
       wishlistApi.middleware,
       paymentApi.middleware,
-      orderApi.middleware
+      orderApi.middleware,
+      couponApi.middleware
     ),
   // devTools: process.env.NODE_ENV !== "production",
 });
