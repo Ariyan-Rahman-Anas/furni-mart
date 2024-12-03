@@ -41,7 +41,7 @@ const CouponsManagement = () => {
             header: "Action",
             cell: ({ row }) => (
                 <div className="flex items-center gap-6">
-                    <CouponDetailsDialog />
+                    <CouponDetailsDialog couponId={row.original?._id}/>
                     <Trash
                         size={17}
                         // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
