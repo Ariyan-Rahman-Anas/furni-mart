@@ -1,43 +1,57 @@
-import { CouponModel } from "../models/couponModel.js";
+import CouponModel  from "../models/couponModel.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 
 // creating a coupon code
 export const createCoupon = async (req, res, next) => {
-  try {
-    const { couponCode, discountAmount } = req.body;
-    console.log("req", couponCode, discountAmount);
-    console.log("req222", req.body);
+  console.log("body999", req.body)
 
-    if (!couponCode || !discountAmount) {
-      return next(
-        new ErrorHandler(
-          "Please enter both coupon code and discount amount",
-          400
-        )
-      );
+  try {
+    const {
+      code,
+      discountType,
+      discountValue,
+      minOrderValue,
+      expirationDays,
+      expirationHours,
+      expirationMinutes,
+      usageLimit,
+      usageCount,
+      applicableSubcategories,
+      applicableProducts,
+      status,
+    } = req.body;
+
+    if (!code || !discountType || !discountValue || !expirationHours) {
+      return next(new ErrorHandler("Please fullfil all required fill", 400));
     }
 
-    const isCouponAlreadyExist = await CouponModel.findOne({ couponCode });
+    const isCouponAlreadyExist = await CouponModel.findOne({ code });
     if (isCouponAlreadyExist)
       return next(new ErrorHandler("This coupon is already exist", 409));
 
-    if (discountAmount <= 0) {
-      return next(
-        new ErrorHandler("Discount amount must be greater than 0", 400)
-      );
-    }
-
-    const coupon = await CouponModel.create({ couponCode, discountAmount });
+    const coupon = await CouponModel.create({
+      code,
+      discountType,
+      discountValue,
+      minOrderValue,
+      expirationDays,
+      expirationHours,
+      expirationMinutes,
+      usageLimit,
+      usageCount,
+      applicableSubcategories,
+      applicableProducts,
+      status,
+    });
 
     res.status(200).json({
       success: true,
       message: "Coupon created Successfully",
-      data: coupon,
+      coupon,
     });
   } catch (error) {
-    console.log("cpn err: ", error);
-    return next(new ErrorHandler("Failed to create a coupon", 400));
+    next(error)
   }
 };
 
@@ -67,10 +81,10 @@ export const getAllCoupons = async (req, res, next) => {
       success: true,
       message: "All coupons retrieved successfully",
       totalCoupons: coupons.length,
-      data: coupons,
+      coupons,
     });
   } catch (error) {
-    return next(new ErrorHandler("Failed to retrieve all coupons", 404));
+    next(error)
   }
 };
 
@@ -86,10 +100,8 @@ export const deleteCoupon = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Coupon deleted successfully",
-      data: coupon,
     });
   } catch (error) {
-    console.log("err dlt cpn is: ", error);
-    return next(new ErrorHandler("Failed to deleted the coupon", 400));
+    next(error)
   }
 };

@@ -62,6 +62,7 @@ export const create = async (req, res, next) => {
     }
 }
 
+
 export const allCategory = async (req, res, next) => {
     try {
         const categories = await ProductModel.distinct("category");
@@ -216,7 +217,6 @@ export const deleteProduct= async (req, res, next) => {
 }
 
 
-
 export const getCategoryCounts = async (req, res, next) => {
   try {
     const categoryCounts = await ProductModel.aggregate([
@@ -243,7 +243,6 @@ export const getCategoryCounts = async (req, res, next) => {
     next(error);
   }
 };
-
 
 
 export const getSubCategoryCounts = async (req, res, next) => {

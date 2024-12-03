@@ -11,6 +11,7 @@ import ProductCardSkeleton from "./ProductCardSkeleton";
 const ProductCard = ({ isLoading, product }) => {
     const { _id, name, brand, images, variants } = product || {};
     const user = useSelector((state) => state?.auth?.user);
+    const theme = useSelector(state => state.theme)
 
     const [
         addToWishlist,
@@ -79,15 +80,14 @@ const ProductCard = ({ isLoading, product }) => {
                             (item) => item?.productId?._id === _id
                         ) ? (
                             <Heart
-                                color="black"
+                                // color="black"
                                 className="cursor-pointer"
                                 onClick={() => handleAddToWishlist(_id)}
                             />
                         ) : (
                             <Heart
-                                color="black"
-                                fill="black"
-                                className="cursor-pointer"
+                                fill={theme === 'dark' ? 'white' : 'black'}
+                                className="cursor-pointer  "
                                 onClick={() => handleAddToWishlist(_id)}
                             />
                         )}

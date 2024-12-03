@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card } from "./ui/card";
 
-// interface TimerProps {
-//   targetDate: string; // Target date as a string (e.g., "2024-12-31T23:59:59")
-// }
-
-// interface TimerUnitProps {
-//   value: string;
-//   label: string;
-// }
 
 const TimerCard = ({ value, label }) => (
   <Card className="flex flex-col items-center justify-center w-[4rem] h-[4rem] relative">

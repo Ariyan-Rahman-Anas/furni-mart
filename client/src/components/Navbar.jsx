@@ -108,17 +108,17 @@ const Navbar = () => {
             {/* right side area */}
             <div className="flex items-end gap-10">
 
-                <Link to="/search" className="hidden md:block " >
+                <Link to="/search" className="hidden md:block p-1.5 " >
                     <Search />
                 </Link>
                 <ThemeSwitch />
-                <Link to="/wishlist" className="relative" >
+                <Link to="/wishlist" className="relative p-1 " >
                     <Heart />
-                    <p className="absolute -top-[.9rem] -right-3 h-5 w-5 rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center " > {wishlistItems} </p>
+                    <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center " > {wishlistItems} </p>
                 </Link>
-                <Link to="/cart" className="relative" >
+                <Link to="/cart" className="relative p-1">
                     <ShoppingCartIcon />
-                    <p className="absolute -top-[.9rem] -right-3 h-5 w-5 rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center ">{cartItems} </p>
+                    <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center ">{cartItems} </p>
                 </Link>
 
                 <div className="hidden md:block ">
