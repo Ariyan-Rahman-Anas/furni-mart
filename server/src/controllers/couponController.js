@@ -71,6 +71,25 @@ export const applyCoupon = async (req, res, next) => {
   }
 };
 
+
+// a single coupon
+export const getSingleCoupon = async (req, res, next) => {
+  try {
+    const coupon = await CouponModel.findById(req.params.id)
+    if (!coupon) {
+      return next(new ErrorHandler("coupon not found with this Id ", 404));
+    }
+    return res.status(200).json({
+      success: true,
+      message: "A coupon retrieved successfully",
+      coupon
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 // all coupons
 export const getAllCoupons = async (req, res, next) => {
   try {

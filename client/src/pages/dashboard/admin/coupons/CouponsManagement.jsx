@@ -4,9 +4,11 @@ import { Eye, Plus, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAllCouponsQuery } from "@/redux/apis/couponApi"
 import DateFormatter from "@/components/DateFormatter"
+import { CouponDetailsDialog } from "@/components/dashboard/admin/coupons/CouponDetailsDialog"
 
 const CouponsManagement = () => {
     const { data: allCouponsData } = useAllCouponsQuery()
+    console.log("allCouponsData", allCouponsData)
 
     const columns = [
         {
@@ -39,9 +41,7 @@ const CouponsManagement = () => {
             header: "Action",
             cell: ({ row }) => (
                 <div className="flex items-center gap-6">
-                    <Link to={"/"}>
-                        <Eye size={17} />
-                    </Link>
+                    <CouponDetailsDialog />
                     <Trash
                         size={17}
                         // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
