@@ -8,7 +8,7 @@ export const productApi = createApi({
     tagTypes: ["product"],
     endpoints: builder => ({
         createProduct: builder.mutation({
-            query: ({ formData }) => ({
+            query: (formData ) => ({
                 url: "/create",
                 method: "POST",
                 body: formData
@@ -38,9 +38,17 @@ export const productApi = createApi({
             query: () => "/categories",
             providesTags: ["product"]
         }),
+        categoryCounts: builder.query({
+            query: () => "/category-counts",
+            providesTags:["product"]
+        }),
         subCategories: builder.query({
             query: () => "/sub-categories",
             providesTags: ["product"]
+        }),
+        subcategoryCounts: builder.query({
+            query: () => "/subcategory-counts",
+            providesTags:["product"]
         })
     })
 })
@@ -51,5 +59,7 @@ export const {
     useSingleProductQuery,
     useSearchProductsQuery,
     useCategoriesQuery,
-    useSubCategoriesQuery
+    useCategoryCountsQuery,
+    useSubCategoriesQuery,
+    useSubcategoryCountsQuery
 } = productApi

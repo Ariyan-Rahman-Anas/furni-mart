@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import { authApi } from "./apis/authApi";
 import authReducer from "./slices/authSlice";
 import cartReducer from "./slices/cartSlice";
+import themeReducer from "./slices/themeSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import { productApi } from "./apis/productApi";
 import { wishlistApi } from "./apis/wishlistApi";
@@ -12,7 +13,7 @@ import { orderApi } from "./apis/orderApi";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["auth", "cart"],
+    whitelist: ["auth", "cart", "theme"],
 };
 
 const rootReducer = combineReducers({
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   [orderApi.reducerPath]: orderApi.reducer,
   auth: authReducer,
   cart: cartReducer,
+  theme: themeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

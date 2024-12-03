@@ -28,6 +28,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import MobileNav from "./dashboard/MobileNav"
 import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
+import ThemeSwitch from "./ThemeSwitch"
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -72,7 +73,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-lg flex items-center justify-between bg-white z-50 ">
+        <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-lg flex items-center justify-between bg-white z-50 dark:bg-black">
             <div className="md:hidden">
                 <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
             </div>
@@ -110,13 +111,14 @@ const Navbar = () => {
                 <Link to="/search" className="hidden md:block " >
                     <Search />
                 </Link>
+                <ThemeSwitch />
                 <Link to="/wishlist" className="relative" >
                     <Heart />
-                    <p className="absolute -top-[.9rem] -right-3 h-5 w-5 rounded-sm text-sm text-white bg-black leading-5 text-center " > {wishlistItems} </p>
+                    <p className="absolute -top-[.9rem] -right-3 h-5 w-5 rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center " > {wishlistItems} </p>
                 </Link>
                 <Link to="/cart" className="relative" >
                     <ShoppingCartIcon />
-                    <p className="absolute -top-[.9rem] -right-3 h-5 w-5 rounded-sm text-sm text-white bg-black leading-5 text-center ">{cartItems} </p>
+                    <p className="absolute -top-[.9rem] -right-3 h-5 w-5 rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center ">{cartItems} </p>
                 </Link>
 
                 <div className="hidden md:block ">

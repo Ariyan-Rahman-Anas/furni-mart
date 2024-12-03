@@ -59,7 +59,7 @@ const CustomersManagement = () => {
     ]
 
   return (
-      <Card className="min-h-screen w-full m-4 p-4 ">
+      <Card className="w-full m-4 p-4 ">
           <CardTitle>Customer Management</CardTitle>
           <ModularTable
               columns={columns}

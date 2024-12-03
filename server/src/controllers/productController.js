@@ -214,3 +214,61 @@ export const deleteProduct= async (req, res, next) => {
         next(error)
     }
 }
+
+
+
+export const getCategoryCounts = async (req, res, next) => {
+  try {
+    const categoryCounts = await ProductModel.aggregate([
+      {
+        $group: {
+          _id: "$category", // Group by category
+          productCount: { $sum: 1 }, // Count products in each category
+        },
+      },
+      {
+        $match: { productCount: { $gt: 0 } }, // Filter only categories with at least 1 product
+      },
+      {
+        $sort: { productCount: -1 }, // Optional: Sort categories by product count
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: "Category counting retrieved successfully",
+      categoryCounts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+export const getSubCategoryCounts = async (req, res, next) => {
+  try {
+    const subCategoryCounts = await ProductModel.aggregate([
+      {
+        $group: {
+          _id: "$subCategory", // Group by subcategory
+          productCount: { $sum: 1 }, // Count products in each subcategory
+        },
+      },
+      {
+        $match: { productCount: { $gt: 0 } }, // Filter only subcategories with at least 1 product
+      },
+      {
+        $sort: { productCount: -1 }, // Optional: Sort subcategories by product count
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message:"sub category counts data retrieved successfully",
+      subCategoryCounts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

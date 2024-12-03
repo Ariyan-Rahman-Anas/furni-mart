@@ -1,6 +1,6 @@
 import { useAllProductsQuery } from "@/redux/apis/productApi"
 import { ModularTable } from "@/components/ModularTable"
-import { ArrowUpDown, Eye, Trash } from "lucide-react"
+import { ArrowUpDown, Eye, Plus, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -79,13 +79,15 @@ const ProductsManagement = () => {
 
 
   return (
-    <Card className="min-h-screen w-full p-4 m-4">
-      <CardTitle>Product Management</CardTitle>
+    <Card className="w-full p-4 m-4 relative">
+      <CardTitle className="mb-2">Product Management</CardTitle>
+      <Link to={"/admin/products/create"} className="absolute -top-2 -right-2"><Plus className="h-8 w-8 p-1 text-white bg-black rounded-full" /></Link>
 
       <ModularTable
         columns={columns}
         data={allProducts?.products}
         showPagination={true}
+        filterPlaceholder="Search by name..."
       />
     </Card>
   )

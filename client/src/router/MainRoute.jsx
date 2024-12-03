@@ -20,7 +20,8 @@ const PaymentCancelPage = lazy(() => import("../pages/payments/PaymentCancelPage
 // Admin dashboard components
 const DashboardLayout = lazy(() => import("../pages/dashboard/DashboardLayout"));
 const AdminDashboardOverviewPage = lazy(() => import("../pages/dashboard/admin/AdminDashboardOverviewPage"));
-const ProductsManagement = lazy(() => import("../pages/dashboard/admin/ProductsManagement"));
+const ProductsManagement = lazy(() => import("../pages/dashboard/admin/products/ProductsManagement"));
+const CreateProductPage = lazy(() => import("../pages/dashboard/admin/products/CreateProductPage"));
 const OrdersManagement = lazy(() => import("../pages/dashboard/admin/OrdersManagement"));
 const CustomersManagement = lazy(() => import("../pages/dashboard/admin/CustomersManagement"));
 
@@ -61,6 +62,8 @@ const MainRoute = createBrowserRouter([
         ),
         children: [
             { path: "dashboard", element: <AdminDashboardOverviewPage /> },
+            { path: "products", element: <ProductsManagement /> },
+            { path: "products/create", element: <CreateProductPage /> },
             { path: "products", element: <ProductsManagement /> },
             { path: "orders", element: <OrdersManagement /> },
             { path: "customers", element: <CustomersManagement /> },
