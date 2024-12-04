@@ -50,8 +50,8 @@ export default function Sidebar({ navItems }) {
                                 <Link
                                     key={index}
                                     to={item.to}
-                                    className={`flex items-center gap-3 rounded-lg px-3 py-2 ${location.pathname.includes(item.to) ? "text-white bg-black" : "text-muted-foreground"
-                                        } transition-all hover:bg-gray-200 hover:text-primary`}
+                                    className={`flex items-center gap-3 rounded-lg px-3 py-2 ${location.pathname.includes(item.to) ? "text-white bg-black dark:bg-gray-700 " : "text-muted-foreground"
+                                        } transition-all hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-primary`}
                                 >
                                     <item.icon className="h-4 w-4" />
                                     {item.label}

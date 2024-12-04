@@ -7,15 +7,16 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import usePageTitle from "@/hooks/usePageTitle";
 import { Card } from "@/components/ui/card";
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
 
 const WishlistPage = () => {
   usePageTitle("Wishlist")
   const user = useSelector(state => state?.auth?.user)
 
-  const { data: wishlistData, isLoading, error: wishlistQueryError } = useAnUserWishlistQuery(user?._id)
+  const { data: wishlistData, isLoading:wishlistQueryLoading, error: wishlistQueryError } = useAnUserWishlistQuery(user?._id)
   const wishlistItems = wishlistData?.wishlist.products || []
 
-  const [removeFromWishlist, { data, isSuccess, error }] = useRemoveFromWishlistMutation()
+  const [removeFromWishlist, { data, isSuccess, isLoading:wishlistItemDeleteLoading, error }] = useRemoveFromWishlistMutation()
   const handleRemoveWishlistItem = (id) => {
     const payload = {
       userId: user._id,
@@ -48,6 +49,7 @@ const WishlistPage = () => {
     },
     {
       accessorKey: "name",
+      accessorFn: (row) => row?.productId?.name,
       header: "Name",
       cell: ({ row }) => <h1>{row.original.productId?.name}</h1>,
     },
@@ -72,15 +74,25 @@ const WishlistPage = () => {
               size={17}
               className="cursor-pointer" />
           </Link>
-          <Trash
-            size={17}
+          <button
+            disabled={wishlistItemDeleteLoading}
             onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
-            className="cursor-pointer hover:text-myRed"
-          />
+          >
+            <Trash
+              size={17}
+              disabled={wishlistItemDeleteLoading}
+              className="cursor-pointer hover:text-myRed"
+            />
+          </button>
         </div>
       ),
     },
   ]
+
+
+  if (wishlistQueryLoading) {
+    return <IsLoadingLoaderRTK h="90vh" />
+  }
 
   return (
     <Card className="w-full md:w-[75%] mx-auto p-4 my-10 ">

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Loader from "@/components/Loader";
+import ProtectedRoute from "./ProtectedRoutes";
 
 const App = lazy(() => import("./../App"));
 const HomePage = lazy(() => import("./../pages/home/HomePage"));
@@ -43,26 +44,26 @@ const MainRoute = createBrowserRouter([
         </Suspense>,
         children: [
             { path: "/", element: <HomePage /> },
-            { path: "/registration", element: <RegistrationPage /> },
-            { path: "/login", element: <LoginPage /> },
+            { path: "/registration", element: <ProtectedRoute isPublic={true} > <RegistrationPage /> </ProtectedRoute> },
+            { path: "/login", element: <ProtectedRoute isPublic={true} ><LoginPage /></ProtectedRoute> },
             { path: "/search", element: <ProductSearchPage /> },
             { path: "/search/:id", element: <ProductDetailsPage /> },
-            { path: "/cart", element: <CartPage /> },
-            { path: "/wishlist", element: <WishlistPage /> },
-            { path: "/checkout", element: <CheckoutPage /> },
-            { path: "/payment-success", element: <PaymentSuccessPage />},
-            { path: "/payment-failed", element: <PaymentFailedPage />},
-            { path: "/payment-cancel", element: <PaymentCancelPage />},
+            { path: "/cart", element: <ProtectedRoute><CartPage /></ProtectedRoute> },
+            { path: "/wishlist", element: <ProtectedRoute><WishlistPage /></ProtectedRoute> },
+            { path: "/checkout", element: <ProtectedRoute><CheckoutPage /></ProtectedRoute> },
+            { path: "/payment-success", element: <ProtectedRoute><PaymentSuccessPage /></ProtectedRoute>},
+            { path: "/payment-failed", element: <ProtectedRoute><PaymentFailedPage /></ProtectedRoute> },
+            { path: "/payment-cancel", element: <ProtectedRoute><PaymentCancelPage /></ProtectedRoute>},
         ]
     },
     {
         path: "/admin",
         element: (
-            // <ProtectedRoute requiredRole="admin">
+            <ProtectedRoute isAdmin={true} >
                 <Suspense fallback={<Loader />}>
                     <DashboardLayout />
                 </Suspense>
-            // {/* </ProtectedRoute> */}
+            </ProtectedRoute>
         ),
         children: [
             { path: "dashboard", element: <AdminDashboardOverviewPage /> },
@@ -71,20 +72,20 @@ const MainRoute = createBrowserRouter([
             { path: "products", element: <ProductsManagement /> },
             { path: "orders", element: <OrdersManagement /> },
             { path: "pending", element: <PendingOrdersPage /> },
-            { path: "customers", element: <CustomersManagement />},
-            { path: "coupons", element: <CouponsManagement />},
-            { path: "coupons/create", element: <CreateCouponPage />},
-            { path: "coupons/:id", element: <CouponDetailsPage />},
+            { path: "customers", element: <CustomersManagement /> },
+            { path: "coupons", element: <CouponsManagement /> },
+            { path: "coupons/create", element: <CreateCouponPage /> },
+            { path: "coupons/:id", element: <CouponDetailsPage /> },
         ]
     },
     {
         path: "/user",
         element: (
-            // <ProtectedRoute requiredRole="admin">
+            <ProtectedRoute isAdmin={false}>
             <Suspense fallback={<Loader />}>
                 <DashboardLayout />
             </Suspense>
-            // {/* </ProtectedRoute> */}
+            </ProtectedRoute> 
         ),
         children: [
             { path: "profile", element: <UserProfileOverviewPage /> },

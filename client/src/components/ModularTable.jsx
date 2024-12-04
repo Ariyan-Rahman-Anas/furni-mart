@@ -124,7 +124,7 @@ export function ModularTable({
             </div>
             {/* Pagination */}
             {shouldShowPagination && (
-                <div className="flex items-center justify-between mt-8">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-8">
                     <div className="flex items-center space-x-2">
                         <Button
                             variant="outline"
@@ -137,8 +137,8 @@ export function ModularTable({
                             <Button
                                 key={i}
                                 className={`${i === table.getState().pagination.pageIndex
-                                        ? "bg-black text-white "
-                                    : "text-black bg-white hover:bg-gray-200 border"
+                                        ? "bg-black dark:bg-white text-white dark:text-black "
+                                    : "text-black dark:text-white bg-white dark:bg-black hover:bg-gray-200 dark:hover:bg-gray-700 border"
                                     }`}
                                 onClick={() => table.setPageIndex(i)}
                             >
