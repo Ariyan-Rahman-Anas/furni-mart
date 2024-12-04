@@ -60,5 +60,4 @@ const CouponDetailsPage = () => {
     </Card>
   )
 }
-
 export default CouponDetailsPage
