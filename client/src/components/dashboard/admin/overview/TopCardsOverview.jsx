@@ -4,12 +4,17 @@ import { ArrowLeftRight, Package, UsersRound } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAllProductsQuery } from "@/redux/apis/productApi"
 import { useAllOrdersQuery } from "@/redux/apis/orderApi"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const TopCardsOverview = () => {
 
-    const { data: allUser } = useUserListQuery()
+    const { data: allUser, isLoading } = useUserListQuery()
     const { data: allProducts } = useAllProductsQuery()
     const { data: allOrders } = useAllOrdersQuery()
+
+    if (isLoading) {
+        return <IsLoadingLoaderRTK h={"90vh"} />
+    }
 
     return (
             <div className="w-full flex items-center flex-col md:flex-row justify-between gap-4 ">

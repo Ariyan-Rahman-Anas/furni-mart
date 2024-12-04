@@ -4,9 +4,10 @@ import { Eye, Plus, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAllCouponsQuery } from "@/redux/apis/couponApi"
 import DateFormatter from "@/components/DateFormatter"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const CouponsManagement = () => {
-    const { data: allCouponsData } = useAllCouponsQuery()
+    const { data: allCouponsData, isLoading } = useAllCouponsQuery()
     console.log("allCouponsData", allCouponsData)
 
     const columns = [
@@ -52,6 +53,10 @@ const CouponsManagement = () => {
             ),
         },
     ]
+
+    if (isLoading) {
+        return <IsLoadingLoaderRTK h={"90vh"} />
+    }
 
     return (
         <Card className="w-[96%] mx-auto my-2 md:w-full p-4 md:m-4 relative">

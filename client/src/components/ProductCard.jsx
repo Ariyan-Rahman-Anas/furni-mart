@@ -1,4 +1,4 @@
-import { Eye, Heart, Loader2, ShoppingCart } from "lucide-react";
+import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Card } from "./ui/card";
 import { useSelector } from "react-redux";
 import { useAddToWishlistMutation, useAnUserWishlistQuery } from "@/redux/apis/wishlistApi";
@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getActiveItemsInCart } from "@/redux/slices/cartSlice";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import IsLoadingLoaderRTK from "./dashboard/IsLoadingLoaderRTK";
 
 const ProductCard = ({ isLoading, product }) => {
     const { _id, name, brand, images, variants } = product || {};
@@ -73,24 +74,26 @@ const ProductCard = ({ isLoading, product }) => {
                         <p className="text-base font-semibold">{brand}</p>
                         <p className="text-base font-semibold">${variants?.[0]?.price}.00</p>
                     </div>
-                    <div className="flex items-center justify-between gap-6 bg border2 shadow border-black py-2 px-5 rounded-md">
-                        {loadingAddToWishlist ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : !activeItemsInWishlist?.find(
-                            (item) => item?.productId?._id === _id
-                        ) ? (
-                            <Heart
-                                // color="black"
-                                className="cursor-pointer"
-                                onClick={() => handleAddToWishlist(_id)}
-                            />
-                        ) : (
-                            <Heart
-                                fill={theme === 'dark' ? 'white' : 'black'}
-                                className="cursor-pointer  "
-                                onClick={() => handleAddToWishlist(_id)}
-                            />
-                        )}
+                    <div className="flex items-center justify-between gap-6 shadow py-2 px-5 rounded-md">
+                        <button>
+                            {loadingAddToWishlist ? (
+                                <IsLoadingLoaderRTK h="full" />
+                            ) : !activeItemsInWishlist?.find(
+                                (item) => item?.productId?._id === _id
+                            ) ? (
+                                <Heart
+                                    // color="black"
+                                    className="cursor-pointer"
+                                    onClick={() => handleAddToWishlist(_id)}
+                                />
+                            ) : (
+                                <Heart
+                                    fill={theme === 'dark' ? 'white' : 'black'}
+                                    className="cursor-pointer  "
+                                    onClick={() => handleAddToWishlist(_id)}
+                                />
+                            )}
+                        </button>
                         {activeItemsInCart.find((item) => item?._id === product?._id) && (
                             <ShoppingCart
                                 color="black"

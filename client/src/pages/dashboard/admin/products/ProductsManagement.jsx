@@ -4,6 +4,7 @@ import { ArrowUpDown, Eye, Plus, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const ProductsManagement = () => {
   const { data: allProducts, isLoading, error } = useAllProductsQuery()
@@ -74,6 +75,10 @@ const ProductsManagement = () => {
       ),
     },
   ]
+
+  if (isLoading) {
+    return <IsLoadingLoaderRTK h={"90vh"} />
+  }
 
   return (
     <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4 relative">

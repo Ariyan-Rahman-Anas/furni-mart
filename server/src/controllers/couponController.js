@@ -75,7 +75,9 @@ export const applyCoupon = async (req, res, next) => {
 // a single coupon
 export const getSingleCoupon = async (req, res, next) => {
   try {
-    const coupon = await CouponModel.findById(req.params.id)
+    const coupon = await CouponModel.findById(req.params.id).populate(
+      "applicableProducts"
+    );
     if (!coupon) {
       return next(new ErrorHandler("coupon not found with this Id ", 404));
     }

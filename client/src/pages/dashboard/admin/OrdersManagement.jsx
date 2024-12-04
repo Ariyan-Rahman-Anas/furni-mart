@@ -4,10 +4,11 @@ import { Eye, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import DateFormatter from "@/components/DateFormatter"
 import { Card, CardTitle } from "@/components/ui/card"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const OrdersManagement = () => {
 
-    const { data: allOrders } = useAllOrdersQuery()
+    const { data: allOrders, isLoading } = useAllOrdersQuery()
     console.log("allOrders", allOrders)
 
 
@@ -57,6 +58,10 @@ const OrdersManagement = () => {
             ),
         },
     ]
+
+    if (isLoading) {
+        return <IsLoadingLoaderRTK h={"90vh"} />
+    }
 
     return (
         <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4 ">

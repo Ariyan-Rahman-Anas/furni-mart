@@ -1,12 +1,14 @@
-import { Card, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Card, CardTitle, CardDescription } from "@/components/ui/card"
 import { useCategoryCountsQuery, useSubcategoryCountsQuery } from "@/redux/apis/productApi"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const ProductInventory = () => {
     const { data: categoryCountsData } = useCategoryCountsQuery()
-    const { data: subcategoryCountsData } = useSubcategoryCountsQuery()
+    const { data: subcategoryCountsData, isLoading } = useSubcategoryCountsQuery()
 
-    console.log("categoryCountsData", categoryCountsData)
-    console.log("subcategoryCountsData", subcategoryCountsData)
+    if (isLoading) {
+        return <IsLoadingLoaderRTK h={"90vh"} />
+    }
 
     return (
         <Card className=" space-y-4 p-4 ">

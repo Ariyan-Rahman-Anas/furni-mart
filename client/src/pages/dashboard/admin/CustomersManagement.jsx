@@ -4,12 +4,10 @@ import { Card, CardTitle } from "@/components/ui/card"
 import { Link } from "react-router-dom"
 import { Eye, Trash } from "lucide-react"
 import DateFormatter from "@/components/DateFormatter"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const CustomersManagement = () => {
-
-    const { data: userList } = useUserListQuery()
-    console.log("userList", userList)
-    
+    const { data: userList, isLoading } = useUserListQuery()
 
     const columns = [
         {
@@ -58,17 +56,20 @@ const CustomersManagement = () => {
         },
     ]
 
-  return (
-      <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4 ">
-          <CardTitle>Customer Management</CardTitle>
-          <ModularTable
-              columns={columns}
-              data={userList?.users}
-              showPagination={true}
-              filterPlaceholder="Search by name..."
-          />
-      </Card>
-  )
-}
+    if (isLoading) {
+        return <IsLoadingLoaderRTK h={"90vh"} />
+    }
 
+    return (
+        <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4 ">
+            <CardTitle>Customer Management</CardTitle>
+            <ModularTable
+                columns={columns}
+                data={userList?.users}
+                showPagination={true}
+                filterPlaceholder="Search by name..."
+            />
+        </Card>
+    )
+}
 export default CustomersManagement

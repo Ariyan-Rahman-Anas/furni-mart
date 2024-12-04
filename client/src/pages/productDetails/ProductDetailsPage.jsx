@@ -1,4 +1,4 @@
-import { CircleCheck, Heart, Loader2, ShoppingCart } from "lucide-react"
+import { CircleCheck, Heart, ShoppingCart } from "lucide-react"
 import payments from "./../../assets/images/payments.svg"
 import { useSelector } from "react-redux"
 import { toast } from "sonner"
@@ -13,11 +13,13 @@ import { useAddRemoveToCartHandler } from "@/hooks/useAddRemoveToCartHandler"
 import { Link, useParams } from "react-router-dom"
 import { useAddToWishlistMutation, useAnUserWishlistQuery } from "@/redux/apis/wishlistApi"
 import usePageTitle from "@/hooks/usePageTitle"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const ProductDetailsPage = () => {
     usePageTitle('Product Details');
 
     const user = useSelector(state => state?.auth?.user)
+    const theme = useSelector(state => state.theme)
     const { id } = useParams()
 
     const { data: singleProduct, isLoading, } = useSingleProductQuery(id)
@@ -51,8 +53,6 @@ const ProductDetailsPage = () => {
             toast.success(data?.message);
         }
     }, [data?.message, error?.data, isSuccess]);
-
-
 
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedVariant, setSelectedVariant] = useState(null);
@@ -96,9 +96,7 @@ const ProductDetailsPage = () => {
 
 
     if (isLoading) {
-        return <div className="min-h-[90vh] w-full flex items-center justify-center ">
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        </div>
+        return <IsLoadingLoaderRTK h={"90vh"} />
     }
 
     return (
@@ -123,16 +121,16 @@ const ProductDetailsPage = () => {
 
 
                                     {
-                                        addToWishListLoading ? <Loader2 /> : <>
-                                            <Heart /> <span>Add to wishlist</span>
-                                        </>
+                                        addToWishListLoading
+                                            ? <> Add to wishlist <IsLoadingLoaderRTK /> </>
+                                            : <> <span>Add to wishlist</span> <Heart /> </>
                                     }
 
                                 </Button>
                                 :
                                 <Link to={`/wishlist`} className="flex items-center w-fit gap-1 secondary-btn ">
                                     <Button>
-                                        <Heart color="white" fill="white" /> <span>Check Wishlist</span>
+                                        <span>Check Wishlist</span><Heart color={theme === "dark" ? "black" : "white"} fill={theme === "dark" ? "black" : "white"} />
                                     </Button>
                                 </Link>
                         }
