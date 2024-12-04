@@ -62,7 +62,7 @@ export default function Sidebar({ navItems }) {
                     <div className="mt-auto p-4">
                         <Card className="relative">
                             <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
                                 <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                             <div className="absolute top-1 right-1">

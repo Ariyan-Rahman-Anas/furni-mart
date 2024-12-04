@@ -6,7 +6,6 @@ import PaymentTransactionModel from "../models/paymentTransactionModel.js";
 import { OrderModel } from "../models/orderModel.js";
 
 export const createPaymentWithSSL = async (req, res, next) => {
-  // console.log("body", req.body);
 
   const store_id = process.env.SSL_STORE_ID;
   const store_passwd = process.env.SSL_STORE_PASS;
@@ -116,9 +115,66 @@ export const createPaymentWithSSL = async (req, res, next) => {
 };
 
 
+// export const paymentSuccess = async (req, res, next) => {
+//   const { status, tran_id } = req.body;
+//   // console.log("body:", req.body)
+
+//   try {
+//     if (status === "VALID") {
+//       const transaction = await PaymentTransactionModel.findOne({
+//         transactionId: tran_id,
+//         status: "PENDING",
+//       });
+
+//       if (!transaction) {
+//         return res.status(404).json({
+//           success: false,
+//           message: "Transaction not found or already processed",
+//         });
+//       }
+
+//       // Mark transaction as "COMPLETED"
+//       transaction.status = "COMPLETED";
+//       await transaction.save();
+
+//       // Call Order API with the initiateData
+//       const { initiateData } = transaction;
+//       console.log("initiateData", initiateData);
+
+//       // Create an order using the stored initiateData
+//       await OrderModel.create({
+//         user: initiateData.cus_email,
+//         paymentInfo: initiateData,
+//         status: "Confirmed",
+//       });
+
+//       console.log("Payment successful and order placed");
+
+//       // res.status(200).json({
+//       //   success: true,
+//       //   message: "Payment successful and order placed",
+//       //   order,
+//       // });
+//       res.redirect(`${process.env.CLIENT_URL}/payment-success`);
+//     } else {
+//       res.status(400).json({
+//         success: false,
+//         message: "Payment not valid",
+//       });
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+
+
+
+
+
 export const paymentSuccess = async (req, res, next) => {
   const { status, tran_id } = req.body;
-  // console.log("body:", req.body)
 
   try {
     if (status === "VALID") {
@@ -142,44 +198,57 @@ export const paymentSuccess = async (req, res, next) => {
       const { initiateData } = transaction;
       console.log("initiateData", initiateData);
 
-      // Check stock before placing the order
-      // for (let i = 0; i < orderedItems.length; i++) {
-      //   const order = orderedItems[i];
-      //   const product = await ProductModel.findById(order.productId).session(
-      //     session
-      //   );
-
-      //   if (!product) {
-      //     throw new ErrorHandler(
-      //       `Product not found: ${order.name}, Id: ${order.productId}`,
-      //       404
-      //     );
-      //   }
-
-      //   if (product.stock < order.quantity) {
-      //     throw new ErrorHandler(`Not enough stock for ${product.name}`, 400);
-      //   }
-
-      //   // Adjust stock within the same transaction
-      //   product.stock -= order.quantity;
-      //   await product.save({ session });
-      // }
-
       // Create an order using the stored initiateData
-      await OrderModel.create({
+      const order = await OrderModel.create({
         user: initiateData.cus_email,
         paymentInfo: initiateData,
         status: "Confirmed",
       });
 
-      console.log("Payment successful and order placed");
+      console.log("Order created:", order);
 
-      // res.status(200).json({
-      //   success: true,
-      //   message: "Payment successful and order placed",
-      //   order,
-      // });
-      res.redirect(`${process.env.CLIENT_URL}/payment-success`);
+      // Reduce stock for each product in the order
+      const orderedItems = JSON.parse(initiateData.product_type);
+
+      for (const item of orderedItems) {
+        const product = await ProductModel.findById(item._id);
+        if (!product) {
+          return res.status(404).json({
+            success: false,
+            message: `Product with ID ${item._id} not found`,
+          });
+        }
+
+        // Find the specific variant
+        const variant = product.variants.find(
+          (v) => v._id.toString() === item.variantId
+        );
+        if (!variant) {
+          return res.status(404).json({
+            success: false,
+            message: `Variant with ID ${item.variantId} not found for product ${product.name}`,
+          });
+        }
+
+        // Check stock availability
+        if (variant.stock < item.quantity) {
+          return res.status(400).json({
+            success: false,
+            message: `Insufficient stock for variant ${variant.name}`,
+          });
+        }
+
+        // Reduce stock
+        variant.stock -= item.quantity;
+
+        // Save updated product
+        await product.save();
+      }
+
+      console.log("Stock updated successfully");
+
+      // Redirect to the success page
+      res.redirect(`${process.env.CLIENT_URL}/payment-success?success=true`);
     } else {
       res.status(400).json({
         success: false,
@@ -190,6 +259,8 @@ export const paymentSuccess = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 
 

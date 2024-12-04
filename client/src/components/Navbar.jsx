@@ -73,7 +73,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-lg flex items-center justify-between bg-white z-50 dark:bg-black">
+        <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-b-lg flex items-center justify-between bg-white z-50 dark:bg-black">
             <div className="md:hidden">
                 <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
             </div>
@@ -130,7 +130,7 @@ const Navbar = () => {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar>
-                                        <AvatarImage src="https://github.com/shadcn.png" />
+                                        <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                 </DropdownMenuTrigger>

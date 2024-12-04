@@ -79,7 +79,7 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                         user
                             ? <Card>
                                 <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
+                                    <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
                                 <div className="absolute top-1 right-1 " >

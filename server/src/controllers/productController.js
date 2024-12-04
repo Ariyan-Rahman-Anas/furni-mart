@@ -131,7 +131,7 @@ export const searchProduct = async (req, res, next) => {
          console.log("Inside searchProducts route", req.query);
          const { search, subCategory, price, category, sort } = req.query;
          const page = Number(req.query.page) || 1;
-         const limit = Number(process.env.PRODUCT_PER_PAGE) || 9;
+         const limit = Number(process.env.PRODUCT_PER_PAGE) || 3;
          const skip = (page - 1) * limit;
 
          const baseQuery = {};

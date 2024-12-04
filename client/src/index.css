@@ -80,3 +80,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+html {
+  scroll-behavior: smooth;
+}
+body{
+overflow-x: hidden;
+}
+
+/*====--- custom scroll bar ---====*/
+::-webkit-scrollbar {
+  width: 0.4rem;
+  height: 0.4rem
+}
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 0.8rem;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555454;
+}

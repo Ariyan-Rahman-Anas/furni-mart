@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, getActiveItemsInCart, removeFromCart } from "@/redux/slices/cartSlice";
 
 export const useAddRemoveToCartHandler = (product) => {
-    console.log("product from hook", product)
     const dispatch = useDispatch();
     const activeItemsInCart = useSelector(getActiveItemsInCart); 
     
@@ -27,7 +26,7 @@ export const useAddRemoveToCartHandler = (product) => {
         };
 
         if (cartItem.stock <= 0) {
-            return toast.error("Not enough product available in stock. Please try later.");
+            return toast.error("Product not available, please try again later.");
         }
 
         if (!isProductInCart) {

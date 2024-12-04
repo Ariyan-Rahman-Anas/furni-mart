@@ -186,18 +186,15 @@ const ProductsSearchPage = () => {
                 <div className="my-8" >
                     {
                         searchProductsLoading
-                            ? <div className="grid grid-cols-1 md:grid-cols-3 place-items-center gap-4 ">
+                            ? <div className="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 place-items-center gap-4 ">
                                 {
-                                    // skeletonArray.map((_, index) => (
-                                    //     <ProductCard key={index} isLoading={true} product={null} />
-                                    // ))
                                     skeletonArray.map((_, index) => (
                                         <ProductCardSkeleton key={index} />
                                     ))
                                 }
                             </div> : searchProductsIsSuccess
                                 ? <div
-                                    className="grid grid-cols-1 md:grid-cols-3 place-items-center gap-4" >
+                                    className="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 place-items-center gap-4" >
                                     {
                                         searchData?.products.map((product) => (
                                             <ProductCard key={product._id} isLoading={false} product={product} />
@@ -230,7 +227,7 @@ const ProductsSearchPage = () => {
                                         key={pageNumber}
                                         onClick={() => setPage(pageNumber)}
                                         className={page === pageNumber
-                                            ? "h-6 w-6 text-sm flex items-center justify-center rounded-full text-white bg-black border border-black dark:border-white "
+                                            ? "h-6 w-6 text-sm flex items-center justify-center rounded-full text-white dark:text-black bg-black dark:bg-white border border-black dark:border-white "
                                             : "h-6 w-6 text-sm flex items-center justify-center rounded-full text-black dark:text-white border-[.1rem] border-black dark:border-white "}
                                     >
                                         {pageNumber}
