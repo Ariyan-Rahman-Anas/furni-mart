@@ -1,4 +1,5 @@
 import { OrderModel } from "../models/orderModel.js"
+import PaymentTransactionModel from "../models/paymentTransactionModel.js";
 import ErrorHandler from './../utils/errorHandler.js';
 
 export const allOrders = async (req, res, next) => {
@@ -17,7 +18,6 @@ export const allOrders = async (req, res, next) => {
     next(error);
   }
 }
-
 
 export const anUserOrders = async (req, res, next) => {
   try {
@@ -41,4 +41,22 @@ export const anUserOrders = async (req, res, next) => {
 }
 
 
-
+export const getTransactionPendingOrders = async (req, res, next) => {
+  try {
+    const pendingOrders = await PaymentTransactionModel.find({
+      status: "PENDING",
+    });
+    if (pendingOrders.length < 1) {
+      return next(
+        new ErrorHandler("There is no pending orders right now", 404)
+      );
+    }
+    return res.status(200).json({
+      success: false,
+      message: "Pending order retrieved successfully",
+      pendingOrders
+    })
+  } catch (error) {
+    next(error)
+  }
+}

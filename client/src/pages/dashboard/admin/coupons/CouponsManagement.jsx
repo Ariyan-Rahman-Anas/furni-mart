@@ -13,6 +13,7 @@ const CouponsManagement = () => {
     const columns = [
         {
             accessorKey: "name",
+            accessorFn: (row) => row?.code,
             header: "Code",
             cell: ({ row }) => <h1>{row.original?.code}</h1>,
         },
@@ -68,7 +69,7 @@ const CouponsManagement = () => {
                 columns={columns}
                 data={allCouponsData?.coupons}
                 showPagination={true}
-                filterPlaceholder="Search by name..."
+                filterPlaceholder="Search by code..."
             />
         </Card>
     )

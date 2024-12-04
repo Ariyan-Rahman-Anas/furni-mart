@@ -3,26 +3,18 @@ import { toast } from 'sonner';
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { usePayWithSSLMutation } from "@/redux/apis/paymnetApi";
+import { usePayWithSSLMutation } from "@/redux/apis/paymentApi";
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
 
 const CheckoutPage = () => {
     const user = useSelector(state=>state?.auth?.user)
-
-    const navigate = useNavigate()
     const location = useLocation()
     const cartItems = location?.state?.cartItems;
     const discount = location.state?.discount;
     const subtotal = location.state?.total;
     const finalTotal = location.state?.finalTotal;
-  
-    console.log("cartItems", cartItems)
-    console.log("discount", discount)
-    console.log("subtotal", subtotal)
-    console.log("finalTotal", finalTotal)
 
     const {
         register,
@@ -32,28 +24,7 @@ const CheckoutPage = () => {
         clearErrors,
     } = useForm();
 
-    // const submitHandler = async (formData) => {
-        // navigate("/make-payment", {
-        //     state: {
-                // billingInfo: { userId: user._id },
-                // shippingInfo: formData.shippingInfo,
-                // orderedItems: cartItems,
-                // discount,
-                // subtotal,
-                // total: finalTotal,
-                // status:"Processing"
-        //     },
-        // });
-        // console.log("formData", formData)
-    // };
-
-    const [payWithSSL, { data, isSuccess, error }] = usePayWithSSLMutation()
-
-    // const payload = {
-    //     amount: finalTotal,
-    //     currency: "BDT",
-        
-    // }
+    const [payWithSSL, { data, isSuccess, isLoading, error }] = usePayWithSSLMutation()
 
     const handleSSLPayment = async (formData) => {
         const dataFromCheckoutForm = {
@@ -106,9 +77,6 @@ const CheckoutPage = () => {
     if (data?.url) {
         window.location.replace(data.url)
     }
-
-    console.log("data, isSuccess, error", data, isSuccess, error)
-    console.log("data", data?.url)
 
     return (
         <div className="px-2 pt-8 pb-12 w-full md:w-[90%] mx-auto grid grid-cols-1 md:grid-cols-7 gap-6 ">
@@ -281,9 +249,11 @@ const CheckoutPage = () => {
                 <Button
                     onClick={proceedToPaymentHandler}
                     type="submit"
-                    form="checkout-form" 
+                    form="checkout-form"
+                    disabled={isLoading}
                     className="w-full md:w-fit mx-auto mt-8 md:absolute bottom-4 left-4 right-4">
-                    Proceed to Payment →
+                    {isLoading ? <>Proceed to Payment → <IsLoadingLoaderRTK /> </> : <>Proceed to Payment →</> }
+                    
                 </Button>
             </Card>
         </div>

@@ -17,8 +17,16 @@ export const orderApi = createApi({
                 params: { email },
             }),
             providesTags: ["order"]
+        }),
+        pendingOrders: builder.query({
+            query: () => "/pending",
+            providesTags:["order"]
         })
     })
 })
 
-export const { useAnUserOrdersQuery, useAllOrdersQuery } = orderApi
+export const {
+    useAnUserOrdersQuery,
+    useAllOrdersQuery,
+    usePendingOrdersQuery
+} = orderApi

@@ -1,10 +1,10 @@
-import { useAllOrdersQuery } from "@/redux/apis/orderApi"
 import { ModularTable } from "@/components/ModularTable"
 import { Eye, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import DateFormatter from "@/components/DateFormatter"
 import { Card, CardTitle } from "@/components/ui/card"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
+import { useAllOrdersQuery } from "@/redux/apis/orderApi"
 
 const OrdersManagement = () => {
 
@@ -15,6 +15,7 @@ const OrdersManagement = () => {
     const columns = [
         {
             accessorKey: "name",
+            accessorFn: (row) => row.paymentInfo?.cus_name,
             header: "Name",
             cell: ({ row }) => <h1>{row.original?.paymentInfo.cus_name}</h1>,
         },

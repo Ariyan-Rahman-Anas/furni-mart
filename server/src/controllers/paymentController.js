@@ -115,63 +115,6 @@ export const createPaymentWithSSL = async (req, res, next) => {
 };
 
 
-// export const paymentSuccess = async (req, res, next) => {
-//   const { status, tran_id } = req.body;
-//   // console.log("body:", req.body)
-
-//   try {
-//     if (status === "VALID") {
-//       const transaction = await PaymentTransactionModel.findOne({
-//         transactionId: tran_id,
-//         status: "PENDING",
-//       });
-
-//       if (!transaction) {
-//         return res.status(404).json({
-//           success: false,
-//           message: "Transaction not found or already processed",
-//         });
-//       }
-
-//       // Mark transaction as "COMPLETED"
-//       transaction.status = "COMPLETED";
-//       await transaction.save();
-
-//       // Call Order API with the initiateData
-//       const { initiateData } = transaction;
-//       console.log("initiateData", initiateData);
-
-//       // Create an order using the stored initiateData
-//       await OrderModel.create({
-//         user: initiateData.cus_email,
-//         paymentInfo: initiateData,
-//         status: "Confirmed",
-//       });
-
-//       console.log("Payment successful and order placed");
-
-//       // res.status(200).json({
-//       //   success: true,
-//       //   message: "Payment successful and order placed",
-//       //   order,
-//       // });
-//       res.redirect(`${process.env.CLIENT_URL}/payment-success`);
-//     } else {
-//       res.status(400).json({
-//         success: false,
-//         message: "Payment not valid",
-//       });
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-
-
-
-
-
 
 export const paymentSuccess = async (req, res, next) => {
   const { status, tran_id } = req.body;
@@ -259,8 +202,6 @@ export const paymentSuccess = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 
 

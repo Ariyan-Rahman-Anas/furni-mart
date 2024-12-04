@@ -7,7 +7,7 @@ import themeReducer from "./slices/themeSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import { productApi } from "./apis/productApi";
 import { wishlistApi } from "./apis/wishlistApi";
-import { paymentApi } from "./apis/paymnetApi";
+import { paymentApi } from "./apis/paymentApi";
 import { orderApi } from "./apis/orderApi";
 import { couponApi } from "./apis/couponApi";
 
