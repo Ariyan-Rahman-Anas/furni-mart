@@ -24,8 +24,9 @@ const DashboardLayout = lazy(() => import("../pages/dashboard/DashboardLayout"))
 const AdminDashboardOverviewPage = lazy(() => import("../pages/dashboard/admin/AdminDashboardOverviewPage"));
 const ProductsManagement = lazy(() => import("../pages/dashboard/admin/products/ProductsManagement"));
 const CreateProductPage = lazy(() => import("../pages/dashboard/admin/products/CreateProductPage"));
-const OrdersManagement = lazy(() => import("../pages/dashboard/admin/OrdersManagement"));
-const PendingOrdersPage = lazy(() => import("../pages/dashboard/admin/PendingOrdersPage"));
+const OrdersManagement = lazy(() => import("../pages/dashboard/admin/orders/OrdersManagement"));
+const OrderDetailsPage = lazy(() => import("../pages/dashboard/admin/orders/OrderDetailsPage"));
+const PendingTransactionsManagement = lazy(() => import("../pages/dashboard/admin/PendingTransactionsManagement"));
 const CustomersManagement = lazy(() => import("../pages/dashboard/admin/CustomersManagement"));
 const CouponsManagement = lazy(() => import("../pages/dashboard/admin/coupons/CouponsManagement"));
 const CreateCouponPage = lazy(() => import("../pages/dashboard/admin/coupons/CreateCouponPage"));
@@ -73,10 +74,11 @@ const MainRoute = createBrowserRouter([
             { path: "products/create", element: <CreateProductPage /> },
             { path: "products", element: <ProductsManagement /> },
             { path: "orders", element: <OrdersManagement /> },
-            { path: "pending", element: <PendingOrdersPage /> },
+            { path: "pending", element: <PendingTransactionsManagement /> },
             { path: "customers", element: <CustomersManagement /> },
             { path: "coupons", element: <CouponsManagement /> },
             { path: "coupons/create", element: <CreateCouponPage /> },
+            { path: "orders/:id", element: <OrderDetailsPage /> },
             { path: "coupons/:id", element: <CouponDetailsPage /> },
         ]
     },

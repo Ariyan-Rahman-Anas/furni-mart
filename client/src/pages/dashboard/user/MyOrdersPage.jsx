@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux"
+import { useAnUserOrdersQuery } from "@/redux/apis/orderApi"
 import { Card } from "@/components/ui/card"
 import DateFormatter from "@/components/DateFormatter"
 import { toast } from "sonner"
-import { useAnUserOrdersQuery } from "@/redux/apis/orderApi"
 
 const MyOrdersPage = () => {
 

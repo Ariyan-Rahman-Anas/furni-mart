@@ -7,8 +7,6 @@ import { toast } from 'sonner';
 const ProtectedRoute = ({ children, redirectTo = "/login", isAdmin, isPublic = false }) => {
     const user = useSelector((state) => state?.auth?.user);
     const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated);
-    console.log("user",user)
-    console.log("auth", isAuthenticated)
     
     const navigate = useNavigate();
 

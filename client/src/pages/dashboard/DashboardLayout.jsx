@@ -14,7 +14,7 @@ const DashboardLayout = () => {
         { to: "/admin/customers", label: "Customers", icon: Users, active: false },
         { to: "/admin/products", label: "Products", icon: Package, active: false },
         { to: "/admin/orders", label: "Orders", icon: ShoppingCart, active: false },
-        { to: "/admin/pending", label: "Pending Orders", icon: ShoppingCart, active: false },
+        { to: "/admin/pending", label: "Pending Transactions", icon: ShoppingCart, active: false },
         { to: "/admin/coupons", label: "Coupons", icon: ShoppingCart, active: false },
     ];
     const userNavItems = [

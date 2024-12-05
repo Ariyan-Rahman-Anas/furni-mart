@@ -94,7 +94,6 @@ const ProductDetailsPage = () => {
         handleAddRemoveToCart();
     };
 
-
     if (isLoading) {
         return <IsLoadingLoaderRTK h={"90vh"} />
     }
@@ -109,23 +108,18 @@ const ProductDetailsPage = () => {
                     <Card>
                         <BannerCarousel images={images} autoplayDelay={4000} />
                     </Card>
-
                     <div className="mt-6 text-sm ">
                         {
                             !activeItemsInWishlist?.find(item => item?.productId?._id === product?._id)
                                 ?
                                 <Button
                                     onClick={() => addToWishlistHandler(product?._id)}
-
                                     className="flex items-center gap-1 secondary-btn ">
-
-
                                     {
                                         addToWishListLoading
                                             ? <> Add to wishlist <IsLoadingLoaderRTK /> </>
                                             : <> <span>Add to wishlist</span> <Heart /> </>
                                     }
-
                                 </Button>
                                 :
                                 <Link to={`/wishlist`} className="flex items-center w-fit gap-1 secondary-btn ">
@@ -148,11 +142,16 @@ const ProductDetailsPage = () => {
                             <p>Category: <span className="capitalize text-black dark:text-white">{category}</span> </p>
                             <p>sub-category: <span className="capitalize text-black dark:text-white">{subCategory}</span> </p>
                             <p>Release Date: <span className="capitalize text-black dark:text-white">{createdAt?.slice(0, 10)}</span> </p>
-                            {/* <p>Availability: <span className={`${stock <= 10 ? "text-myRed" : "text-green-500"}`} >{stock <= 0 ? "Low Stock" : "In Stock"}00 {stock}111 </span> </p> */}
+                            
+                            <p>Availability: <span className={`${variants?.[0].stock <= 10 ? "text-myRed" : "text-green-500"}`} >
+                                {
+                                    variants?.[0].stock < 1 ? "Not available, please check variants below" : variants?.[0].stock <= 10 ? "Low Stock" : "In Stock"
+                                }
+                            </span></p>
                         </div>
                         <div className="flex items-center gap-6 my-7 ">
-                            <p className="text-3xl font-semibold textmyBlue dark:text-white">${variants?.[0].price}</p>
-                            <p className="bg-primary text-white text-xl font-semibold py-2 px-5 rounded-md  " >0% OFF </p>
+                            <p className="text-3xl font-semibold">${variants?.[0].price}</p>
+                            <p className="text-xl font-semibold py-2 px-5 rounded-md text-white dark:text-black bg-black dark:bg-white ">0% OFF </p>
                         </div>
 
                         <Card className="p-4 my-4 space-y-2 text-sm ">
@@ -198,13 +197,15 @@ const ProductDetailsPage = () => {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold">Materials:</h4>
-                                            <div className="ml-8 flex itemscenter flex-col gap3">
+                                            <div className="ml-8 flex flex-col gap3">
                                                 <p>Primary: {item.materials.primary} </p>
                                                 <p>Secondary: {item.materials.secondary || "N/A"} </p>
                                             </div>
                                         </div>
                                         <p className="absolute top-0 right-2 text-xs font-semibold bg-black text-white py-0.5 px-2 rounded-md">
-                                            {item.stock >= 10 ? "In Stock" : "Low Stock"}
+                                            {
+                                                item.stock < 1 ? "Not available" : item.stock <= 10 ? "Low Stock" : "In Stock"
+                                            }
                                         </p>
                                         <div>
                                             <p><span className="font-semibold">Price:</span> ${item?.price}</p>
@@ -215,7 +216,7 @@ const ProductDetailsPage = () => {
                             </div>
 
                             {selectedVariant && (
-                                <Card className="p-4 mt-6 text-sm rounded-lg bg-gray-50">
+                                <Card className="p-4 mt-6 text-sm">
                                     <h3 className="font-semibold mb-1 ">Selected Variant Details:</h3>
                                     <div className="space-y-1">
                                         <p><span className="font-semibold" >Price:</span> ${selectedVariant.price}</p>

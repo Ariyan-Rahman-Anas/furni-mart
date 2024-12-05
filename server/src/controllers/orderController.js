@@ -19,6 +19,24 @@ export const allOrders = async (req, res, next) => {
   }
 }
 
+
+export const getSingleOrder = async (req, res, next) => {
+  try {
+    const order = await OrderModel.findById(req.params.id)
+    if (!order) {
+      return next(new ErrorHandler("Order not found with this Id",404))
+    }
+    return res.status(200).json({
+      success: true,
+      message: "An order details retrieved successfully",
+      order
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 export const anUserOrders = async (req, res, next) => {
   try {
     const userEmail = req.query.email;
@@ -54,6 +72,7 @@ export const getTransactionPendingOrders = async (req, res, next) => {
     return res.status(200).json({
       success: false,
       message: "Pending order retrieved successfully",
+      totalPendingOrders:pendingOrders.length,
       pendingOrders
     })
   } catch (error) {

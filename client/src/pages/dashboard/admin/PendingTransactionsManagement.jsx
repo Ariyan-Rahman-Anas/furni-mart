@@ -2,9 +2,8 @@ import { Card, CardTitle } from "@/components/ui/card"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import DateFormatter from "@/components/DateFormatter"
 import { ModularTable } from "@/components/ModularTable"
-import { Eye, Trash } from "lucide-react"
-import { Link } from "react-router-dom"
 import { usePendingOrdersQuery } from "@/redux/apis/orderApi"
+import { Trash } from "lucide-react"
 
 const PendingOrdersPage = () => {
 
@@ -47,12 +46,6 @@ const PendingOrdersPage = () => {
             header: "Action",
             cell: ({ row }) => (
                 <div className="flex items-center gap-4">
-                    <Link
-                        to={`/search/${row.original?._id}`}>
-                        <Eye
-                            size={17}
-                            className="cursor-pointer" />
-                    </Link>
                     <Trash
                         size={17}
                         // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
@@ -77,7 +70,7 @@ const PendingOrdersPage = () => {
                   </div>
                   : 
                   <>
-                    <CardTitle>Order Management</CardTitle>
+                    <CardTitle>Pending Transactions Management</CardTitle>
                       <ModularTable
                           columns={columns}
                           data={pendingOrdersData?.pendingOrders}

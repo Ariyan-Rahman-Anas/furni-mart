@@ -172,7 +172,7 @@ const CartPage = () => {
           <Card className="col-span-7 md:col-span-2 section-grant p-4 w-full">
             <h1 className="heading">Cart Total</h1>
             {/* payment calculating */}
-            <div className="text-sm text-gray-600 dark:text-gray-300 space-y-6 px-3">
+            <div className="text-sm space-y-6 px-3">
               <div className="flex items-center justify-between">
                 <p>Sub-total</p>
                 <p className="font-semibold text-black dark:text-white">{Math.round(total?.toFixed(2))} Tk</p>
@@ -194,17 +194,17 @@ const CartPage = () => {
                 onChange={(e) => setCoupon(e.target.value)}
                 className=" w-full"
               />
-              <Button disabled={isDiscounted} type="submit" className="primary-btn">
+              <Button disabled={isDiscounted || total < 1 } type="submit" className="primary-btn">
                 {isDiscounted ? "Coupon Applied" : "Apply Coupon"}
               </Button>
             </form>
 
-            <div className="mt-8 flex items-end justify-between text-gray-700">
+            <div className="mt-8 flex items-end justify-between">
               <b>Total</b>
               <b>
                 {isDiscounted ? (
                   <span className="flex flex-col items-end justify-between">
-                    <span className="line-through text-gray-500 ">{Math.round(total?.toFixed(2))} Tk</span>
+                    <span className="line-through">{Math.round(total?.toFixed(2))} Tk</span>
                     <span>{finalTotal} Tk</span>
                   </span>
                 ) : (
@@ -212,8 +212,8 @@ const CartPage = () => {
                 )}
               </b>
             </div>
-            <Link to={"/checkout"} state={{ cartItems, total, finalTotal, discount }}>
-              <Button className="w-full my-5">Proceed to checkout →</Button>
+            <Link to={total < 1 ? "" : "/checkout"} state={{ cartItems, total, finalTotal, discount }}>
+              <Button disabled={total < 1} className="w-full my-5">Proceed to checkout →</Button>
             </Link>
             <Link to={"/search"}>
               <Button className="w-full">← Continue Shopping</Button>
