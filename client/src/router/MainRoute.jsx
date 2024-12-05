@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Loader from "@/components/Loader";
 import ProtectedRoute from "./ProtectedRoutes";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 const App = lazy(() => import("./../App"));
 const HomePage = lazy(() => import("./../pages/home/HomePage"));
@@ -42,6 +43,7 @@ const MainRoute = createBrowserRouter([
         element: <Suspense fallback={<Loader />} >
             <App />
         </Suspense>,
+        errorElement:<NotFoundPage />,  
         children: [
             { path: "/", element: <HomePage /> },
             { path: "/registration", element: <ProtectedRoute isPublic={true} > <RegistrationPage /> </ProtectedRoute> },
@@ -90,7 +92,8 @@ const MainRoute = createBrowserRouter([
         children: [
             { path: "profile", element: <UserProfileOverviewPage /> },
             { path: "orders", element: <MyOrdersPage /> },
+            { path: "*", element: <NotFoundPage /> },
         ]
-    }
+    },
 ])
 export default MainRoute;
