@@ -1,6 +1,6 @@
 import { useAllProductsQuery } from "@/redux/apis/productApi"
 import { ModularTable } from "@/components/ModularTable"
-import { ArrowUpDown, Eye, Plus, Trash } from "lucide-react"
+import { ArrowUpDown, Eye, FilePenLine, Plus, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -65,6 +65,9 @@ const ProductsManagement = () => {
             <Eye
               size={17}
               className="cursor-pointer" />
+          </Link>
+          <Link to={`/admin/products/${row.original._id}`}>
+            <FilePenLine size={17} />
           </Link>
           <Trash
             size={17}

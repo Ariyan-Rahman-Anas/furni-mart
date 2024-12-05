@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 
-const CreateProductPage = () => {
+const ProductCreatePage = () => {
     const {
         register,
         handleSubmit,
@@ -361,4 +361,4 @@ const CreateProductPage = () => {
     );
 };
 
-export default CreateProductPage;
+export default ProductCreatePage;
