@@ -195,6 +195,77 @@ export const searchProduct = async (req, res, next) => {
 }
 
 
+
+// update products
+export const updateProduct = async (req, res, next) => {
+  try {
+    console.log("body", req.body);
+    console.log("params", req.params);
+    const { id } = req.params;
+    const {
+      name,
+      category,
+      subCategory,
+      description,
+      color,
+      isFeatured,
+      variants,
+      brand,
+    } = req.body;
+
+    if (!id) {
+      return next(new ErrorHandler("Product ID is required", 400));
+    }
+
+    // Parse variants if it's a string
+    const parsedVariants =
+      typeof variants === "string" ? JSON.parse(variants) : variants;
+
+    const product = await ProductModel.findById(id);
+    if (!product) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+
+    const images = req.files;
+    console.log("imgs", images);
+
+    // Handle image upload
+    if (images && images.length > 0) {
+      try {
+        const imagesUrl = await uploadImagesToCloudinary(images);
+        const ids = product.images.map((img) => img.public_id);
+        await deleteImgFromCloudinary(ids);
+
+        product.images = imagesUrl; // Replace old images with new ones
+      } catch (error) {
+        return next(new ErrorHandler("Failed to upload or delete images", 500));
+      }
+    }
+
+    // Update other product fields
+    if (name) product.name = name;
+    if (category) product.category = category.toLowerCase();
+    if (subCategory) product.subCategory = subCategory.toLowerCase();
+    if (description) product.description = description;
+    if (color) product.color = color;
+    if (brand) product.brand = brand;
+    if (typeof isFeatured === "boolean") product.isFeatured = isFeatured;
+    if (variants) product.variants = parsedVariants;
+
+    await product.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
 export const deleteProduct= async (req, res, next) => {
     try {
         const product = await ProductModel.findById(req.params.id)

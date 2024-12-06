@@ -68,7 +68,6 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please select at least one color for the product"],
     },
-
     isFeatured: {
       type: Boolean,
       default: false,

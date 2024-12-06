@@ -17,6 +17,5 @@ export const deleteImgFromCloudinary = async (publicIds) => {
             });
         });
     });
-
     await Promise.all(deletePromises);
 };

@@ -1,51 +1,60 @@
 // import jwt from "jsonwebtoken";
 
 // export const sendJwtToken = (res, payload) => {
-//   // create token--
+//   // Create token
 //   const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
 //     expiresIn: process.env.JWT_TOKEN_EXPIRY,
 //   });
-//   // option for cookie--
+
+//   // Calculate cookie expiration date (7 days)
+//   const cookieExpiryDate = new Date();
+//   cookieExpiryDate.setSeconds(
+//     cookieExpiryDate.getSeconds() + parseInt(process.env.JWT_COOKIE_EXPIRY)
+//   );
+
+//   // Cookie options
 //   const options = {
 //     httpOnly: true,
-//     expiresIn: process.env.JWT_COOKIE_EXPIRY,
+//     expires: cookieExpiryDate, // Set cookie
 //     secure: true,
 //     sameSite: "None",
 //   };
 
-//   // Set the cookie options
-//   res.cookie("token", token, options);
+//   // Set the cookie with token
+//     res.cookie("token", token, options);
+    
+//     return token
 // };
-
-
 
 
 
 import jwt from "jsonwebtoken";
 
 export const sendJwtToken = (res, payload) => {
-  // Create token with 7-day expiry
+  console.log("payload", payload)
   const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
-    expiresIn: process.env.JWT_TOKEN_EXPIRY, // 7 days expiry
-  });    
+    expiresIn: process.env.JWT_TOKEN_EXPIRY, // e.g., "15m"
+  });
 
-  // Calculate cookie expiration date (7 days)
   const cookieExpiryDate = new Date();
   cookieExpiryDate.setSeconds(
-    cookieExpiryDate.getSeconds() + parseInt(process.env.JWT_COOKIE_EXPIRY)
+    cookieExpiryDate.getSeconds() + parseInt(process.env.JWT_COOKIE_EXPIRY) // e.g., 604800 for 7 days
   );
 
-  // Cookie options
-  const options = {
-    httpOnly: true,
-    expires: cookieExpiryDate, // Set cookie expiry to 7 days
-    secure: true,
-    // secure: process.env.NODE_ENV === "production", // Only set `secure: true` in production
-    sameSite: "None", // Allow cross-site cookies (for subdomains or cross-site)
-  };
+  // const options = {
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV === "production", // Enable in production only
+  //   sameSite: "None",
+  //   expires: cookieExpiryDate,
+  // };
 
-  // Set the cookie with token
-    res.cookie("token", token, options);
-    
-    return token
+    const options = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Only for HTTPS
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjust for dev
+      expires: cookieExpiryDate,
+    };
+
+  res.cookie("token", token, options);
+  return token;
 };
