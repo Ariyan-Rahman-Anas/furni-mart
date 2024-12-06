@@ -1,59 +1,108 @@
-import { Card, CardTitle } from "@/components/ui/card"
+import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useSingleProductQuery } from "@/redux/apis/productApi";
+import { useForm, useFieldArray } from "react-hook-form";
+import { useSingleProductQuery, useUpdateProductMutation } from "@/redux/apis/productApi";
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
 import { Trash } from "lucide-react";
-
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const ProductEditPage = () => {
-    const { id } = useParams()
-    const { data: existingData, isLoading } = useSingleProductQuery(id)
-    const { name, brand, category, subCategory, color, variants, description } = existingData?.product || {}
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const { data: existingData, isLoading } = useSingleProductQuery(id);
+    const [updateProduct, { isLoading: isUpdating, isSuccess, error, data }] = useUpdateProductMutation();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-        setError,
+        control,
         reset,
-    } = useForm();
-    const navigate = useNavigate();
+    } = useForm({
+        defaultValues: {
+            variants: existingData?.product?.variants || [],
+        },
+    });
 
+    // FieldArray for Variants
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "variants",
+    });
+
+    // Populate form on data load
+    useEffect(() => {
+        if (existingData) {
+            reset(existingData.product);
+        }
+    }, [existingData, reset]);
+
+    // Handle API response
+    useEffect(() => {
+        if (error) {
+            toast.error(error?.data?.message || "An unknown error occurred.");
+        }
+        if (isSuccess) {
+            toast.success(data?.message || "Product updated successfully!");
+            navigate("/admin/products");
+        }
+    }, [data?.message, error, isSuccess, navigate]);
+
+    const onSubmit = async (formData) => {
+        try {
+            const formDataObj = new FormData();
+
+            // Append form data
+            Object.keys(formData).forEach((key) => {
+                if (key === "images") {
+                    Array.from(formData.images || []).forEach((file) => formDataObj.append("images", file));
+                } else if (key === "variants") {
+                    formDataObj.append("variants", JSON.stringify(formData.variants));
+                } else {
+                    formDataObj.append(key, formData[key]);
+                }
+            });
+
+            await updateProduct({ productId: id, formData: formDataObj }).unwrap();
+        } catch (err) {
+            console.error("Error updating product:", err);
+        }
+    };
 
     if (isLoading) {
-        return <IsLoadingLoaderRTK h={"90vh"} />
+        return <IsLoadingLoaderRTK h={"90vh"} />;
     }
 
     return (
         <Card className="w-full p-4 m-4">
             <CardTitle className="mb-4 underline">Product Edit</CardTitle>
-            <form
-                //   onSubmit={handleSubmit(productCreateHandler)}
-                className="space-y-4">
-                {/* name => */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                {/* Name */}
                 <div className="flex flex-col gap-1 w-full">
                     <Label className="text-sm font-medium">
-                        Name<span className="text-myRed text-lg ">*</span>
+                        Name<span className="text-myRed text-lg">*</span>
                     </Label>
-                    <Input defaultValue={name} type="text" placeholder="Name" {...register("name", { required: true })} />
+                    <Input
+                        type="text"
+                        placeholder="Name"
+                        {...register("name", { required: true })}
+                    />
                 </div>
 
-                {/* category => sub category */}
-                <div className="flex flex-col md:flex-row gap-4" >
+                {/* Category and Subcategory */}
+                <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex flex-col gap-1 w-full">
                         <Label className="text-sm font-medium">
-                            Category<span className="text-myRed text-lg ">*</span>
+                            Category<span className="text-myRed text-lg">*</span>
                         </Label>
                         <select
-                            // value={sort}
-                            defaultValue={category}
-                            // onChange={(e) => setSort(e.target.value)}
-                            className="border py-1.5 px-4 outline-none rounded-md dark:bg-gray-900 hover:bg-gray-200"
+                            className="border py-1.5 px-4 outline-none rounded-md"
                             {...register("category", { required: true })}
                         >
                             <option value="">Select Category</option>
@@ -61,15 +110,13 @@ const ProductEditPage = () => {
                             <option value="Office Furniture">Office Furniture</option>
                         </select>
                     </div>
+
                     <div className="flex flex-col gap-1 w-full">
-                        <Label className="text-sm font-medium">Sub Category
-                            <span className="text-myRed text-lg ">*</span>
+                        <Label className="text-sm font-medium">
+                            Sub Category<span className="text-myRed text-lg">*</span>
                         </Label>
                         <select
-                            // value={sort}
-                            defaultValue={subCategory}
-                            // onChange={(e) => setSort(e.target.value)}
-                            className="border py-1.5 px-4 outline-none rounded-md dark:bg-gray-900 hover:bg-gray-200"
+                            className="border py-1.5 px-4 outline-none rounded-md"
                             {...register("subCategory", { required: true })}
                         >
                             <option value="">Select Sub Category</option>
@@ -116,122 +163,119 @@ const ProductEditPage = () => {
                     </div>
                 </div>
 
-                {/* brand => colors => image */}
+                {/* Brand, Color, Images */}
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex flex-col gap-1 w-full">
-                        <Label className="text-sm font-medium">Brand
-                            <span className="text-myRed text-lg ">*</span>
+                        <Label className="text-sm font-medium">
+                            Brand<span className="text-myRed text-lg">*</span>
                         </Label>
                         <Input
                             type="text"
-                            defaultValue={brand}
                             placeholder="Brand"
-                            {...register("brand", { required: true })}
+                            {...register("brand", { required: "Brand is required" })}
                         />
+                        {errors.brand && <p className="text-red-500 text-sm">{errors.brand.message}</p>}
                     </div>
+
                     <div className="flex flex-col gap-1 w-full">
-                        <Label className="text-sm font-medium">Colors  (Separate by comma)
-                            <span className="text-myRed text-lg ">*</span>
+                        <Label className="text-sm font-medium">
+                            Colors<span className="text-myRed text-lg">*</span>
                         </Label>
                         <Input
                             type="text"
-                            defaultValue={color}
                             placeholder="Colors"
-                            {...register("colors", { required: true })}
+                            {...register("color", { required: "Color is required" })}
                         />
+                        {errors.color && <p className="text-red-500 text-sm">{errors.color.message}</p>}
                     </div>
+
                     <div className="flex flex-col gap-1 w-full">
-                        <Label htmlFor="image" className="text-sm font-medium">Image (Min: 1 - Max: 10)
-                            <span className="text-myRed text-lg ">*</span>
+                        <Label className="text-sm font-medium">
+                            Images<span className="text-myRed text-lg">*</span>
                         </Label>
                         <Input
                             multiple
                             type="file"
                             accept="image/*"
-                            //   onChange={photoHandler}
-                            {...register("images", { required: true })}
+                            {...register("images")}
                         />
                     </div>
                 </div>
 
-                {/* variant => */}
-                <div className="flex flex-col md:flex-row gap-4 ">
-                    {variants?.map(({ _id, dimensions, materials, size, weight, stock, price }, index) => (
-                        <div key={_id} className="flex flex-col gap-1.5 w-full">
-                            <Label className="text-sm font-medium">Variant-{index + 1}</Label>
-                            <Card className="p-4 space-y-4 relative ">
-                                <Trash size={17} className="absolute top-2 right-2 " />
-                                {/* Materials */}
-                                <div className="flex flex-col gap-1 w-full">
-                                    <Label className="text-sm font-medium">Materials</Label>
-                                    <Card className="flex items-center flex-col md:flex-row gap-4 p-4 ">
-                                        <div className="flex flex-col gap-1 w-full">
-                                            <Label className="text-sm font-medium">Primary
-                                                <span className="text-myRed text-lg ">*</span>
-                                            </Label>
+                {/* Variants */}
+                <div className="space-y-2">
+
+                    <div className="flex items-center justify-between" >
+                        <h3 className="font-semibold">Variants</h3>
+                        
+                    </div>
+
+                    <div className={`${fields.length > 1 ? "grid grid-cols-1 md:grid-cols-2" : "grid grid-cols-1"} gap-4`}>
+                        {fields.map((field, index) => (
+                            <Card key={field.id} className="p-4 relative space-y-3 ">
+                                <CardTitle>Variant-{index + 1} </CardTitle>
+                                <Trash
+                                    size={17}
+                                    className="absolute top-2 right-2 cursor-pointer text-red-500"
+                                    onClick={() => remove(index)}
+                                />
+
+
+                                <div className="space-y-1.5">
+                                    <CardTitle>Material</CardTitle>
+                                    <Card className="p-4 grid grid-cols-2 gap-4">
+                                        <div className="space-y-0.5">
+                                            <Label>Primary</Label>
                                             <Input
-                                                type="text"
-                                                placeholder="Primary materials"
-                                                defaultValue={materials.primary}
-                                                {...register(`variants[${index}].materials.primary`, { required: true })}
+                                                placeholder="Primary Material"
+                                                {...register(`variants.${index}.materials.primary`, { required: true })}
                                             />
                                         </div>
-                                        <div className="flex flex-col gap-1 w-full">
-                                            <Label className="text-sm font-medium">Secondary</Label>
+                                        <div className="space-y-0.5">
+                                            <Label>Secondary</Label>
                                             <Input
-                                                type="text"
-                                                placeholder="Secondary materials"
-                                                defaultValue={materials.secondary}
-                                                {...register(`variants[${index}].materials.secondary`, { required: false })}
+                                                placeholder="Secondary Material"
+                                                {...register(`variants.${index}.materials.secondary`)}
                                             />
                                         </div>
                                     </Card>
                                 </div>
-
-                                {/* Dimensions */}
-                                <div className="flex flex-col gap-1 w-full">
-                                    <Label className="text-sm font-medium">Dimensions (in inches)</Label>
-                                    <Card className="flex flex-col md:flex-row items-center gap-4 p-4">
-                                        <div className="flex flex-col gap-1 w-full">
-                                            <Label className="text-sm font-medium">Length<span className="text-myRed text-lg ">*</span></Label>
+                               
+                                
+                                <div className="space-y-1.5">
+                                    <CardTitle>Dimensions (in inches)</CardTitle>
+                                    <Card className="p-4 grid grid-cols-3 gap-4">
+                                        <div className="space-y-0.5">
+                                            <Label>Length</Label>
                                             <Input
-                                                type="number"
                                                 placeholder="Length"
-                                                defaultValue={dimensions.length}
-                                                {...register(`variants[${index}].dimensions.length`, { required: true })}
+                                                {...register(`variants.${index}.dimensions.length`, { required: true })}
                                             />
                                         </div>
-                                        <div className="flex flex-col gap-1 w-full">
-                                            <Label className="text-sm font-medium">Width<span className="text-myRed text-lg ">*</span></Label>
+                                        <div className="space-y-0.5">
+                                            <Label>Width</Label>
                                             <Input
-                                                type="number"
                                                 placeholder="Width"
-                                                defaultValue={dimensions.width}
-                                                {...register(`variants[${index}].dimensions.width`, { required: true })}
+                                                {...register(`variants.${index}.dimensions.width`, { required: true })}
                                             />
                                         </div>
-                                        <div className="flex flex-col gap-1 w-full">
-                                            <Label className="text-sm font-medium">Height<span className="text-myRed text-lg ">*</span></Label>
+                                        <div className="space-y-0.5">
+                                            <Label>Height</Label>
                                             <Input
-                                                type="number"
                                                 placeholder="Height"
-                                                defaultValue={dimensions.height}
-                                                {...register(`variants[${index}].dimensions.height`, { required: true })}
+                                                {...register(`variants.${index}.dimensions.height`, { required: true })}
                                             />
                                         </div>
                                     </Card>
                                 </div>
 
-                                {/* Size, Stock, Weight, Price */}
-                                <div className={`${variants.length > 1 ? "grid grid-cols-2" : "grid grid-cols-4"} place-items-center gap-y-1.5 gap-x-4`}>
-                                    <div className="flex flex-col gap-1 w-full">
-                                        <Label className="text-sm font-medium">Size
-                                            <span className="text-myRed text-lg "></span>
-                                        </Label>
+
+                                <div className={`${fields.length > 1 ? "grid grid-cols-2" : "grid grid-cols-4"} gap-x-4 gap-y-2 `} >
+                                    <div className="space-y-1 flex flex-col">
+                                        <Label>Size</Label>
                                         <select
-                                            defaultValue={size}
                                             className="border py-1.5 px-4 outline-none rounded-md dark:bg-gray-900 hover:bg-gray-200"
-                                            {...register(`variants[${index}].size`, { required: false })}
+                                            {...register(`variants.${index}.size`)}
                                         >
                                             <option value="">Select Size</option>
                                             <option value="Small">Small</option>
@@ -239,68 +283,65 @@ const ProductEditPage = () => {
                                             <option value="Large">Large</option>
                                         </select>
                                     </div>
-                                    <div className="flex flex-col gap-1 w-full">
-                                        <Label className="text-sm font-medium">Stock<span className="text-myRed text-lg ">*</span></Label>
+                                    
+                                    <div className="space-y-1 flex flex-col">
+                                        <Label>Stock</Label>
                                         <Input
-                                            type="number"
                                             placeholder="Stock"
-                                            defaultValue={stock}
-                                            {...register(`variants[${index}].stock`, { required: true })}
+                                            {...register(`variants.${index}.stock`, { required: true })}
                                         />
                                     </div>
-                                    <div className="flex flex-col gap-1 w-full">
-                                        <Label className="text-sm font-medium">Weight<span className="text-myRed text-lg ">*</span></Label>
+                                    <div className="space-y-0.5">
+                                        <Label>Weight</Label>
                                         <Input
-                                            type="number"
                                             placeholder="Weight"
-                                            defaultValue={weight}
-                                            {...register(`variants[${index}].weight`, { required: true })}
+                                            {...register(`variants.${index}.weight`, { required: true })}
                                         />
                                     </div>
-                                    <div className="flex flex-col gap-1 w-full">
-                                        <Label className="text-sm font-medium">Price<span className="text-myRed text-lg ">*</span></Label>
+                                    <div className="space-y-0.5">
+                                        <Label>Price</Label>
                                         <Input
-                                            type="number"
                                             placeholder="Price"
-                                            defaultValue={price}
-                                            {...register(`variants[${index}].price`, { required: true })}
+                                            {...register(`variants.${index}.price`, { required: true })}
                                         />
                                     </div>
                                 </div>
                             </Card>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
+                    <div className="text-right">
+                        <Button
+                            onClick={() =>
+                                append({
+                                    materials: { primary: "", secondary: "" },
+                                    dimensions: { length: "", width: "", height: "" },
+                                    size: "",
+                                    stock: "",
+                                    weight: "",
+                                    price: "",
+                                })
+                            }
+                        >
+                            Add Variant
+                        </Button>
+                    </div>
                 </div>
 
 
-                {/* description => */}
-                <div className="flex flex-col gap-2 w-full">
-                    <Label className="text-sm font-medium">Description
-                        <span className="text-myRed text-lg ">*</span>
-                    </Label>
-                    <Textarea
-                        placeholder="Type your message here."
-                        defaultValue={description}
-                        {...register("description", { required: true })} />
+                {/* Description */}
+                <div className="flex flex-col gap-1">
+                    <Label className="text-sm font-medium">Description</Label>
+                    <Textarea placeholder="Description" {...register("description")} />
                 </div>
 
-                <Button
-                    type="submit"
-                    //   disabled={isLoading}
-                    className="w-full">
-                    {/* {isLoading ? (
-                      <div className="flex items-center justify-center">
-                          <div className="spinner"></div>
-                          <span>Product Creating</span>
-                      </div>
-                  ) : (
-                      "Create Product"
-                  )} */}
-                    Update Product
+                {/* Submit Button */}
+                <Button type="submit" disabled={isUpdating} className="bg-blue-500">
+                    {isUpdating ? "Updating..." : "Update Product"}
                 </Button>
             </form>
         </Card>
-    )
-}
+    );
+};
 
-export default ProductEditPage
+export default ProductEditPage;

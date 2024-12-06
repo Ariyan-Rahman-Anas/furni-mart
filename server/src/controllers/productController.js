@@ -244,8 +244,10 @@ export const updateProduct = async (req, res, next) => {
 
     // Update other product fields
     if (name) product.name = name;
-    if (category) product.category = category.toLowerCase();
-    if (subCategory) product.subCategory = subCategory.toLowerCase();
+    // if (category) product.category = category.toLowerCase();
+    if (category) product.category = category;
+    // if (subCategory) product.subCategory = subCategory.toLowerCase();
+    if (subCategory) product.subCategory = subCategory;
     if (description) product.description = description;
     if (color) product.color = color;
     if (brand) product.brand = brand;

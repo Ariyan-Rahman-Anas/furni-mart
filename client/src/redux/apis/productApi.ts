@@ -49,6 +49,14 @@ export const productApi = createApi({
         subcategoryCounts: builder.query({
             query: () => "/subcategory-counts",
             providesTags:["product"]
+        }),
+        updateProduct: builder.mutation({
+            query: ({productId, formData}) => ({
+                url: `/${productId}`,
+                method: "PUT",
+                body:formData
+            }),
+            invalidatesTags:["product"]
         })
     })
 })
@@ -61,5 +69,6 @@ export const {
     useCategoriesQuery,
     useCategoryCountsQuery,
     useSubCategoriesQuery,
-    useSubcategoryCountsQuery
+    useSubcategoryCountsQuery,
+    useUpdateProductMutation
 } = productApi
