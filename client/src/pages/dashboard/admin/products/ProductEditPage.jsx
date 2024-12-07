@@ -8,7 +8,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useSingleProductQuery, useUpdateProductMutation } from "@/redux/apis/productApi";
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
 import { Trash } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 const ProductEditPage = () => {
@@ -72,6 +72,7 @@ const ProductEditPage = () => {
             await updateProduct({ productId: id, formData: formDataObj }).unwrap();
         } catch (err) {
             console.error("Error updating product:", err);
+            toast.error("An error occurred during updating product")
         }
     };
 
@@ -83,7 +84,8 @@ const ProductEditPage = () => {
         <Card className="w-full p-4 m-4">
             <CardTitle className="mb-4 underline">Product Edit</CardTitle>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Name */}
+
+                {/* Name => */}
                 <div className="flex flex-col gap-1 w-full">
                     <Label className="text-sm font-medium">
                         Name<span className="text-myRed text-lg">*</span>
@@ -95,7 +97,7 @@ const ProductEditPage = () => {
                     />
                 </div>
 
-                {/* Category and Subcategory */}
+                {/* Category => Subcategory => */}
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex flex-col gap-1 w-full">
                         <Label className="text-sm font-medium">
@@ -163,7 +165,7 @@ const ProductEditPage = () => {
                     </div>
                 </div>
 
-                {/* Brand, Color, Images */}
+                {/* Brand => Color => Images => */}
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex flex-col gap-1 w-full">
                         <Label className="text-sm font-medium">
@@ -202,14 +204,9 @@ const ProductEditPage = () => {
                     </div>
                 </div>
 
-                {/* Variants */}
+                {/* Variants => */}
                 <div className="space-y-2">
-
-                    <div className="flex items-center justify-between" >
-                        <h3 className="font-semibold">Variants</h3>
-                        
-                    </div>
-
+                    <h3 className="font-semibold">Variants</h3>
                     <div className={`${fields.length > 1 ? "grid grid-cols-1 md:grid-cols-2" : "grid grid-cols-1"} gap-4`}>
                         {fields.map((field, index) => (
                             <Card key={field.id} className="p-4 relative space-y-3 ">
@@ -220,7 +217,7 @@ const ProductEditPage = () => {
                                     onClick={() => remove(index)}
                                 />
 
-
+                                {/* materials => */}
                                 <div className="space-y-1.5">
                                     <CardTitle>Material</CardTitle>
                                     <Card className="p-4 grid grid-cols-2 gap-4">
@@ -240,8 +237,8 @@ const ProductEditPage = () => {
                                         </div>
                                     </Card>
                                 </div>
-                               
-                                
+
+                                {/* dimensions => */}
                                 <div className="space-y-1.5">
                                     <CardTitle>Dimensions (in inches)</CardTitle>
                                     <Card className="p-4 grid grid-cols-3 gap-4">
@@ -269,7 +266,7 @@ const ProductEditPage = () => {
                                     </Card>
                                 </div>
 
-
+                                {/* size => stock => weight => price => */}
                                 <div className={`${fields.length > 1 ? "grid grid-cols-2" : "grid grid-cols-4"} gap-x-4 gap-y-2 `} >
                                     <div className="space-y-1 flex flex-col">
                                         <Label>Size</Label>
@@ -283,7 +280,7 @@ const ProductEditPage = () => {
                                             <option value="Large">Large</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div className="space-y-1 flex flex-col">
                                         <Label>Stock</Label>
                                         <Input
@@ -291,6 +288,7 @@ const ProductEditPage = () => {
                                             {...register(`variants.${index}.stock`, { required: true })}
                                         />
                                     </div>
+
                                     <div className="space-y-0.5">
                                         <Label>Weight</Label>
                                         <Input
@@ -298,6 +296,7 @@ const ProductEditPage = () => {
                                             {...register(`variants.${index}.weight`, { required: true })}
                                         />
                                     </div>
+
                                     <div className="space-y-0.5">
                                         <Label>Price</Label>
                                         <Input
@@ -336,12 +335,11 @@ const ProductEditPage = () => {
                 </div>
 
                 {/* Submit Button */}
-                <Button type="submit" disabled={isUpdating} className="bg-blue-500">
+                <Button type="submit" disabled={isUpdating} className="w-full">
                     {isUpdating ? "Updating..." : "Update Product"}
                 </Button>
             </form>
         </Card>
     );
 };
-
 export default ProductEditPage;

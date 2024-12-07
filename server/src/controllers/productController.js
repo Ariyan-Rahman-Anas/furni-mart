@@ -199,8 +199,6 @@ export const searchProduct = async (req, res, next) => {
 // update products
 export const updateProduct = async (req, res, next) => {
   try {
-    console.log("body", req.body);
-    console.log("params", req.params);
     const { id } = req.params;
     const {
       name,
@@ -244,9 +242,7 @@ export const updateProduct = async (req, res, next) => {
 
     // Update other product fields
     if (name) product.name = name;
-    // if (category) product.category = category.toLowerCase();
     if (category) product.category = category;
-    // if (subCategory) product.subCategory = subCategory.toLowerCase();
     if (subCategory) product.subCategory = subCategory;
     if (description) product.description = description;
     if (color) product.color = color;

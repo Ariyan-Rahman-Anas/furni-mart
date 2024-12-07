@@ -100,11 +100,11 @@ const ProductDetailsPage = () => {
 
     return (
         <div className="p-2 md:p-4 md:pb20  space-y-20">
-            <div className="w-full md:w-[90%] mx-auto flex flex-col md:flex-row items-start justify-between gap-8">
+            <div className="w-full md:w-[90%] mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
                 <div
                     data-aos="zoom-in-up"
                     data-aos-duration="1000"
-                    className="product-media pt-4 flex-1 ">
+                    className="product-media pt-4 col-span-12 md:col-span-6">
                     <Card>
                         <BannerCarousel images={images} autoplayDelay={4000} />
                     </Card>
@@ -134,7 +134,7 @@ const ProductDetailsPage = () => {
                 <div
                     data-aos="fade-up"
                     data-aos-duration="1000"
-                    className="product-info flex-1 space-y-6 ">
+                    className="col-span-12 md:col-span-6 space-y-6">
                     <div className="section-grant p-4 md:p-6 ">
                         <h1 className="text-4xl mb-4" >{name}</h1>
                         <div className="space-y-2 font-semibold text-gray-600 dark:text-gray-300 ">
@@ -208,8 +208,11 @@ const ProductDetailsPage = () => {
                                             }
                                         </p>
                                         <div>
-                                            <p><span className="font-semibold">Price:</span> ${item?.price}</p>
+                                            {
+                                                item?.size && <p><span className="font-semibold">Size:</span> {item?.size}</p>
+                                            }
                                             <p><span className="font-semibold">Weight:</span> {item?.weight} KG</p>
+                                            <p><span className="font-semibold">Price:</span> ${item?.price}</p>
                                         </div>
                                     </Card>
                                 ))}
