@@ -195,8 +195,6 @@ export const searchProduct = async (req, res, next) => {
 }
 
 
-
-// update products
 export const updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -261,7 +259,6 @@ export const updateProduct = async (req, res, next) => {
     next(error);
   }
 };
-
 
 
 export const deleteProduct= async (req, res, next) => {

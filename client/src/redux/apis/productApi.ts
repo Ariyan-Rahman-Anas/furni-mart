@@ -57,6 +57,13 @@ export const productApi = createApi({
                 body:formData
             }),
             invalidatesTags:["product"]
+        }),
+        deleteProduct: builder.mutation({
+            query: (id) => ({
+                url: `/${id}`,
+                method:"DELETE"
+            }),
+            invalidatesTags:["product"]
         })
     })
 })
@@ -70,5 +77,6 @@ export const {
     useCategoryCountsQuery,
     useSubCategoriesQuery,
     useSubcategoryCountsQuery,
-    useUpdateProductMutation
+    useUpdateProductMutation,
+    useDeleteProductMutation
 } = productApi

@@ -5,9 +5,27 @@ import { Link } from "react-router-dom"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
+import { useDeleteProductMutation } from "@/redux/apis/productApi"
+import { useEffect } from "react"
+import { toast } from "sonner"
 
 const ProductsManagement = () => {
-  const { data: allProducts, isLoading, error } = useAllProductsQuery()
+  const { data: allProducts, isLoading } = useAllProductsQuery()
+
+  const [deleteProduct, {data, isSuccess, isLoading:isDeleting, error}] = useDeleteProductMutation()
+
+  const handleDeleteProduct = (id) => {
+    deleteProduct(id)
+  }
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error?.data?.message)
+    }
+    if (isSuccess) {
+      toast.success(data?.message)
+    }
+  }, [data?.message, error, isSuccess])
   
   const columns = [
     {
@@ -34,8 +52,8 @@ const ProductsManagement = () => {
       cell: ({ row }) => <p>{row.original?.category}</p>,
     },
     {
-      accessorFn: (row) => row.variants?.[0]?.price, // Extract the nested price
-      id: "price", // Unique ID for the column
+      accessorFn: (row) => row.variants?.[0]?.price, 
+      id: "price",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -49,7 +67,6 @@ const ProductsManagement = () => {
         return <p>{value !== undefined && value !== null ? `$${value}` : "N/A"}</p>;
       },
     },
-
     {
       accessorKey: "stock",
       header: "Stock",
@@ -69,11 +86,13 @@ const ProductsManagement = () => {
           <Link to={`/admin/products/${row.original._id}`}>
             <FilePenLine size={17} />
           </Link>
-          <Trash
-            size={17}
-            // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
-            className="cursor-pointer hover:text-myRed"
-          />
+          <Button
+            disabled={isDeleting}
+            onClick={() => handleDeleteProduct(row.original._id)}
+            className="h-8 w-8 rounded-full  "
+          >
+            <Trash/>
+          </Button>
         </div>
       ),
     },
@@ -86,7 +105,11 @@ const ProductsManagement = () => {
   return (
     <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4 relative">
       <CardTitle className="mb-2">Product Management</CardTitle>
-      <Link to={"/admin/products/create"} className="absolute -top-2 -right-2"><Plus className="h-8 w-8 p-1 text-white bg-black rounded-full" /></Link>
+      <Link to={"/admin/products/create"} className="absolute -top-2 -right-2">
+        <Button className=" h-8 w-8 rounded-full">
+        <Plus />
+        </Button>
+      </Link>
 
       <ModularTable
         columns={columns}
