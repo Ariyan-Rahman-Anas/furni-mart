@@ -62,7 +62,10 @@ const CustomersManagement = () => {
 
     return (
         <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4 ">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-2">
             <CardTitle>Customer Management</CardTitle>
+            <CardTitle>Total Customers: {userList?.users?.length}</CardTitle>
+            </div>
             <ModularTable
                 columns={columns}
                 data={userList?.users}

@@ -75,8 +75,8 @@ const ProductEditPage = () => {
     };
 
     return (
-        <Card className="w-full p-4 m-4">
-            <CardTitle className="mb-4 underline">Product Edit</CardTitle>
+        <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4">
+            <CardTitle className="mb-4 underline">Product Create</CardTitle>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
                 {/* Name => */}
@@ -269,7 +269,7 @@ const ProductEditPage = () => {
 
                                     {/* size => stock => weight => price */}
                                     <div
-                                        className={`${fields.length > 1 ? "grid grid-cols-2" : "grid grid-cols-4"} gap-x-4 gap-y-2 `}
+                                        className={`${fields.length > 1 ? "grid grid-cols-2" : "grid grid-cols-2 md:grid-cols-4"} gap-x-4 gap-y-2 `}
                                     >
                                         <div className="flex flex-col gap-1 w-full">
                                             <Label className="text-sm font-medium">Size

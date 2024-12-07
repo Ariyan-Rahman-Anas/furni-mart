@@ -24,7 +24,7 @@ export function ModularTable({
     columns,
     showPagination = false,
     filterPlaceholder = "search",
-    paginationThreshold = 4, // Default threshold for pagination
+    paginationThreshold = 6, // Default threshold for pagination
 }) {
     const [sorting, setSorting] = React.useState([]);
     const [columnFilters, setColumnFilters] = React.useState([]);
@@ -125,7 +125,7 @@ export function ModularTable({
             {/* Pagination */}
             {shouldShowPagination && (
                 <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-8">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center flex-wrap space-x-2">
                         <Button
                             variant="outline"
                             onClick={() => table.previousPage()}

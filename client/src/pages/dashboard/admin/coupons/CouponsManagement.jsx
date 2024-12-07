@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { useAllCouponsQuery } from "@/redux/apis/couponApi"
 import DateFormatter from "@/components/DateFormatter"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
+import { Button } from "@/components/ui/button"
 
 const CouponsManagement = () => {
     const { data: allCouponsData, isLoading } = useAllCouponsQuery()
@@ -61,9 +62,15 @@ const CouponsManagement = () => {
 
     return (
         <Card className="w-[96%] mx-auto my-2 md:w-full p-4 md:m-4 relative">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-2">
             <CardTitle className="mb-2">Coupon Management</CardTitle>
-            <Link to={"/admin/coupons/create"} className="absolute -top-2 -right-2"><Plus className="h-8 w-8 p-1 text-white bg-black rounded-full" /></Link>
-
+            <CardTitle className="mb-2">Total Coupons: {allCouponsData?.coupons?.length}</CardTitle>
+            </div>
+            <Link to={"/admin/coupons/create"} className="absolute -top-1.5 md:-top-3  -right-1.5 md:-right-3">
+                <Button className=" h-8 w-8 rounded-full">
+                    <Plus />
+                </Button>
+            </Link>
 
             <ModularTable
                 columns={columns}

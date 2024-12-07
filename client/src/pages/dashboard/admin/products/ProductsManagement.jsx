@@ -104,8 +104,11 @@ const ProductsManagement = () => {
 
   return (
     <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4 relative">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-2" >
       <CardTitle className="mb-2">Product Management</CardTitle>
-      <Link to={"/admin/products/create"} className="absolute -top-2 -right-2">
+        <CardTitle className="mb-2">Total Products: {allProducts?.products?.length}</CardTitle>
+      </div>
+      <Link to={"/admin/products/create"} className="absolute -top-1.5 md:-top-3  -right-1.5 md:-right-3">
         <Button className=" h-8 w-8 rounded-full">
         <Plus />
         </Button>

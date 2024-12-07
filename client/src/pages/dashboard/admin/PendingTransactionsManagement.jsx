@@ -70,7 +70,10 @@ const PendingOrdersPage = () => {
                   </div>
                   : 
                   <>
+                      <div className="flex flex-col md:flex-row items-center justify-between gap-2">
                     <CardTitle>Pending Transactions Management</CardTitle>
+                    <CardTitle>Total Pending Transactions: {pendingOrdersData?.pendingOrders?.length}</CardTitle>
+                      </div>
                       <ModularTable
                           columns={columns}
                           data={pendingOrdersData?.pendingOrders}
