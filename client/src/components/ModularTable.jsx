@@ -125,7 +125,7 @@ export function ModularTable({
             {/* Pagination */}
             {shouldShowPagination && (
                 <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-8">
-                    <div className="flex items-center flex-wrap space-x-2">
+                    <div className="flex items-center flex-wrap gap-2">
                         <Button
                             variant="outline"
                             onClick={() => table.previousPage()}

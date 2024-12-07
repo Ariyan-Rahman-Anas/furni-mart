@@ -10,7 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <div className='border border-t-0 border-b-0 max-w-[1920px] mx-auto ' >
+    <div className='border border-t-0 border-b-0 max-w-[1920px] mx-auto bg[B1F0F7] ' >
       <Provider store={store} >
         <PersistGate loading={<div>Loading...</div>} persistor={persistor} >
           <RouterProvider router={MainRoute} />

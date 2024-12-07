@@ -129,11 +129,14 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                                     </Button>
                                 </CardContent>
                             </Card>
-                            : <Link to={"/login"}>
-                                <Button className="w-full" >
-                                    Login<LogIn />
-                                </Button>
-                            </Link>
+                            : <div className="flex flex-col items-center justify-center gap-4 " >
+                                <ThemeSwitch />
+                                <Link to={"/login"} className="w-full" >
+                                    <Button className="w-full">
+                                        Login<LogIn />
+                                    </Button>
+                                </Link>
+                            </div>
                     }
                 </div>
             </SheetContent>
