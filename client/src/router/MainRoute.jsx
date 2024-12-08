@@ -36,7 +36,8 @@ const CouponDetailsPage = lazy(() => import("../pages/dashboard/admin/coupons/Co
 
 // User profile components
 const UserProfileOverviewPage = lazy(() => import("../pages/dashboard/user/UserProfileOverviewPage"));
-const MyOrdersPage = lazy(() => import("../pages/dashboard/user/MyOrdersPage"));
+const MyOrdersPage = lazy(() => import("../pages/dashboard/user/orders/MyOrdersPage"));
+const MyOrderDetailsPage = lazy(() => import("../pages/dashboard/user/orders/MyOrderDetailsPage"));
 
 
 const MainRoute = createBrowserRouter([
@@ -95,6 +96,7 @@ const MainRoute = createBrowserRouter([
         children: [
             { path: "profile", element: <UserProfileOverviewPage /> },
             { path: "orders", element: <MyOrdersPage /> },
+            { path: "orders/:id", element: <MyOrderDetailsPage /> },
             { path: "*", element: <NotFoundPage /> },
         ]
     },
