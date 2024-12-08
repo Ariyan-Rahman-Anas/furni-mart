@@ -3,35 +3,28 @@ import { ModularTable } from '../../components/ModularTable';
 import { useSelector } from "react-redux";
 import { useAnUserWishlistQuery, useRemoveFromWishlistMutation } from "@/redux/apis/wishlistApi";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { toast } from "sonner";
 import usePageTitle from "@/hooks/usePageTitle";
 import { Card } from "@/components/ui/card";
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
+import { Button } from "@/components/ui/button";
+import useDelete from "@/hooks/useDelete";
 
 const WishlistPage = () => {
   usePageTitle("Wishlist")
   const user = useSelector(state => state?.auth?.user)
 
-  const { data: wishlistData, isLoading:wishlistQueryLoading, error: wishlistQueryError } = useAnUserWishlistQuery(user?._id)
+  const { data: wishlistData, isLoading:wishlistQueryLoading } = useAnUserWishlistQuery(user?._id)
   const wishlistItems = wishlistData?.wishlist.products || []
 
-  const [removeFromWishlist, { data, isSuccess, isLoading:wishlistItemDeleteLoading, error }] = useRemoveFromWishlistMutation()
+  const {handleDelete, isLoading } = useDelete(useRemoveFromWishlistMutation)
+
   const handleRemoveWishlistItem = (id) => {
     const payload = {
       userId: user._id,
       productId: id
     }
-    removeFromWishlist(payload)
+    handleDelete(payload)
   }
-  useEffect(() => {
-    if (error?.data) {
-      toast.error(error?.data?.message, { duration: 3000 });
-    }
-    if (isSuccess) {
-      toast.success(data?.message, { duration: 3000 });
-    }
-  }, [error, isSuccess, data?.message]);
 
   const columns = [
     {
@@ -74,21 +67,17 @@ const WishlistPage = () => {
               size={17}
               className="cursor-pointer" />
           </Link>
-          <button
-            disabled={wishlistItemDeleteLoading}
+          <Button
+            disabled={isLoading}
             onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
+            className="h-8 w-8 rounded-full  "
           >
-            <Trash
-              size={17}
-              disabled={wishlistItemDeleteLoading}
-              className="cursor-pointer hover:text-myRed"
-            />
-          </button>
+            <Trash />
+          </Button>
         </div>
       ),
     },
   ]
-
 
   if (wishlistQueryLoading) {
     return <IsLoadingLoaderRTK h="90vh" />

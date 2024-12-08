@@ -59,6 +59,25 @@ export const anUserOrders = async (req, res, next) => {
 }
 
 
+
+export const deleteAnOrder = async (req, res, next) => {
+  try {
+    const order = await OrderModel.findById(req.params.id);
+    if (!order) {
+      return next(new ErrorHandler("Order not found", 404));
+    }
+    await order.deleteOne();
+    return res.status(200).json({
+      success: true,
+      message: "An order deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
 export const getTransactionPendingOrders = async (req, res, next) => {
   try {
     const pendingOrders = await PaymentTransactionModel.find({
@@ -74,6 +93,24 @@ export const getTransactionPendingOrders = async (req, res, next) => {
       message: "Pending order retrieved successfully",
       totalPendingOrders:pendingOrders.length,
       pendingOrders
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+
+export const deletePendingTransaction = async (req, res, next) => {
+  try {
+    const pendingTransaction = await PaymentTransactionModel.findById(req.params.id)
+    if (!pendingTransaction) {
+      return next(new ErrorHandler("Transaction not found", 404));
+    }
+    await pendingTransaction.deleteOne()
+    return res.status(200).json({
+      success: true,
+      message:"Pending transaction deleted successfully"
     })
   } catch (error) {
     next(error)

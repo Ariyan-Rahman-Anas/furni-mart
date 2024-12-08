@@ -46,7 +46,7 @@ const LoginPage = () => {
   }, [data, error, navigate, dispatch, setError]);
 
   return (
-    <div className="flex items-center justify-center border2 h-[90vh] px-2">
+    <div className="flex items-center justify-center my-6 md:h-[90vh] px-2">
       <Card className="w-full md:w-1/2 lg:w-1/3 mx-auto p- ">
         <CardHeader>
           <CardTitle className="text-2xl">

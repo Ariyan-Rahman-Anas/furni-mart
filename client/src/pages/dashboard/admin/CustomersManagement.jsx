@@ -1,13 +1,20 @@
 import { useUserListQuery } from "@/redux/apis/authApi"
 import { ModularTable } from "@/components/ModularTable"
 import { Card, CardTitle } from "@/components/ui/card"
-import { Link } from "react-router-dom"
-import { Eye, Trash } from "lucide-react"
+import { Trash } from "lucide-react"
 import DateFormatter from "@/components/DateFormatter"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
+import { Button } from "@/components/ui/button"
+import { useDeleteUserMutation } from "@/redux/apis/authApi"
+import useDelete from "@/hooks/useDelete"
 
 const CustomersManagement = () => {
-    const { data: userList, isLoading } = useUserListQuery()
+    const { data: userList, isLoading:isLoadingUserList } = useUserListQuery()
+
+    const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteUserMutation)
+    const onDeleteUser = (id) => {
+        handleDelete(id)
+    }
 
     const columns = [
         {
@@ -21,9 +28,14 @@ const CustomersManagement = () => {
             cell: ({ row }) => <p>{row.original?.email}</p>,
         },
         {
-            accessorKey: "isVerified",
-            header: "IsVerified",
-            cell: ({ row }) => <p>{row.original?.isVerified ? "Yes" : "No"}</p>,
+            accessorKey: "phone",
+            header: "Phone",
+            cell: ({ row }) => <p>{row.original?.phone}</p>,
+        },
+        {
+            accessorKey: "address",
+            header: "Address",
+            cell: ({ row }) => <p>{row.original?.address}</p>,
         },
         {
             accessorKey: "isAdmin",
@@ -40,23 +52,19 @@ const CustomersManagement = () => {
             header: "Action",
             cell: ({ row }) => (
                 <div className="flex items-center gap-4">
-                    <Link
-                        to={`/search/${row.original?._id}`}>
-                        <Eye
-                            size={17}
-                            className="cursor-pointer" />
-                    </Link>
-                    <Trash
-                        size={17}
-                        // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
-                        className="cursor-pointer hover:text-myRed"
-                    />
+                    <Button
+                        disabled={isDeleting}
+                        onClick={() => onDeleteUser(row.original._id)}
+                        className="h-8 w-8 rounded-full  "
+                    >
+                        <Trash />
+                    </Button>
                 </div>
             ),
         },
     ]
 
-    if (isLoading) {
+    if (isLoadingUserList) {
         return <IsLoadingLoaderRTK h={"90vh"} />
     }
 

@@ -17,6 +17,9 @@ export const registration = async (req, res, next) => {
         new ErrorHandler("Phone number must be exactly 11 digits", 400)
       );
     }
+    if (address.length > 20) {
+      return next(new ErrorHandler("Address must not exceed 20 characters",400));
+    }
 
     // Check if user already exists
     const existingUser = await UserModel.findOne({ email });
@@ -157,5 +160,22 @@ export const allUser = async (req, res, next) => {
     })
   } catch (error) {
     next(error)
+  }
+}
+
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const user = await UserModel.findById(req.params.id);
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+    await user.deleteOne();
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    next(error);
   }
 }

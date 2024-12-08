@@ -5,6 +5,7 @@ import DateFormatter from "@/components/DateFormatter"
 import { Card, CardTitle } from "@/components/ui/card"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { useAllOrdersQuery } from "@/redux/apis/orderApi"
+import { Button } from "@/components/ui/button"
 
 const OrdersManagement = () => {
 
@@ -55,6 +56,13 @@ const OrdersManagement = () => {
                         // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
                         className="cursor-pointer hover:text-myRed"
                     />
+                    <Button
+                        disabled={isDeleting}
+                        onClick={() => handleDeleteProduct(row.original._id)}
+                        className="h-8 w-8 rounded-full  "
+                    >
+                        <Trash />
+                    </Button>
                 </div>
             ),
         },

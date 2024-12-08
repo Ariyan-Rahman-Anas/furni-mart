@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { build } from "vite";
 
 export const authApi = createApi({
     reducerPath: "authApi",
@@ -34,6 +35,13 @@ export const authApi = createApi({
         userList: builder.query({
             query: () => "/list",
             providesTags:["user"]
+        }),
+        deleteUser: builder.mutation({
+            query: (id) => ({
+                url: `/${id}`,
+                method:"DELETE"
+            }),
+            invalidatesTags:["user"]
         })
     })
 })
@@ -42,5 +50,6 @@ export const {
     useLoginUserMutation,
     useRegisterUserMutation,
     useLogOutUserMutation,
-    useUserListQuery
+    useUserListQuery,
+    useDeleteUserMutation
 } = authApi

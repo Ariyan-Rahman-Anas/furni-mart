@@ -15,7 +15,6 @@ const UserProfileOverviewPage = () => {
       <p className="absolute top-4 right-4" >Joined 
         <DateFormatter date={createdAt} />
       </p>
-
     </Card>
   )
 }

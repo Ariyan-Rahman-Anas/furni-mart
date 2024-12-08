@@ -6,26 +6,15 @@ import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { useDeleteProductMutation } from "@/redux/apis/productApi"
-import { useEffect } from "react"
-import { toast } from "sonner"
+import useDelete from "@/hooks/useDelete"
 
 const ProductsManagement = () => {
   const { data: allProducts, isLoading } = useAllProductsQuery()
-
-  const [deleteProduct, {data, isSuccess, isLoading:isDeleting, error}] = useDeleteProductMutation()
-
+  
+  const {handleDelete, isLoading:isDeleting } = useDelete(useDeleteProductMutation)
   const handleDeleteProduct = (id) => {
-    deleteProduct(id)
+    handleDelete(id)
   }
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error?.data?.message)
-    }
-    if (isSuccess) {
-      toast.success(data?.message)
-    }
-  }, [data?.message, error, isSuccess])
   
   const columns = [
     {

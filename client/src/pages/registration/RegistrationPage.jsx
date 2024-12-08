@@ -42,7 +42,7 @@ const RegistrationPage = () => {
   }, [data, error, navigate, setError]);
 
   return (
-    <div className="flex items-center justify-center min-h-[90vh] my-6 px-2">
+    <div className="flex items-center justify-center md:min-h-[90vh] my-6 px-2">
       <Card className="w-full md:w-1/2 lg:w-1/3 mx-auto p- ">
         <CardHeader>
           <CardTitle className="text-2xl">
