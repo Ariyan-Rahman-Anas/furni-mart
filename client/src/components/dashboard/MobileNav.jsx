@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
-import { Loader2, LogIn, LogOut, Menu } from "lucide-react";
+import { Loader2, LogIn, LogOut, Menu, Package2 } from "lucide-react";
 import { Card, CardContent, CardTitle } from "../ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenuSeparator, DropdownMenuShortcut } from "../ui/dropdown-menu";
@@ -58,6 +58,10 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
+                <Link to="/" className="flex items-center gap-2 font-semibold">
+                    <Package2 className="h-6 w-6" />
+                    <span>Furniture Mart</span>
+                </Link>
                 <nav className="grid gap-2 text-lg font-medium">
                     {links.map(({ icon, label, to }, index) => (
                         <Link

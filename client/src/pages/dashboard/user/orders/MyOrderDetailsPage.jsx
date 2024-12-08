@@ -2,18 +2,21 @@ import { Link, useParams } from "react-router-dom"
 import { useSingleOrderQuery } from "@/redux/apis/orderApi"
 import { Card, CardTitle, CardFooter } from "@/components/ui/card"
 import DateFormatter from "@/components/DateFormatter"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const MyOrderDetailsPage = () => {
     const { id } = useParams()
-    const { data:orderDetails } = useSingleOrderQuery(id)
+    const { data:orderDetails, isLoading } = useSingleOrderQuery(id)
 
     const userData = orderDetails?.order?.paymentInfo
     let orderedItems = []
     if (orderDetails) {
         orderedItems = JSON.parse(orderDetails?.order?.paymentInfo?.product_type)
     }
-    console.log("data", orderedItems)
-    console.log("userData", userData)
+
+    if (isLoading) {
+        return <IsLoadingLoaderRTK h={"90vh"} />
+    }
 
   return (
       <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4 space-y-4">

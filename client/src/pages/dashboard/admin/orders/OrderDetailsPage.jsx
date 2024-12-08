@@ -76,28 +76,4 @@ const OrderDetailsPage = () => {
       </Card>
   )
 }
-
 export default OrderDetailsPage
-
-
-
-
-
-
-
-
-// Map through the parsed array without parsing individual items again
-// const items = orderedProducts.map(item => {
-//     if (typeof item === "object") {
-//         return item; // Already an object, no need to parse
-//     } else {
-//         try {
-//             return JSON.parse(item); // In case some items are still strings
-//         } catch (error) {
-//             toast.error("Failed to parse an individual product");
-//             return null;
-//         }
-//     }
-// }).filter(item => item !== null); // Remove null values from the array
-
-// console.log("items", items)

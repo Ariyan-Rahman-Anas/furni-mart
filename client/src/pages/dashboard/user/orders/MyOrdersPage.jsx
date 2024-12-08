@@ -5,6 +5,7 @@ import DateFormatter from "@/components/DateFormatter"
 import { toast } from "sonner"
 import { Link } from "react-router-dom"
 import { CardTitle } from "@/components/ui/card"
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
 const MyOrdersPage = () => {
 
@@ -25,6 +26,10 @@ const MyOrdersPage = () => {
     }).filter(item => item !== null); 
   }
 
+
+  if (isLoading) {
+    return <IsLoadingLoaderRTK h={"90vh"} />
+  }
 
   return (
     <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4">

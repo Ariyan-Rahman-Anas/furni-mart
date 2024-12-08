@@ -19,7 +19,8 @@ const RegistrationPage = () => {
     setError
   } = useForm()
 
-  const [registerUser, {data, isLoading, error}] = useRegisterUserMutation()
+  const [registerUser, { data, isLoading, error }] = useRegisterUserMutation()
+  console.log("err", error)
 
   const handleRegistration = (formData) => {
     registerUser(formData)
@@ -27,12 +28,10 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     if (error?.data) {
-      console.log("err is", error)
       setError("root.random", {
         type: "random",
         message: error.data?.message,
       });
-
       toast.error(error.data?.message);
     }
 
@@ -43,7 +42,7 @@ const RegistrationPage = () => {
   }, [data, error, navigate, setError]);
 
   return (
-    <div className="flex items-center justify-center border2 h-[90vh] px-2">
+    <div className="flex items-center justify-center min-h-[90vh] my-6 px-2">
       <Card className="w-full md:w-1/2 lg:w-1/3 mx-auto p- ">
         <CardHeader>
           <CardTitle className="text-2xl">
@@ -58,40 +57,72 @@ const RegistrationPage = () => {
 
         >
           <CardContent>
-            <div className="grid gap-4">
-              <div className="grid gap-1">
-                <div className="flex items-center">
-                  <Label htmlFor="name">Name</Label>
-                </div>
+            <div className="grid gap-2">
+              <div className="grid gap-.5">
+                  <Label htmlFor="name">Name
+                    <span className="text-myRed text-lg">*</span>
+                  </Label>
                 <Input
-                  {...register("name", { required: "Name is Required" })}
+                  {...register("name", { required: true })}
                   id="name"
                   name="name"
                   type="text"
                   placeholder="Furniture Mart"
                 />
-                {errors.name && <span className="text-red-500 text-sm font-medium">{errors.name.message}</span>}
               </div>
-              <div className="grid gap-1">
+
+              <div className="grid gap-.5">
                 <div className="flex items-center">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Email
+                    <span className="text-myRed text-lg">*</span>
+                  </Label>
                 </div>
                 <Input
-                  {...register("email", { required: "Email is Required" })}
+                  {...register("email", { required: true })}
                   id="email"
                   name="email"
                   type="email"
                   placeholder="name@example.com"
                 />
-                {errors.email && <span className="text-red-500 text-sm font-medium">{errors.email.message}</span>}
               </div>
-              <div className="grid gap-1">
+
+              <div className="grid gap-.5">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="phone">Phone
+                    <span className="text-myRed text-lg">*</span>
+                  </Label>
                 </div>
                 <Input
+                  {...register("phone", { required: true })}
+                  id="phone"
+                  name="phone"
+                  type="number"
+                  placeholder="01612345678"
+                />
+              </div>
+
+              <div className="grid gap-.5">
+                <div className="flex items-center">
+                  <Label htmlFor="address">Address
+                    <span className="text-myRed text-lg">*</span>
+                  </Label>
+                </div>
+                <Input
+                  {...register("address", { required: true })}
+                  id="address"
+                  name="address"
+                  type="text"
+                  placeholder="Dhaka, Bangladesh"
+                />
+              </div>
+
+              <div className="grid gap-.5">
+                  <Label htmlFor="password">Password
+                    <span className="text-myRed text-lg">*</span>
+                  </Label>
+                <Input
                   {...register("password", {
-                    required: "Password is required",
+                    required: true,
                     minLength: {
                       value: 6,
                       message: "Password must be at least 6 characters",
@@ -102,10 +133,7 @@ const RegistrationPage = () => {
                   type="password"
                   placeholder="********"
                 />
-                {errors.password && <span className="text-red-500 text-sm font-medium">{errors.password.message}</span>}
               </div>
-
-           
 
               <Button
               disabled={isLoading}

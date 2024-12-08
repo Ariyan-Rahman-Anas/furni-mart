@@ -12,10 +12,8 @@ import { login } from "@/redux/slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-
   const navigate =  useNavigate()
   const dispatch = useDispatch()
-
   const {
     register,
     handleSubmit,
@@ -34,7 +32,6 @@ const LoginPage = () => {
         type: "random",
         message: error.data?.message,
       });
-
       toast.error(error.data?.message);
     }
 
@@ -64,26 +61,26 @@ const LoginPage = () => {
         >
           <CardContent>
             <div className="grid gap-4">
-              <div className="grid gap-1">
-                <div className="flex items-center">
-                  <Label htmlFor="email">Email</Label>
-                </div>
+              <div className="grid gap-0.5">
+                  <Label htmlFor="email">Email
+                    <span className="text-myRed text-lg">*</span>
+                  </Label>
                 <Input
-                  {...register("email", { required: "Email is Required" })}
+                  {...register("email", { required: true })}
                   id="email"
                   name="email"
                   type="email"
                   placeholder="name@example.com"
                 />
-                {errors.email && <span className="text-red-500 text-sm font-medium ">{errors.email.message}</span>}
               </div>
-              <div className="grid gap-1">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
+
+              <div className="grid gap-0.5">
+                <Label htmlFor="password">Password
+                  <span className="text-myRed text-lg">*</span>
+                  </Label>
                 <Input
                   {...register("password", {
-                    required: "Password is required",
+                    required: true,
                     minLength: {
                       value: 6,
                       message: "Password must be at least 6 characters",
@@ -94,7 +91,6 @@ const LoginPage = () => {
                   type="password"
                   placeholder="********"
                 />
-                {errors.password && <span className="text-red-500 text-sm font-medium ">{errors.password.message}</span>}
               </div>
 
               <Button
@@ -110,8 +106,6 @@ const LoginPage = () => {
                 }
               </Button>
             </div>
-
-
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link to="/registration" className="underline font-medium ">
@@ -119,11 +113,9 @@ const LoginPage = () => {
               </Link>
             </div>
           </CardContent>
-
         </form>
       </Card>
     </div>
   )
 }
-
 export default LoginPage

@@ -1,15 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// interface AuthState{
-//     user: {
-//         id: string
-//         name: string
-//         email:string
-//     } | null
-//     token: string | null
-//     isAuthenticated:boolean
-// }
-
 const initialState = {
     user: null,
     token: null,

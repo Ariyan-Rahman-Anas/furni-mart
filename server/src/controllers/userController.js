@@ -3,22 +3,29 @@ import { sendJwtToken } from "../utils/sendJWT.js";
 import UserModel from './../models/userModel.js';
 import bcrypt from "bcryptjs";
 
-export const registration = async(req, res, next)=>{
+export const registration = async (req, res, next) => {
   try {
-      const { name, email, password } = req.body;
-      // const { name, email, password } = reqBody;
-    //   if (!name || !email || !password) {
-    //     return next(new ErrorHandler("All fields are required", 400));
-    //   }
+    const { name, email, password, phone, address } = req.body;
+
+    if (phone?.toString().length > 11) {
+      return next(
+        new ErrorHandler("Phone number must not exceed 11 digits", 400)
+      );
+    }
+    if (phone?.toString().length < 11) {
+      return next(
+        new ErrorHandler("Phone number must be exactly 11 digits", 400)
+      );
+    }
 
     // Check if user already exists
     const existingUser = await UserModel.findOne({ email });
-      if (existingUser) {
-          return next(
-            new ErrorHandler(
-              `You're already registered with ${email}, please log in`,
-              409
-            ));
+    if (existingUser) {
+      return next(
+        new ErrorHandler(
+          `You're already registered with ${email}, please log in`,
+          409
+        ));
     }
 
     // Hash the password
@@ -29,6 +36,8 @@ export const registration = async(req, res, next)=>{
       name,
       email,
       password: hashedPassword,
+      phone,
+      address,
       isVerified: false,
     });
 
@@ -36,11 +45,11 @@ export const registration = async(req, res, next)=>{
 
     // Send verification email
     // await sendEmail({ email, emailType: "VERIFY", userId: newUser._id });
-      
-      return res.status(201).json({
-        success: true,
-        message: `Welcome, ${newUser.name}`,
-      });
+
+    return res.status(201).json({
+      success: true,
+      message: `Welcome, ${newUser.name}`,
+    });
 
   } catch (error) {
     next(error);
@@ -73,7 +82,7 @@ export const registration = async(req, res, next)=>{
 //         _id: user._id,
 //         email: user.email,
 //       });
-        
+
 //       // Return success response
 //       res.status(200).json({
 //         success: true,
@@ -81,7 +90,7 @@ export const registration = async(req, res, next)=>{
 //         token,
 //         user,
 //       });
-        
+
 //     } catch (error) {
 //         next(error);
 //     }
@@ -125,12 +134,12 @@ export const login = async (req, res, next) => {
 
 
 export const logout = async (req, res, next) => {
-    try {
-        res.clearCookie("token");
-        res.status(200).json({ success: true, message: "Logged out Successfully" });
-    } catch (error) {
-        next(error)
-    }
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ success: true, message: "Logged out Successfully" });
+  } catch (error) {
+    next(error)
+  }
 }
 
 
