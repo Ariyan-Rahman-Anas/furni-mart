@@ -26,12 +26,27 @@ export const orderApi = createApi({
       query: () => "/pending",
       providesTags: ["order"],
     }),
+    deleteOrder: builder.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["order"],
+    }),
+    deletePendingTransaction: builder.mutation({
+      query: (id) => ({
+        url: `/pending/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["order"],
+    }),
   }),
 });
-
 export const {
-    useAnUserOrdersQuery,
-    useAllOrdersQuery,
-    useSingleOrderQuery,
-    usePendingOrdersQuery,
-} = orderApi
+  useAnUserOrdersQuery,
+  useAllOrdersQuery,
+  useSingleOrderQuery,
+  usePendingOrdersQuery,
+  useDeleteOrderMutation,
+  useDeletePendingTransactionMutation,
+} = orderApi;

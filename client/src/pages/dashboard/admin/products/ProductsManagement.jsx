@@ -10,7 +10,6 @@ import useDelete from "@/hooks/useDelete"
 
 const ProductsManagement = () => {
   const { data: allProducts, isLoading } = useAllProductsQuery()
-  
   const {handleDelete, isLoading:isDeleting } = useDelete(useDeleteProductMutation)
   const handleDeleteProduct = (id) => {
     handleDelete(id)

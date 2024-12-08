@@ -6,12 +6,15 @@ import { Card, CardTitle } from "@/components/ui/card"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { useAllOrdersQuery } from "@/redux/apis/orderApi"
 import { Button } from "@/components/ui/button"
+import useDelete from "@/hooks/useDelete"
+import { useDeleteOrderMutation } from "@/redux/apis/orderApi"
 
 const OrdersManagement = () => {
-
     const { data: allOrders, isLoading } = useAllOrdersQuery()
-    console.log("allOrders", allOrders)
-
+    const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteOrderMutation)
+    const onDeleteOrder = (id) => {
+        handleDelete(id)
+    }
 
     const columns = [
         {
@@ -38,7 +41,7 @@ const OrdersManagement = () => {
         {
             accessorKey: "date",
             header: "Date",
-            cell: ({ row }) => <DateFormatter date={row.original.createdAt}/>,
+            cell: ({ row }) => <DateFormatter date={row.original.createdAt} />,
         },
         {
             accessorKey: "action",
@@ -51,14 +54,9 @@ const OrdersManagement = () => {
                             size={17}
                             className="cursor-pointer" />
                     </Link>
-                    <Trash
-                        size={17}
-                        // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
-                        className="cursor-pointer hover:text-myRed"
-                    />
                     <Button
                         disabled={isDeleting}
-                        onClick={() => handleDeleteProduct(row.original._id)}
+                        onClick={() => onDeleteOrder(row.original._id)}
                         className="h-8 w-8 rounded-full  "
                     >
                         <Trash />

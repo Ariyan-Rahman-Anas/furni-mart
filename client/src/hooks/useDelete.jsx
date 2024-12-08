@@ -3,7 +3,6 @@ import { toast } from "sonner";
 
 const useDelete = (deleteMutation) => {
     const [deleteItem, { data, isSuccess, isLoading, error }] = deleteMutation();
-
     const handleDelete = (id) => {
         deleteItem(id);
     };
@@ -19,5 +18,4 @@ const useDelete = (deleteMutation) => {
 
     return { handleDelete, isLoading, isSuccess };
 };
-
 export default useDelete;
