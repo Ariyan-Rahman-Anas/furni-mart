@@ -27,7 +27,6 @@ const ProductsSearchPage = () => {
         isLoading: subCategoryLoading,
         error: subCategoryError,
     } = useSubCategoriesQuery("");
-    console.log("subCategories", subCategoryData);
 
     const [search, setSearch] = useState("")
     const [sort, setSort] = useState("")
@@ -52,9 +51,6 @@ const ProductsSearchPage = () => {
         price,
     })
 
-
-    console.log("searchProductsError", searchProductsError)
-    console.log("searchProductsError", searchProductsError)
 
     const skeletonArray = Array.from({ length: searchData?.products?.length || 4 });
 
