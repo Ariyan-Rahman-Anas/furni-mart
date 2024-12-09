@@ -30,7 +30,7 @@ const OrderDetailsPage = lazy(() => import("../pages/dashboard/admin/orders/Orde
 const PendingTransactionsManagement = lazy(() => import("../pages/dashboard/admin/PendingTransactionsManagement"));
 const CustomersManagement = lazy(() => import("../pages/dashboard/admin/CustomersManagement"));
 const CouponsManagement = lazy(() => import("../pages/dashboard/admin/coupons/CouponsManagement"));
-const CreateCouponPage = lazy(() => import("../pages/dashboard/admin/coupons/CreateCouponPage"));
+const CreateCouponPage = lazy(() => import("../pages/dashboard/admin/coupons/CouponCreatePage"));
 const CouponDetailsPage = lazy(() => import("../pages/dashboard/admin/coupons/CouponDetailsPage"));
 
 

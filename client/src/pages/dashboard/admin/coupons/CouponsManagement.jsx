@@ -6,10 +6,15 @@ import { useAllCouponsQuery } from "@/redux/apis/couponApi"
 import DateFormatter from "@/components/DateFormatter"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { Button } from "@/components/ui/button"
+import useDelete from "@/hooks/useDelete"
+import { useDeleteACouponMutation } from "@/redux/apis/couponApi"
 
 const CouponsManagement = () => {
     const { data: allCouponsData, isLoading } = useAllCouponsQuery()
-    console.log("allCouponsData", allCouponsData)
+    const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteACouponMutation)
+    const onDeleteCoupon = (id) => {
+        handleDelete(id)
+    }
 
     const columns = [
         {
@@ -46,11 +51,13 @@ const CouponsManagement = () => {
                     <Link to={`/admin/coupons/${row.original._id}`}>
                         <Eye size={17} />
                     </Link>
-                    <Trash
-                        size={17}
-                        // onClick={() => handleRemoveWishlistItem(row.original.productId._id)}
-                        className="cursor-pointer hover:text-myRed"
-                    />
+                    <Button
+                        disabled={isDeleting}
+                        onClick={() => onDeleteCoupon(row.original._id)}
+                        className="h-8 w-8 rounded-full  "
+                    >
+                        <Trash />
+                    </Button>
                 </div>
             ),
         },
