@@ -21,7 +21,7 @@ const MultiSelectDropdown = ({ options, value, onChange, placeholder = "Select i
     const [searchQuery, setSearchQuery] = useState("")
 
     // Filter options based on the search query
-    const filteredOptions = options.filter(option =>
+    const filteredOptions = options?.filter(option =>
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
     )
 
@@ -29,15 +29,12 @@ const MultiSelectDropdown = ({ options, value, onChange, placeholder = "Select i
     const handleSelect = (selectedValue) => {
         if (value.includes(selectedValue)) {
             // Deselect the item
-            onChange(value.filter((val) => val !== selectedValue))
+            onChange(value?.filter((val) => val !== selectedValue))
         } else {
             // Select the item
             onChange([...value, selectedValue])
         }
     }
-
-    console.log("Search Query:", searchQuery) // Debugging log for search query
-    console.log("Filtered Options:", filteredOptions) // Debugging log for filtered options
 
     return (
         <Popover open={open} onOpenChange={setOpen}>

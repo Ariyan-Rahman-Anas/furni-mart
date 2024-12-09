@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,6 +8,9 @@ import { useSubCategoriesQuery } from "@/redux/apis/productApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import MultiSelectDropdown from "@/components/MultiSelectDropdown"
 import { useAllProductsQuery } from "@/redux/apis/productApi"
+import { toast } from "sonner"
+import { useCreateCouponMutation } from "@/redux/apis/couponApi"
+import { useNavigate } from "react-router-dom"
 
 const CouponCreatePage = () => {
   const {
@@ -17,6 +20,8 @@ const CouponCreatePage = () => {
     watch
   } = useForm()
 
+  const navigate = useNavigate()
+  const [createCoupon, {data:couponCreateData, isLoading:isCreating, isSuccess, error}] = useCreateCouponMutation()
   const { data: subCategoriesData, isLoading: isSubCategoriesLoading } = useSubCategoriesQuery()
   const {data:productsData} = useAllProductsQuery()
 
@@ -29,16 +34,41 @@ const CouponCreatePage = () => {
   const handleFrameworkChange = (selectedValues) => {
     setSelectedFrameworks(selectedValues)
   }
-  
+
   const subCategoryOptions = subCategoriesData?.subCategories?.map((subCategory) => ({
     value: subCategory,
     label: subCategory,
   }))
 
   const productOptions = productsData?.products?.map(product => ({
-    value: product?.name,
+    value: product?._id,
     label:product?.name
   }))
+
+  const onSubmit = async (formData) => {
+    try {
+      const payload = {
+        ...formData,
+        applicableSubcategories: selectedSubCategories,
+        applicableProducts: selectedFrameworks,
+      };
+      await createCoupon(payload).unwrap();
+    } catch (error) {
+      console.error("Error creating coupon:", error);
+      toast.error("An error occurred during coupon creation");
+    }
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error?.data?.message || "An unknown error occurred.");
+    }
+    if (isSuccess) {
+      toast.success(couponCreateData?.message || "Coupon created successfully!");
+      navigate("/admin/coupons");
+    }
+  }, [couponCreateData?.message, error, isSuccess, navigate]);
+
 
   if (isSubCategoriesLoading) {
     return <IsLoadingLoaderRTK h="90vh" />
@@ -48,7 +78,7 @@ const CouponCreatePage = () => {
     <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4">
       <CardTitle className="mb-4 underline">Create New Coupon </CardTitle>
       <form
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className="space-y-4">
 
         {/* code => type */}
@@ -168,7 +198,7 @@ const CouponCreatePage = () => {
             <Label className="text-sm font-medium">Status</Label>
             <select
               className="border py-1.5 px-4 outline-none rounded-md dark:bg-gray-950 "
-              {...register("status", { required: true })}
+              {...register("status", { required: false })}
             >
               <option value="">Select status</option>
               <option value="active">active</option>
@@ -180,10 +210,9 @@ const CouponCreatePage = () => {
         {/* Submit Button */}
         <Button
           type="submit"
-          // disabled={isCreating}
+          disabled={isCreating}
           className="w-full">
-          {/* {isCreating ? "Creating..." : "Create Product"} */}
-          Create
+          {isCreating ? "Creating..." : "Create Coupon"}
         </Button>
       </form>
     </Card>

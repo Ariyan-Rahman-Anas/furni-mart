@@ -30,6 +30,12 @@ export const createCoupon = async (req, res, next) => {
     if (isCouponAlreadyExist)
       return next(new ErrorHandler("This coupon is already exist", 409));
 
+    if (expirationHours > 24)
+      return next(new ErrorHandler("Expiration hours must not exceed 24", 400));
+
+    if (expirationMinutes > 60)
+      return next(new ErrorHandler("Expiration minutes must not exceed 60", 400));
+
     const coupon = await CouponModel.create({
       code,
       discountType,

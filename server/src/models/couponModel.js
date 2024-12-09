@@ -35,22 +35,10 @@ const couponSchema = new mongoose.Schema(
     expirationHours: {
       type: Number,
       required: [true, "Please provide an expiration hours"],
-      validate: {
-        validator: function (value) {
-          return value < 25;
-        },
-        message: "expiration hours value must be smaller than 25",
-      },
     },
     expirationMinutes: {
       type: Number,
       default: 0,
-      validate: {
-        validator: function (value) {
-          return value < 61;
-        },
-        message: "expiration minutes value must be greater than 61",
-      },
     },
     usageLimit: {
       type: Number,

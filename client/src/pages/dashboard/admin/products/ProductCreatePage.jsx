@@ -42,17 +42,6 @@ const ProductEditPage = () => {
         name: "variants",
     });
 
-    // Handle API response
-    useEffect(() => {
-        if (error) {
-            toast.error(error?.data?.message || "An unknown error occurred.");
-        }
-        if (isSuccess) {
-            toast.success(data?.message || "Product Created successfully!");
-            navigate("/admin/products");
-        }
-    }, [data?.message, error, isSuccess, navigate]);
-
     const onSubmit = async (formData) => {
         try {
             const formDataObj = new FormData();
@@ -73,6 +62,17 @@ const ProductEditPage = () => {
             toast.error("An error occurred during creating product");
         }
     };
+
+    // Handle API response
+    useEffect(() => {
+        if (error) {
+            toast.error(error?.data?.message || "An unknown error occurred.");
+        }
+        if (isSuccess) {
+            toast.success(data?.message || "Product Created successfully!");
+            navigate("/admin/products");
+        }
+    }, [data?.message, error, isSuccess, navigate]);
 
     return (
         <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4">
