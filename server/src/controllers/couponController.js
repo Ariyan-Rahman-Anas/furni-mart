@@ -115,6 +115,26 @@ export const getAllCoupons = async (req, res, next) => {
   }
 };
 
+
+
+export const updateCoupon = async (req, res, next) => {
+  try {
+    const coupon = await CouponModel.findById(req.params.id)
+    if (!coupon) return next(new ErrorHandler("Coupon not found", 404));
+    const newStatus = coupon.status === "active" ? "expired" : "active";
+    coupon.status = newStatus;
+    await coupon.save();
+    return res.status(200).json({
+      success: false,
+      message: `Coupon status updated to ${newStatus}`,
+      coupon,
+    });
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 //delete coupon
 export const deleteCoupon = async (req, res, next) => {
   try {

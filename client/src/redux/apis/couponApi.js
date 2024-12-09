@@ -23,6 +23,13 @@ export const couponApi = createApi({
       query: () => "/list",
       providesTags: ["coupon"],
     }),
+    updateCoupon: builder.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["coupon"],
+    }),
     deleteACoupon: builder.mutation({
       query: (id) => ({
         url: `/${id}`,
@@ -37,5 +44,6 @@ export const {
   useCreateCouponMutation,
   useGetSingleCouponQuery,
   useAllCouponsQuery,
-  useDeleteACouponMutation
-} = couponApi
+  useUpdateCouponMutation,
+  useDeleteACouponMutation,
+} = couponApi;

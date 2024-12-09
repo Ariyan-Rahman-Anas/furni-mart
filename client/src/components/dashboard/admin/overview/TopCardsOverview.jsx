@@ -24,7 +24,7 @@ const TopCardsOverview = () => {
                             <UsersRound />
                             <CardTitle>Total Users</CardTitle>
                         </div>
-                        <h1 className="text-4xl font-semibold" >{allUser?.users?.length}</h1>
+                    <h1 className="text-4xl font-semibold" >{allUser?.users?.length >= 1 ? allUser?.users?.length : 0}</h1>
                     </Card>
                 </Link>
 
@@ -34,7 +34,7 @@ const TopCardsOverview = () => {
                             <Package />
                             <CardTitle>Total Products</CardTitle>
                         </div>
-                        <h1 className="text-4xl font-semibold" >{allProducts?.products?.length}</h1>
+                    <h1 className="text-4xl font-semibold" >{allProducts?.products?.length >= 1 ? allProducts?.products?.length : 0}</h1>
                     </Card>
                 </Link>
 
@@ -44,7 +44,7 @@ const TopCardsOverview = () => {
                             <ArrowLeftRight />
                             <CardTitle>Total Orders</CardTitle>
                         </div>
-                        <h1 className="text-4xl font-semibold" >{allOrders?.orders?.length}</h1>
+                    <h1 className="text-4xl font-semibold" >{allOrders?.orders?.length >= 1 ? allOrders?.orders?.length : 0}</h1>
                     </Card>
                 </Link>
             </div>

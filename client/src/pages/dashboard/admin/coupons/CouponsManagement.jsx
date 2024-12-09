@@ -8,10 +8,19 @@ import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { Button } from "@/components/ui/button"
 import useDelete from "@/hooks/useDelete"
 import { useDeleteACouponMutation } from "@/redux/apis/couponApi"
+import { useUpdateCouponMutation } from "@/redux/apis/couponApi"
+import { useEffect } from "react"
+import { toast } from "sonner"
 
 const CouponsManagement = () => {
     const { data: allCouponsData, isLoading } = useAllCouponsQuery()
+    const [updateCoupon, { data, isLoading: isUpdating, isSuccess, error }] = useUpdateCouponMutation()
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteACouponMutation)
+    
+    const handleUpdateCouponStatus = (id) => {
+        updateCoupon(id)
+    }
+
     const onDeleteCoupon = (id) => {
         handleDelete(id)
     }
@@ -41,7 +50,12 @@ const CouponsManagement = () => {
         {
             accessorKey: "status",
             header: "Status",
-            cell: ({ row }) => <p>{row.original?.status}</p>,
+            cell: ({ row }) => <Button
+                disabled={isUpdating}
+                onClick={() => handleUpdateCouponStatus(row.original._id)}
+                className={`${row.original?.status === "active" ? "bg-green-500" : "bg-red-500"} capitalize`}>
+                {row.original?.status}
+            </Button>,
         },
         {
             accessorKey: "action",
@@ -62,6 +76,15 @@ const CouponsManagement = () => {
             ),
         },
     ]
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error?.data?.message)
+        }
+        if (isSuccess) {
+            toast.success(data?.message)
+        }
+    }, [data?.message, isSuccess, error])
 
     if (isLoading) {
         return <IsLoadingLoaderRTK h={"90vh"} />
