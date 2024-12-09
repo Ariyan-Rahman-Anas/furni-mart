@@ -26,13 +26,14 @@ const CouponCreatePage = () => {
   const {data:productsData} = useAllProductsQuery()
 
   const [selectedSubCategories, setSelectedSubCategories] = useState([])
-  const [selectedFrameworks, setSelectedFrameworks] = useState([])
+  const [selectedProducts, setSelectedProducts] = useState([])
+  const [mode, setMode] = useState("")
 
   const handleSubCategoriesChange = (selectedValues) => {
     setSelectedSubCategories(selectedValues)
   }
-  const handleFrameworkChange = (selectedValues) => {
-    setSelectedFrameworks(selectedValues)
+  const handleProductsChange = (selectedValues) => {
+    setSelectedProducts(selectedValues)
   }
 
   const subCategoryOptions = subCategoriesData?.subCategories?.map((subCategory) => ({
@@ -49,8 +50,8 @@ const CouponCreatePage = () => {
     try {
       const payload = {
         ...formData,
-        applicableSubcategories: selectedSubCategories,
-        applicableProducts: selectedFrameworks,
+        applicableSubcategories: mode === "allSubcategories" ? "allSubcategories" : mode === "specificSubcategories" ? selectedSubCategories : [],
+        applicableProducts: mode === "specificProducts" ? selectedProducts : [],
       };
       await createCoupon(payload).unwrap();
     } catch (error) {
@@ -125,48 +126,51 @@ const CouponCreatePage = () => {
         {/* applicable subcategories => applicable products => */}
         <div className="flex flex-col md:flex-row items-start gap-4">
           <div className="flex flex-col gap-0.5 w-full">
-            <Label className="text-sm font-medium">Applicable Sub-Categories</Label>
-            <div className="space-y-2">
-              {/* Static Dropdown for "All" */}
-              <select
-                className="border w-full py-1.5 px-4 outline-none rounded-md dark:bg-gray-950 "
-                {...register("subCategorySelectMode", { required: true })}
-              >
-                <option value="">Select Mode</option>
-                <option value="all">All Subcategories</option>
-                <option value="specific">Specific Subcategories</option>
-              </select>
-
-              {/* Show MultiSelectDropdown only for "Specific Subcategories" */}
-              {watch("subCategorySelectMode") === "specific" && (
-                <MultiSelectDropdown
-                  options={subCategoryOptions}
-                  value={selectedSubCategories}
-                  onChange={handleSubCategoriesChange}
-                  placeholder="Select sub-categories"
-                />
-              )}
-            </div>
+            <Label className="text-sm font-medium">Applicable Mode</Label>
+            <select
+              className="border w-full py-1.5 px-4 outline-none rounded-md dark:bg-gray-950 "
+              {...register("mode", {
+                required: true,
+                onChange: (e) => setMode(e.target.value),
+              })}
+            >
+              <option value="">Select Mode</option>
+              <option value="allSubcategories">All Subcategories</option>
+              <option value="specificSubcategories">Specific Subcategories</option>
+              <option value="specificProducts">Specific Products</option>
+            </select>
           </div>
 
-          <div className="flex flex-col gap-0.5 w-full">
-            <Label className="text-sm font-medium">Applicable Products</Label>
-            <div>
+          {mode === "specificSubcategories" && (
+            <div className="flex flex-col gap-0.5 w-full">
+              <Label className="text-sm font-medium">Specific Subcategories</Label>
+              <MultiSelectDropdown
+                options={subCategoryOptions}
+                value={selectedSubCategories}
+                onChange={handleSubCategoriesChange}
+                placeholder="Select subcategories"
+              />
+            </div>
+          )}
+
+          {mode === "specificProducts" && (
+            <div className="flex flex-col gap-0.5 w-full">
+              <Label className="text-sm font-medium">Specific Products</Label>
               <MultiSelectDropdown
                 options={productOptions}
-                value={selectedFrameworks}
-                onChange={handleFrameworkChange}
+                value={selectedProducts}
+                onChange={handleProductsChange}
                 placeholder="Select products"
               />
             </div>
-          </div>
+          )}
         </div>
-
+        
         {/* expiration days => hours => minutes */}
         <div className="flex flex-col md:flex-row items-center gap-4">
           <div className="flex flex-col gap-0.5 w-full">
             <Label className="text-sm font-medium"> Expiration Days </Label>
-            <Input type="number" placeholder="Days" {...register("expirationDays", { required: false })} />
+            <Input type="number" placeholder="Days" defaultValue={0} {...register("expirationDays", { required: false })} />
           </div>
 
           <div className="flex flex-col gap-0.5 w-full">
@@ -197,12 +201,12 @@ const CouponCreatePage = () => {
           <div className="flex flex-col gap-0.5 w-full">
             <Label className="text-sm font-medium">Status</Label>
             <select
-              defaultValue={"active"}
+              defaultValue={"expired"}
               className="border py-1.5 px-4 outline-none rounded-md dark:bg-gray-950 "
               {...register("status", { required: false })}
             >
               <option value="">Select status</option>
-              <option value="active">active</option>
+              {/* <option value="active">active</option> */}
               <option value="expired">expired</option>
             </select>
           </div>

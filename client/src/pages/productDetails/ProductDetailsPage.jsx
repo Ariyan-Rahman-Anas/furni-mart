@@ -156,7 +156,7 @@ const ProductDetailsPage = () => {
 
                         <Card className="p-4 my-4 space-y-2 text-sm ">
                             <h3 className="font-semibold text-base ">Colors:</h3>
-                            <div className="flex items-center gap-3">
+                            <div className="flex flex-wrap items-center gap-3">
                                 {colors?.map((color, index) => (
                                     <Button
                                         key={index}

@@ -19,13 +19,15 @@ const CartPage = () => {
   const [isDiscounted, setIsDiscounted] = useState(false);
 
   const { cartItems, total } = useSelector((state) => state.cart);
-  // console.log("cartItems", cartItems)
 
   const { data: couponsList, isLoading:isCouponsListLoading } = useAllCouponsQuery()
 
   const isApplicableSubCategory = couponsList?.coupons?.filter((coupon) => {
-    return coupon?.applicableSubcategories?.some((subcategory) =>
-      cartItems.some((item) => item.subCategory === subcategory)
+    return (
+      coupon?.status === "active" &&
+      coupon?.applicableSubcategories?.some((subcategory) =>
+        cartItems.some((item) => item.subCategory === subcategory)
+      )
     );
   });
 
@@ -158,6 +160,9 @@ const CartPage = () => {
         {/* coupon informer */}
         <Card className="my-10 w-fit mx-auto p-4 font-semibold tracking-wide">
           <div className="animate-pulse text-center">
+            {
+              // isApplicableSubCategory
+            }
             Apply coupon <span className="text-myBlue">{"FirstCoupon1"}</span> to get <span className="text-myBlue">14% discount</span> on your total payment
           </div>
         </Card>
