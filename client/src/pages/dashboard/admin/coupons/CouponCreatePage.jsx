@@ -178,7 +178,7 @@ const CouponCreatePage = () => {
 
           <div className="flex flex-col gap-0.5 w-full">
             <Label className="text-sm font-medium">Expiration Minutes </Label>
-            <Input type="number" placeholder="Minutes" {...register("expirationMinutes", { required: false })} />
+            <Input type="number" placeholder="Minutes" defaultValue={0} {...register("expirationMinutes", { required: false })} />
           </div>
         </div>
 
@@ -186,17 +186,18 @@ const CouponCreatePage = () => {
         <div className="flex flex-col md:flex-row items-center gap-4">
           <div className="flex flex-col gap-0.5 w-full">
             <Label className="text-sm font-medium"> Usage Limit</Label>
-            <Input type="number" placeholder="Limit" {...register("usageLimit", { required: false })} />
+            <Input type="number" placeholder="Limit" defaultValue={0} {...register("usageLimit", { required: false })} />
           </div>
 
           <div className="flex flex-col gap-0.5 w-full">
             <Label className="text-sm font-medium">Usage Count </Label>
-            <Input type="number" placeholder="Count" {...register("usageCount", { required: false })} />
+            <Input type="number" placeholder="Count" defaultValue={0} {...register("usageCount", { required: false })} />
           </div>
 
           <div className="flex flex-col gap-0.5 w-full">
             <Label className="text-sm font-medium">Status</Label>
             <select
+              defaultValue={"active"}
               className="border py-1.5 px-4 outline-none rounded-md dark:bg-gray-950 "
               {...register("status", { required: false })}
             >

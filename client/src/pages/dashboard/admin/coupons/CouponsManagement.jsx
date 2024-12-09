@@ -17,13 +17,16 @@ const CouponsManagement = () => {
     const [updateCoupon, { data, isLoading: isUpdating, isSuccess, error }] = useUpdateCouponMutation()
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteACouponMutation)
     
-    const handleUpdateCouponStatus = (id) => {
-        updateCoupon(id)
+    const handleUpdateCouponStatus = (id, currentStatus) => {
+        const newStatus = currentStatus === "active" ? "expired" : "active";
+        updateCoupon({ id, status: newStatus })
     }
 
     const onDeleteCoupon = (id) => {
         handleDelete(id)
     }
+
+    console.log("allCouponsData", allCouponsData)
 
     const columns = [
         {
@@ -43,6 +46,16 @@ const CouponsManagement = () => {
             cell: ({ row }) => <h1>{row.original?.discountValue}</h1>,
         },
         {
+            accessorKey: "usageLimit",
+            header: "Limit",
+            cell: ({ row }) => <p>{row.original.usageLimit}</p>
+        },
+        {
+            accessorKey: "usageCount",
+            header: "Applied",
+            cell: ({ row }) => <p>{row.original.usageCount}</p>
+        },
+        {
             accessorKey: "date",
             header: "Created",
             cell: ({ row }) => <DateFormatter date={row.original.createdAt} />,
@@ -52,7 +65,7 @@ const CouponsManagement = () => {
             header: "Status",
             cell: ({ row }) => <Button
                 disabled={isUpdating}
-                onClick={() => handleUpdateCouponStatus(row.original._id)}
+                onClick={() => handleUpdateCouponStatus(row.original._id, row.original?.status)}
                 className={`${row.original?.status === "active" ? "bg-green-500" : "bg-red-500"} capitalize`}>
                 {row.original?.status}
             </Button>,

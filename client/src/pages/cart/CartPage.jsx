@@ -1,6 +1,4 @@
-"use client"
-
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 import { ArrowUpDown, Minus, Plus, Trash, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,28 +8,29 @@ import { Button } from "@/components/ui/button";
 import { decrementQuantity, incrementQuantity, removeFromCart } from "@/redux/slices/cartSlice";
 import { Link } from "react-router-dom";
 import { ModularTable } from "@/components/ModularTable";
-
-// import EmptyMessage from "../../components/EmptyMessage";
-// import usePageTitle from "../../customHooks/usePageTitle";
-
-// interface DataType {
-//   // _id: string;
-//   image: ReactElement;
-//   name: string;
-//   price: number;
-//   quantity: number;
-//   subtotal: number;
-//   action: ReactElement;
-// }
+import usePageTitle from "@/hooks/usePageTitle";
+import { useAllCouponsQuery } from "@/redux/apis/couponApi";
+import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
 
 const CartPage = () => {
-  // usePageTitle("Shopping Cart");
+  usePageTitle("Shopping Cart");
   const dispatch = useDispatch();
   const [coupon, setCoupon] = useState("");
   const [isDiscounted, setIsDiscounted] = useState(false);
 
   const { cartItems, total } = useSelector((state) => state.cart);
-  console.log("cartItems", cartItems)
+  // console.log("cartItems", cartItems)
+
+  const { data: couponsList, isLoading:isCouponsListLoading } = useAllCouponsQuery()
+
+  const isApplicableSubCategory = couponsList?.coupons?.filter((coupon) => {
+    return coupon?.applicableSubcategories?.some((subcategory) =>
+      cartItems.some((item) => item.subCategory === subcategory)
+    );
+  });
+
+  console.log("Applicable Coupons:", isApplicableSubCategory);
+
 
   const discount = isDiscounted ? Math.round((total / 100) * 14) : 0;
 
@@ -146,6 +145,11 @@ const CartPage = () => {
       ),
     },
   ]
+
+
+  if (isCouponsListLoading) {
+    return <IsLoadingLoaderRTK  h="90vh"/>
+  }
 
   return (
     <>

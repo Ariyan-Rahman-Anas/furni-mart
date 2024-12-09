@@ -116,23 +116,53 @@ export const getAllCoupons = async (req, res, next) => {
 };
 
 
-
+//update coupon
 export const updateCoupon = async (req, res, next) => {
   try {
-    const coupon = await CouponModel.findById(req.params.id)
-    if (!coupon) return next(new ErrorHandler("Coupon not found", 404));
-    const newStatus = coupon.status === "active" ? "expired" : "active";
-    coupon.status = newStatus;
-    await coupon.save();
-    return res.status(200).json({
-      success: false,
-      message: `Coupon status updated to ${newStatus}`,
-      coupon,
+    const { id } = req.params; 
+    const { status } = req.body;
+
+    if (!["active", "expired"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status value",
+      });
+    }
+
+    // If activating a coupon, deactivate the current active coupon
+    if (status === "active") {
+      const existingActiveCoupon = await CouponModel.findOne({
+        status: "active",
+      });
+
+      if (existingActiveCoupon && existingActiveCoupon._id.toString() !== id) {
+        await CouponModel.findByIdAndUpdate(existingActiveCoupon._id, {
+          status: "expired",
+        });
+      }
+    }
+
+    // Update the current coupon's status
+    const updatedCoupon = await CouponModel.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true, runValidators: true }
+    );
+
+    if (!updateCoupon) {
+      return next(new ErrorHandler("Coupon not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Coupon status updated successfully",
+      updatedCoupon,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
 
 
 //delete coupon

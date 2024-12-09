@@ -47,7 +47,7 @@ const MultiSelectDropdown = ({ options, value, onChange, placeholder = "Select i
                 >
                     {/* Display selected items as tags */}
                     <div className="flex flex-col flex-wrap gap-1 h-auto  ">
-                        {value.length > 0
+                        {value?.length > 0
                             ? value.map((val) => {
                                 const label = options.find((option) => option.value === val)?.label
                                 return label ? (
@@ -77,7 +77,7 @@ const MultiSelectDropdown = ({ options, value, onChange, placeholder = "Select i
                     <CommandList>
                         <CommandEmpty>No items found.</CommandEmpty>
                         <CommandGroup>
-                            {filteredOptions.length > 0 ? (
+                            {filteredOptions?.length > 0 ? (
                                 filteredOptions.map((option) => (
                                     <CommandItem
                                         key={option.value}
