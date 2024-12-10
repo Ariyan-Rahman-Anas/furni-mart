@@ -6,7 +6,7 @@ export const allOrders = async (req, res, next) => {
   try {
     const orders = await OrderModel.find({});
     if (orders.length < 1) {
-      return next(new ErrorHandler("There's no order yet", 404));
+      return next(new ErrorHandler("There's no orders right now", 404));
     }
     return res.status(200).json({
       success: true,
@@ -18,7 +18,6 @@ export const allOrders = async (req, res, next) => {
     next(error);
   }
 }
-
 
 export const getSingleOrder = async (req, res, next) => {
   try {
@@ -35,7 +34,6 @@ export const getSingleOrder = async (req, res, next) => {
     next(error)
   }
 }
-
 
 export const anUserOrders = async (req, res, next) => {
   try {
@@ -58,8 +56,6 @@ export const anUserOrders = async (req, res, next) => {
   }
 }
 
-
-
 export const deleteAnOrder = async (req, res, next) => {
   try {
     const order = await OrderModel.findById(req.params.id);
@@ -75,8 +71,6 @@ export const deleteAnOrder = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 export const getTransactionPendingOrders = async (req, res, next) => {
   try {
@@ -98,8 +92,6 @@ export const getTransactionPendingOrders = async (req, res, next) => {
     next(error)
   }
 }
-
-
 
 export const deletePendingTransaction = async (req, res, next) => {
   try {

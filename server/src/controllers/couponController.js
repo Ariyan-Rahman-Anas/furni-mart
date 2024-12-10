@@ -127,7 +127,7 @@ export const getAllCoupons = async (req, res, next) => {
   try {
     const coupons = await CouponModel.find({});
     if (coupons.length < 1)
-      return next(new ErrorHandler("Oops! There's no coupon right now", 404));
+      return next(new ErrorHandler("There's no coupons right now", 404));
     res.status(200).json({
       success: true,
       message: "All coupons retrieved successfully",
@@ -186,7 +186,6 @@ export const updateCoupon = async (req, res, next) => {
     next(error);
   }
 };
-
 
 
 //delete coupon

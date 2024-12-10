@@ -9,7 +9,7 @@ import { useDeleteUserMutation } from "@/redux/apis/authApi"
 import useDelete from "@/hooks/useDelete"
 
 const CustomersManagement = () => {
-    const { data: userList, isLoading:isLoadingUserList } = useUserListQuery()
+    const { data: userList, isLoading:isLoadingUserList, error } = useUserListQuery()
 
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteUserMutation)
     const onDeleteUser = (id) => {
@@ -72,8 +72,15 @@ const CustomersManagement = () => {
         <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4 ">
             <div className="flex flex-col md:flex-row items-center justify-between gap-2">
             <CardTitle>Customer Management</CardTitle>
-            <CardTitle>Total Customers: {userList?.users?.length}</CardTitle>
+                <CardTitle>Total Customers: {userList?.users?.length >= 1 ? userList?.users?.length : 0}</CardTitle>
             </div>
+            {
+                error && <Card className="w-fit mx-auto p-4 text-center " >
+                    <p className="font-semibold text-sm">Oops!</p>
+                    <h1 className="font-bold text-4xl mb-1">404</h1>
+                    <p>{error?.data?.message}.</p>
+                </Card>
+            }
             <ModularTable
                 columns={columns}
                 data={userList?.users}

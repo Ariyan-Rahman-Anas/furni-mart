@@ -9,12 +9,12 @@ import { useDeleteProductMutation } from "@/redux/apis/productApi"
 import useDelete from "@/hooks/useDelete"
 
 const ProductsManagement = () => {
-  const { data: allProducts, isLoading } = useAllProductsQuery()
-  const {handleDelete, isLoading:isDeleting } = useDelete(useDeleteProductMutation)
+  const { data: allProducts, isLoading, error} = useAllProductsQuery()
+  const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteProductMutation)
   const handleDeleteProduct = (id) => {
     handleDelete(id)
   }
-  
+
   const columns = [
     {
       accessorKey: "image",
@@ -40,7 +40,7 @@ const ProductsManagement = () => {
       cell: ({ row }) => <p>{row.original?.category}</p>,
     },
     {
-      accessorFn: (row) => row.variants?.[0]?.price, 
+      accessorFn: (row) => row.variants?.[0]?.price,
       id: "price",
       header: ({ column }) => (
         <Button
@@ -51,7 +51,7 @@ const ProductsManagement = () => {
         </Button>
       ),
       cell: ({ getValue }) => {
-        const value = getValue(); 
+        const value = getValue();
         return <p>{value !== undefined && value !== null ? `$${value}` : "N/A"}</p>;
       },
     },
@@ -79,7 +79,7 @@ const ProductsManagement = () => {
             onClick={() => handleDeleteProduct(row.original._id)}
             className="h-8 w-8 rounded-full  "
           >
-            <Trash/>
+            <Trash />
           </Button>
         </div>
       ),
@@ -93,14 +93,22 @@ const ProductsManagement = () => {
   return (
     <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4 relative">
       <div className="flex flex-col md:flex-row items-center justify-between gap-2" >
-      <CardTitle className="mb-2">Product Management</CardTitle>
-        <CardTitle className="mb-2">Total Products: {allProducts?.products?.length}</CardTitle>
+        <CardTitle className="mb-2">Product Management</CardTitle>
+        <CardTitle className="mb-2">Total Products: {allProducts?.products?.length >= 1 ? allProducts?.products?.length : 0}</CardTitle>
       </div>
       <Link to={"/admin/products/create"} className="absolute -top-1.5 md:-top-3  -right-1.5 md:-right-3">
         <Button className=" h-8 w-8 rounded-full">
-        <Plus />
+          <Plus />
         </Button>
       </Link>
+
+      {
+        error && <Card className="w-fit mx-auto p-4 text-center " >
+          <p className="font-semibold text-sm">Oops!</p>
+          <h1 className="font-bold text-4xl mb-1">404</h1>
+          <p>{error?.data?.message}.</p>
+        </Card>
+      }
 
       <ModularTable
         columns={columns}

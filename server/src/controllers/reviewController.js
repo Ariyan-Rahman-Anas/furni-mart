@@ -58,9 +58,11 @@ export const postReview = async (req, res, next) => {
 
 export const reviewsList = async (req, res, next) => {
     try {
-        const reviews = await ReviewModel.find({});
+        const reviews = await ReviewModel.find({})
+          .populate("user")
+          .populate("product");
         if (reviews.length < 1) {
-          return next(new ErrorHandler("There is no reviews yet", 404));
+          return next(new ErrorHandler("There's no reviews right now", 404));
         }
         return res.status(200).json({
           success: true,

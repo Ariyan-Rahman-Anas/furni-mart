@@ -13,7 +13,7 @@ import { useEffect } from "react"
 import { toast } from "sonner"
 
 const CouponsManagement = () => {
-    const { data: allCouponsData, isLoading } = useAllCouponsQuery()
+    const { data: allCouponsData, isLoading, error:couponsQueryError } = useAllCouponsQuery()
     const [updateCoupon, { data, isLoading: isUpdating, isSuccess, error }] = useUpdateCouponMutation()
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteACouponMutation)
     
@@ -25,8 +25,6 @@ const CouponsManagement = () => {
     const onDeleteCoupon = (id) => {
         handleDelete(id)
     }
-
-    console.log("allCouponsData", allCouponsData)
 
     const columns = [
         {
@@ -107,13 +105,21 @@ const CouponsManagement = () => {
         <Card className="w-[96%] mx-auto my-2 md:w-full p-4 md:m-4 relative">
             <div className="flex flex-col md:flex-row items-center justify-between gap-2">
             <CardTitle className="mb-2">Coupon Management</CardTitle>
-            <CardTitle className="mb-2">Total Coupons: {allCouponsData?.coupons?.length}</CardTitle>
+                <CardTitle className="mb-2">Total Coupons: {allCouponsData?.coupons?.length >= 1 ? allCouponsData?.coupons?.length : 0}</CardTitle>
             </div>
             <Link to={"/admin/coupons/create"} className="absolute -top-1.5 md:-top-3  -right-1.5 md:-right-3">
                 <Button className=" h-8 w-8 rounded-full">
                     <Plus />
                 </Button>
             </Link>
+
+            {
+                couponsQueryError && <Card className="w-fit mx-auto p-4 text-center " >
+                    <p className="font-semibold text-sm">Oops!</p>
+                    <h1 className="font-bold text-4xl mb-1">404</h1>
+                    <p>{couponsQueryError?.data?.message}.</p>
+                </Card>
+            }
 
             <ModularTable
                 columns={columns}

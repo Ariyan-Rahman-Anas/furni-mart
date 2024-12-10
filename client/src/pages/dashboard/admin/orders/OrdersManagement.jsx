@@ -10,7 +10,7 @@ import useDelete from "@/hooks/useDelete"
 import { useDeleteOrderMutation } from "@/redux/apis/orderApi"
 
 const OrdersManagement = () => {
-    const { data: allOrders, isLoading } = useAllOrdersQuery()
+    const { data: allOrders, isLoading, error } = useAllOrdersQuery()
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteOrderMutation)
     const onDeleteOrder = (id) => {
         handleDelete(id)
@@ -74,8 +74,15 @@ const OrdersManagement = () => {
         <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4">
             <div className="flex flex-col md:flex-row items-center justify-between gap-2">
                 <CardTitle>Order Management</CardTitle>
-                <CardTitle>Total Orders: {allOrders?.orders?.length}</CardTitle>
+                <CardTitle>Total Orders: {allOrders?.orders?.length >= 1 ? allOrders?.orders?.length : 0}</CardTitle>
             </div>
+            {
+                error && <Card className="w-fit mx-auto p-4 text-center " >
+                    <p className="font-semibold text-sm">Oops!</p>
+                    <h1 className="font-bold text-4xl mb-1">404</h1>
+                    <p>{error?.data?.message}.</p>
+                </Card>
+            }
             <ModularTable
                 columns={columns}
                 data={allOrders?.orders}
