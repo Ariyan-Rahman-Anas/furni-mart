@@ -64,16 +64,40 @@ export const createCoupon = async (req, res, next) => {
 // apply for discount
 export const applyCoupon = async (req, res, next) => {
   try {
-    const { couponCode } = req.query;
-    const discount = await CouponModel.findOne({ couponCode });
-    if (!discount) return next(new ErrorHandler("Invalid coupon code", 400));
+    const { code } = req.body;
+
+    // Find the coupon by code
+    const coupon = await CouponModel.findOne({ code });
+
+    // Check if coupon exists
+    if (!coupon) {
+      return next(new ErrorHandler("Invalid coupon code", 400));
+    }
+
+    // Check if coupon is active
+    if (coupon.status !== "active") {
+      return next(new ErrorHandler("This coupon is no longer active", 400));
+    }
+
+    // Check if the coupon has reached its usage limit
+    if (coupon.usageLimit !== null && coupon.usageCount >= coupon.usageLimit) {
+      return next(
+        new ErrorHandler("This coupon has reached its usage limit", 400)
+      );
+    }
+
+    // Increment the usage count
+    coupon.usageCount += 1;
+
+    // Save the updated coupon
+    await coupon.save();
+
     res.status(200).json({
       success: true,
-      message: "congrats! You've got the discount",
-      data: discount,
+      message: "Congrats! You've successfully applied the discount",
     });
   } catch (error) {
-    return next(new ErrorHandler("Failed to apply discount", 500));
+    next(error);
   }
 };
 

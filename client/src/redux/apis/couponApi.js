@@ -15,6 +15,14 @@ export const couponApi = createApi({
       }),
       invalidatesTags: ["coupon"],
     }),
+    applyCouponForDiscount: builder.mutation({
+      query: (code) => ({
+        url: "/apply",
+        method: "POST",
+        body: code,
+      }),
+      invalidatesTags: ["coupon"],
+    }),
     getSingleCoupon: builder.query({
       query: (id) => `/${id}`,
       providesTags: ["coupon"],
@@ -43,6 +51,7 @@ export const couponApi = createApi({
 
 export const {
   useCreateCouponMutation,
+  useApplyCouponForDiscountMutation,
   useGetSingleCouponQuery,
   useAllCouponsQuery,
   useUpdateCouponMutation,

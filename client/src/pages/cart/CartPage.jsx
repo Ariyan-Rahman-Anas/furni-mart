@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpDown, Minus, Plus, Trash, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,42 +11,82 @@ import { ModularTable } from "@/components/ModularTable";
 import usePageTitle from "@/hooks/usePageTitle";
 import { useAllCouponsQuery } from "@/redux/apis/couponApi";
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
+import { useApplyCouponForDiscountMutation } from "@/redux/apis/couponApi";
+import { useForm } from "react-hook-form";
 
 const CartPage = () => {
   usePageTitle("Shopping Cart");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch
+  } = useForm()
+
   const dispatch = useDispatch();
-  const [coupon, setCoupon] = useState("");
   const [isDiscounted, setIsDiscounted] = useState(false);
 
   const { cartItems, total } = useSelector((state) => state.cart);
 
-  const { data: couponsList, isLoading:isCouponsListLoading } = useAllCouponsQuery()
+  const { data: couponsList, isLoading: isCouponsListLoading } = useAllCouponsQuery()
 
   const isApplicableSubCategory = couponsList?.coupons?.filter((coupon) => {
     return (
       coupon?.status === "active" &&
-      coupon?.applicableSubcategories?.some((subcategory) =>
-        cartItems.some((item) => item.subCategory === subcategory)
+      (coupon?.applicableSubcategories?.includes("allSubcategories") ||
+        coupon?.applicableSubcategories?.some((subcategory) =>
+          cartItems.some((item) => item.subCategory === subcategory)
+        ))
+    );
+  });
+
+
+  const isApplicableProducts = couponsList?.coupons?.filter((coupon) => {
+    return (
+      coupon?.status === "active" &&
+      coupon?.applicableProducts?.some((product) =>
+        cartItems.some((item) => item._id === product)
       )
     );
   });
 
-  console.log("Applicable Coupons:", isApplicableSubCategory);
+  const matchedCartItems = cartItems.filter((item) =>
+    couponsList?.coupons?.some((coupon) =>
+      coupon?.status === "active" &&
+      coupon?.applicableProducts?.includes(item._id)
+    )
+  );
 
+  console.log("Matched Cart Items:", matchedCartItems);
 
   const discount = isDiscounted ? Math.round((total / 100) * 14) : 0;
 
   // Handle coupon apply and calculation of final amount
-  const couponApplyHandler = (e) => {
-    e.preventDefault();
-    if (coupon === "FirstCoupon1") {
-      toast.success("Congrats! You've got the discount 🎉");
-      setIsDiscounted(true);
-    } else {
-      toast.error("Oops! This is an invalid coupon.");
-      setIsDiscounted(false);
+  const [applyCouponForDiscount, { data: couponAppliedData, isLoading: isApplying, isSuccess: isApplied, error:couponApplyingError }] = useApplyCouponForDiscountMutation()
+
+  const onSubmit = async (formData) => {
+    try {
+      const payload = {
+        ...formData,
+      };
+      await applyCouponForDiscount(payload).unwrap();
+    } catch (error) {
+      console.error("Error creating coupon:", error);
+      toast.error("An error occurred during coupon creation");
     }
   };
+
+  useEffect(() => {
+    if (couponApplyingError) {
+      setIsDiscounted(false);
+      toast.error(couponApplyingError?.data?.message)
+    }
+    if (isApplied) {
+      setIsDiscounted(true);
+      toast.success(couponAppliedData?.message)
+    }
+  }, [couponAppliedData?.message, couponApplyingError, isApplied])
 
   // Calculate the final total including shipping, tax, and discount
   const finalTotal = Math.round(total - discount);
@@ -67,7 +107,7 @@ const CartPage = () => {
   };
 
   const itemRemoveHandler = (itemId) => {
-    console.log("itemId",itemId)
+    console.log("itemId", itemId)
     dispatch(removeFromCart(itemId));
   };
 
@@ -139,10 +179,10 @@ const CartPage = () => {
               className="cursor-pointer" />
           </Link>
           <Trash
-          size={17}
-          onClick={() => itemRemoveHandler(row.original._id)}
-          className="cursor-pointer hover:text-myRed"
-        />
+            size={17}
+            onClick={() => itemRemoveHandler(row.original._id)}
+            className="cursor-pointer hover:text-myRed"
+          />
         </div>
       ),
     },
@@ -150,24 +190,34 @@ const CartPage = () => {
 
 
   if (isCouponsListLoading) {
-    return <IsLoadingLoaderRTK  h="90vh"/>
+    return <IsLoadingLoaderRTK h="90vh" />
   }
 
   return (
     <>
-      {/* {cartItems?.length >= 1 ? ( */}
-      <div className="w-full md:w-[90%] mx-auto spacey-20 pb-4 px-2">
+      <div className="w-full md:w-[90%] mx-auto px-2">
         {/* coupon informer */}
-        <Card className="my-10 w-fit mx-auto p-4 font-semibold tracking-wide">
-          <div className="animate-pulse text-center">
-            {
-              // isApplicableSubCategory
-            }
-            Apply coupon <span className="text-myBlue">{"FirstCoupon1"}</span> to get <span className="text-myBlue">14% discount</span> on your total payment
-          </div>
-        </Card>
+        {
+          isApplicableSubCategory?.length >= 1 && <Card className="my-6 w-fit mx-auto p-4 text-base tracking-wide">
+            <div className="text-center">
+              {
+                isApplicableSubCategory?.map(({ code, discountValue, discountType }, index) => <p key={index}>Apply coupon <span className="font-semibold text-lg">{code}</span> to get  <span className="font-semibold text-lg">{discountValue} {discountType === "flat" ? "Tk" : "%"} </span> discount on your total payment</p>)
+              }
+            </div>
+          </Card>
+        }
 
-        <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
+        {
+          isApplicableProducts?.length >= 1 && <Card className="my-6 w-fit mx-auto p-4 text-base tracking-wide">
+            <div className="text-center">
+              {
+                isApplicableProducts?.map(({ code, discountValue, discountType }, index) => <p key={index}>Apply coupon <span className="font-semibold text-lg">{code}</span> to get  <span className="font-semibold text-lg">{discountValue} {discountType === "flat" ? "Tk" : "%"} </span> discount on your total payment</p>)
+              }
+            </div>
+          </Card>
+        }
+
+        <div className="grid grid-cols-1 md:grid-cols-7 gap-6 mt-6">
           <Card className="col-span-7 md:col-span-5 p-4 ">
             <h1 className="heading">Cart Items</h1>
             <ModularTable
@@ -194,16 +244,16 @@ const CartPage = () => {
             <hr className="hr mt-5 mb-2" />
 
             {/* coupon applying form */}
-            <form onSubmit={couponApplyHandler} className="flex flex-col items-center gap-2 mb-4 w-full">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col items-center gap-2 mb-4 w-full">
               <Input
-                required
                 type="text"
                 placeholder="Enter the coupon code"
-                value={coupon}
-                onChange={(e) => setCoupon(e.target.value)}
                 className=" w-full"
+                {...register("code", { required: true })} 
               />
-              <Button disabled={isDiscounted || total < 1 } type="submit" className="primary-btn">
+              <Button disabled={isDiscounted || total < 1 || isApplying} type="submit" className="primary-btn">
                 {isDiscounted ? "Coupon Applied" : "Apply Coupon"}
               </Button>
             </form>
@@ -217,7 +267,7 @@ const CartPage = () => {
                     <span>{finalTotal} Tk</span>
                   </span>
                 ) : (
-                    <span>{Math.round(total?.toFixed(2))} Tk</span>
+                  <span>{Math.round(total?.toFixed(2))} Tk</span>
                 )}
               </b>
             </div>

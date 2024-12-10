@@ -42,23 +42,36 @@ const CouponCreatePage = () => {
   }))
 
   const productOptions = productsData?.products?.map(product => ({
-    value: product?._id,
-    label:product?.name
+    value: product?.name,
+    label: product?.name,
+    id: product._id,
   }))
 
   const onSubmit = async (formData) => {
     try {
       const payload = {
         ...formData,
-        applicableSubcategories: mode === "allSubcategories" ? "allSubcategories" : mode === "specificSubcategories" ? selectedSubCategories : [],
-        applicableProducts: mode === "specificProducts" ? selectedProducts : [],
+        applicableSubcategories: mode === "allSubcategories"
+          ? "allSubcategories"
+          : mode === "specificSubcategories"
+            ? selectedSubCategories
+            : [],
+        applicableProducts: mode === "specificProducts"
+          ? selectedProducts?.map(
+            (selectedProduct) => productOptions?.find(
+              (option) => option?.value === selectedProduct
+            )?.id
+          )
+          : [],
       };
+
       await createCoupon(payload).unwrap();
     } catch (error) {
       console.error("Error creating coupon:", error);
       toast.error("An error occurred during coupon creation");
     }
   };
+
 
   useEffect(() => {
     if (error) {
@@ -190,7 +203,7 @@ const CouponCreatePage = () => {
         <div className="flex flex-col md:flex-row items-center gap-4">
           <div className="flex flex-col gap-0.5 w-full">
             <Label className="text-sm font-medium"> Usage Limit</Label>
-            <Input type="number" placeholder="Limit" defaultValue={0} {...register("usageLimit", { required: false })} />
+            <Input type="number" placeholder="Limit" defaultValue={50} {...register("usageLimit", { required: false })} />
           </div>
 
           <div className="flex flex-col gap-0.5 w-full">

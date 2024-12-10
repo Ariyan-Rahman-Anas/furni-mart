@@ -21,16 +21,15 @@ const CouponDetailsPage = () => {
     status
   } = couponData?.coupon || {}
 
-  console.log(couponData?.coupon)
-
 
   if (isLoading) {
     return <IsLoadingLoaderRTK h={"90vh"}/>
   }
 
   return (
-    <Card className="w-[98%] mx-auto my-2 md:w-full p-4 md:m-4 ">
+    <Card className="w-[98%] mx-auto my-2 md:w-full p-4 md:m-4 relative">
       <CardTitle className="underline mb-4" >Coupon Details </CardTitle>
+      <p className="absolute top-3 right-5 text-white dark:text-black bg-black dark:bg-white px-3 py-0.5 rounded-sm text-sm capitalize font-semibold ">{status}</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="p-4 space-y-1.5 ">
           <CardTitle>Code: {code}</CardTitle>
@@ -40,21 +39,26 @@ const CouponDetailsPage = () => {
           <p>Usage Limit: {usageLimit}</p>
           <p>Usage Count: {usageCount}</p>
         </Card>
-        <div className="space-y-4">
-          <Card className="p-4 space-y-3 ">
-            <CardTitle>Applicable Subcategories: </CardTitle> 
-            <ol className="list-decimal list-inside " >
-              {applicableSubcategories?.map((subcategory, index) => <li key={index}> {subcategory}</li>)}
-            </ol>
-          </Card>
-          <Card className="p-4 space-y-3" >
-            <CardTitle>applicableProducts</CardTitle>
-            <ol className="list-decimal list-inside" >
-              {
-                applicableProducts?.map(({_id, name}, index)=> <li key={index}> <Link to={`/search/${_id} `} >{name}</Link></li> )
-              }
-            </ol>
-          </Card>
+        <div>
+          {
+            applicableSubcategories?.length >= 1 && <Card className="p-4 space-y-3 ">
+              <CardTitle>Applicable Subcategories: </CardTitle>
+              <ol className="list-decimal list-inside " >
+                {applicableSubcategories?.length >= 1 && applicableSubcategories?.map((subcategory, index) => <li key={index}> {subcategory}</li>)}
+              </ol>
+            </Card>
+          }
+
+          {
+            applicableProducts?.length >= 1 && <Card className="p-4 space-y-3" >
+              <CardTitle>Applicable Products</CardTitle>
+              <ol className="list-decimal list-inside" >
+                {
+                  applicableProducts?.map(({ _id, name }, index) => <li key={index}> <Link to={`/search/${_id} `} >{name}</Link></li>)
+                }
+              </ol>
+            </Card>
+          }
         </div>
       </div>
     </Card>
