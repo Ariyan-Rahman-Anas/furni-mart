@@ -127,8 +127,21 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    reviewCount: {
+      type: Number,
+      default: 0,
+    },
   },
-  { timestamps: true, versionKey: false }
+  {
+    timestamps: true,
+    versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
 const ProductModel =

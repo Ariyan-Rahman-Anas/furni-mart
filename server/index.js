@@ -15,6 +15,7 @@ import wishlistRouter from "./src/routes/wishlistRoute.js";
 import paymentRouter from "./src/routes/paymentRoute.js"
 import orderRouter from "./src/routes/orderRoute.js"
 import couponRouter from "./src/routes/couponRoute.js"
+import reviewRouter from "./src/routes/reviewRoute.js"
 
 
 
@@ -55,6 +56,7 @@ app.use("/api/wishlist", wishlistRouter);
 app.use("/api/payments", paymentRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/coupons", couponRouter);
+app.use("/api/reviews", reviewRouter);
 
 
 

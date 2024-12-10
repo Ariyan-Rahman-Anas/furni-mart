@@ -2,6 +2,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import { sendJwtToken } from "../utils/sendJWT.js";
 import UserModel from './../models/userModel.js';
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const registration = async (req, res, next) => {
   try {
@@ -99,41 +100,92 @@ export const registration = async (req, res, next) => {
 //     }
 // }
 
-export const login = async (req, res, next) => {
+// export const login = async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     if (!email || !password) {
+//       return next(new ErrorHandler("All fields are required", 400));
+//     }
+
+//     const user = await UserModel.findOne({ email }).select("+password");
+//     if (!user) {
+//       return next(new ErrorHandler("Invalid email or password", 401)); // Generic error message
+//     }
+
+//     const validPassword = await bcrypt.compare(password, user.password);
+//     if (!validPassword) {
+//       return next(new ErrorHandler("Invalid email or password", 401));
+//     }
+
+//     // Generate JWT token and set cookie
+//     const token = sendJwtToken(res, { _id: user._id, email: user.email });
+
+//     // Remove sensitive fields from the user object
+//     const { password: _, ...filteredUser } = user.toObject();
+
+//     // Send response
+//     res.status(200).json({
+//       success: true,
+//       message: `Welcome back, ${user.name}`,
+//       token,
+//       user: filteredUser,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
+    // Validate input
     if (!email || !password) {
-      return next(new ErrorHandler("All fields are required", 400));
+      return next(
+        new ErrorHandler("Please provide both email and password", 400)
+      );
     }
 
+    // Find user by email
     const user = await UserModel.findOne({ email }).select("+password");
     if (!user) {
-      return next(new ErrorHandler("Invalid email or password", 401)); // Generic error message
-    }
-
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
       return next(new ErrorHandler("Invalid email or password", 401));
     }
 
-    // Generate JWT token and set cookie
-    const token = sendJwtToken(res, { _id: user._id, email: user.email });
+    // Compare passwords
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatched) {
+      return next(new ErrorHandler("Invalid email or password", 401));
+    }
 
-    // Remove sensitive fields from the user object
-    const { password: _, ...filteredUser } = user.toObject();
+    // Generate JWT token
+    const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET, {
+      expiresIn: process.env.JWT_TOKEN_EXPIRY || "1d",
+    });
+
+    // Set the token in an HTTP-only cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day in milliseconds
+    });
 
     // Send response
     res.status(200).json({
       success: true,
       message: `Welcome back, ${user.name}`,
       token,
-      user: filteredUser,
+      user,
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 
 export const logout = async (req, res, next) => {
