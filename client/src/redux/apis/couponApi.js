@@ -4,6 +4,7 @@ export const couponApi = createApi({
   reducerPath: "couponApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_DOMAIN}/api/coupons`,
+    credentials: "include",
   }),
   tagTypes: ["coupon"],
   endpoints: (builder) => ({

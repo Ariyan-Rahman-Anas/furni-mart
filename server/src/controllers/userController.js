@@ -1,5 +1,4 @@
 import ErrorHandler from "../utils/errorHandler.js";
-import { sendJwtToken } from "../utils/sendJWT.js";
 import UserModel from './../models/userModel.js';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -61,83 +60,6 @@ export const registration = async (req, res, next) => {
 }
 
 
-// export const login = async(req, res, next)=>{
-//     try {
-//       const { email, password } = req.body;
-
-//       if (!email || !password) {
-//         return next(new ErrorHandler("All fields are required", 400));
-//       }
-
-//       const user = await UserModel.findOne({ email });
-//       if (!user) {
-//         return next(
-//           new ErrorHandler("User does not exist with this email", 404)
-//         );
-//       }
-
-//       const validPassword = await bcrypt.compare(password, user.password);
-
-//       if (!validPassword) {
-//         return next(new ErrorHandler("Invalid password", 401));
-//       }
-
-//       const token = sendJwtToken(res, {
-//         _id: user._id,
-//         email: user.email,
-//       });
-
-//       // Return success response
-//       res.status(200).json({
-//         success: true,
-//         message: `Welcome back, ${user.name}`,
-//         token,
-//         user,
-//       });
-
-//     } catch (error) {
-//         next(error);
-//     }
-// }
-
-// export const login = async (req, res, next) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     if (!email || !password) {
-//       return next(new ErrorHandler("All fields are required", 400));
-//     }
-
-//     const user = await UserModel.findOne({ email }).select("+password");
-//     if (!user) {
-//       return next(new ErrorHandler("Invalid email or password", 401)); // Generic error message
-//     }
-
-//     const validPassword = await bcrypt.compare(password, user.password);
-//     if (!validPassword) {
-//       return next(new ErrorHandler("Invalid email or password", 401));
-//     }
-
-//     // Generate JWT token and set cookie
-//     const token = sendJwtToken(res, { _id: user._id, email: user.email });
-
-//     // Remove sensitive fields from the user object
-//     const { password: _, ...filteredUser } = user.toObject();
-
-//     // Send response
-//     res.status(200).json({
-//       success: true,
-//       message: `Welcome back, ${user.name}`,
-//       token,
-//       user: filteredUser,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-
-
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -167,11 +89,12 @@ export const loginUser = async (req, res, next) => {
     });
 
     // Set the token in an HTTP-only cookie
+    const cookieExpiryDays = parseInt(process.env.JWT_COOKIE_EXPIRY) || 7;
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day in milliseconds
+      maxAge: cookieExpiryDays * 24 * 60 * 60 * 1000,
     });
 
     // Send response
@@ -185,7 +108,6 @@ export const loginUser = async (req, res, next) => {
     next(error);
   }
 };
-
 
 
 export const logout = async (req, res, next) => {

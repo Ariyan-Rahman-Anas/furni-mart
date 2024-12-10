@@ -74,23 +74,35 @@ export const reviewsList = async (req, res, next) => {
 }
 
 
-// export const deleteReview = async (req, res, next) => {
-//     try {
-//         const review = await ReviewModel.findById(req.params.id);
-//         if (!review) {
-//             return next(new ErrorHandler("Review not found", 404));
-//         }
-//         await review.deleteOne();
-//         return res.status(200).json({
-//           success: true,
-//           message: "Review Delete Successfully",
-//         });
-//     } catch (error) {
-//         next(error)
-//     }
-// }
+export const aProductReviews = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
 
+    // Validate productId
+    if (!productId) {
+      return next(new ErrorHandler("Product ID is required", 400));
+    }
 
+    // Fetch reviews for the specific product
+    const reviews = await ReviewModel.find({ product: productId })
+      .populate("user") // Optional: Populate user details
+      .sort({ createdAt: -1 }); // Sort by most recent reviews
+
+    if (!reviews || reviews.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No reviews found for this product",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      reviews,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 export const deleteReview = async (req, res, next) => {
