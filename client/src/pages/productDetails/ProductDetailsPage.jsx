@@ -21,10 +21,11 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { usePostReviewMutation } from "@/redux/apis/reviewApi"
+import { useAnUserOrdersQuery } from "@/redux/apis/orderApi"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 
 const ProductDetailsPage = () => {
     usePageTitle('Product Details');
-
     const {
         register,
         handleSubmit,
@@ -32,7 +33,6 @@ const ProductDetailsPage = () => {
         control,
         reset,
     } = useForm();
-
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedVariant, setSelectedVariant] = useState(null);
     const user = useSelector(state => state?.auth?.user)
@@ -41,7 +41,6 @@ const ProductDetailsPage = () => {
 
     const { data: singleProduct, isLoading, } = useSingleProductQuery(id)
     const product = singleProduct?.product
-    console.log("product", product)
 
     const { _id, name, category, subCategory, brand, images, color, variants, description, averageRating, reviewCount, createdAt } = product || {}
 
@@ -72,7 +71,26 @@ const ProductDetailsPage = () => {
 
 
     const { data: productReviewData } = useAProductReviewsQuery(id)
-    console.log("productReviewData", productReviewData?.reviews)
+
+    const { data: myOrdersData } = useAnUserOrdersQuery(user?.email)
+
+    const productType = myOrdersData?.orders?.map(order => order.paymentInfo?.product_type)
+
+    let orderedItems = []
+    if (productType) {
+        orderedItems = productType.map(item => {
+            try {
+                return JSON.parse(item);
+            } catch (e) {
+                toast.error("Failed to parsing JSON")
+                return null;
+            }
+        }).filter(item => item !== null);
+    }
+
+    const isEligibleForPostReview = !!orderedItems?.some(items =>
+        items?.some(item => item?.productId === id)
+    );
 
     const [postReview, {data:postReviewData, isSuccess:isPosted, isLoading:isPosting, error:reviewPostingError}] = usePostReviewMutation()
 
@@ -92,12 +110,13 @@ const ProductDetailsPage = () => {
     useEffect(() => {
         if (reviewPostingError) {
             toast.error(reviewPostingError?.data?.message)
+            reset()
         }
         if (isPosted) {
             toast.success(postReviewData?.message)
+            reset()
         }
-    }, [isPosted, postReviewData?.message, reviewPostingError])
-
+    }, [isPosted, postReviewData?.message, reviewPostingError, reset])
 
     // Convert the color string into an array
     const colors = color?.split(",")?.map((item) => item.trim());
@@ -358,9 +377,9 @@ const ProductDetailsPage = () => {
 
             {/* review section */}
             <section className="flex flex-col md:flex-row items-start justify-between gap-6" >
-                <div className="w-full" >
-                    <CardTitle className="mb-4">Leave a feedback</CardTitle>
-                    <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-2" >
+                <Card className="w-full p-4 " >
+                    <CardTitle>Leave a feedback</CardTitle>
+                    <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-1 my-4 " >
                         <div>
                             <Label>Comment
                                 <span className="text-myRed text-lg ">*</span>
@@ -379,12 +398,15 @@ const ProductDetailsPage = () => {
                                     {...register("rating", { required: true })}
                                 />
                             </div>
-                            <Button type="submit" disabled={isPosting} >Submit</Button>
+                            <Button type="submit" disabled={isPosting || !isEligibleForPostReview } >Submit</Button>
                         </div>
                     </form>
-                </div>
+                    {
+                        isEligibleForPostReview !== true ? <p className="text-sm" ><span className="font-semibold" >Note: </span> You can only leave a review for a product you have purchased, and each product can only be reviewed once.</p> : <p className="text-sm" ><span className="font-semibold" >Note: </span>Each product can only be reviewed once.</p>
+                    }
+                </Card>
 
-                <div className="w-full">
+                <Card className="w-full p-4">
                     {
                         !productReviewData || productReviewData?.reviews?.length < 1
                             ? <div>
@@ -393,18 +415,25 @@ const ProductDetailsPage = () => {
                             : productReviewData && productReviewData?.reviews?.length >= 1 && <div className="">
                                 <CardTitle className="mb-4">Latest feedbacks</CardTitle>
                                 {
-                                    productReviewData?.reviews?.map(({ user, comment, rating, createdAt }, index) => <Card key={index} className="p-4">
-                                        <div className="flex items-center justify-between">
+                                    productReviewData?.reviews?.map(({ user, comment, createdAt }, index) => <div key={index} className="pb-2 border-b relative">
+                                        <p className="text-sm absolute top-3 right-3 " ><DateFormatter date={createdAt} /></p>
+                                        <div className="pt-2 flex items-center gap-2">
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                            </Avatar>
                                             <h1>{user?.name}</h1>
-                                            <p className="text-sm" ><DateFormatter date={createdAt} /></p>
+                                        </div>
+
+                                        <div className="flex items-center gap-2 font-semibold text-sm mb-2">
+                                            <p className="flex border2 items-center gap-1 w-fit" >{stars}</p>
                                         </div>
                                         <p>{comment} </p>
-
-                                    </Card>)
+                                    </div>)
                                 }
                             </div>
                     }
-                </div>
+                </Card>
             </section>
 
             <OrderFeatures />
