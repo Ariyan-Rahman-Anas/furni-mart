@@ -64,7 +64,6 @@ const CouponCreatePage = () => {
           )
           : [],
       };
-
       await createCoupon(payload).unwrap();
     } catch (error) {
       console.error("Error creating coupon:", error);

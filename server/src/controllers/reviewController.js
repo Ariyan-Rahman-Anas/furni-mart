@@ -99,6 +99,7 @@ export const aProductReviews = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      message: "A Product's review retrieved successfully",
       reviews,
     });
   } catch (error) {
