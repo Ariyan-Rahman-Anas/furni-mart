@@ -1,6 +1,6 @@
 import MobileNav from "@/components/dashboard/MobileNav";
 import Sidebar from "@/components/dashboard/Sidebar";
-import { Home, LineChart, MessageSquareHeart, Package, ShoppingCart, Users } from "lucide-react";
+import { Home, LayoutPanelTop, LineChart, MessageSquareHeart, Package, ShoppingCart, Users } from "lucide-react";
 import { Outlet, useLocation } from "react-router-dom"
 
 const DashboardLayout = () => {
@@ -17,12 +17,12 @@ const DashboardLayout = () => {
         { to: "/admin/pending", label: "Pending Transactions", icon: ShoppingCart, active: false },
         { to: "/admin/coupons", label: "Coupons", icon: ShoppingCart, active: false },
         { to: "/admin/reviews", label: "Reviews", icon: MessageSquareHeart, active: false },
+        { to: "/admin/banners", label: "Banners", icon: LayoutPanelTop, active: false },
     ];
     const userNavItems = [
         { to: "/user/profile", label: "Profile", icon: Home, active: false },
         { to: "/user/orders", label: "My Orders", icon: ShoppingCart, active: false },
     ];
-
 
     // links for mobile nav
     const adminLinksForMobileNav = [
@@ -33,6 +33,7 @@ const DashboardLayout = () => {
         { icon: <ShoppingCart className="h-5 w-5" />, label: "Pending Orders", to: "/admin/pending" },
         { icon: <ShoppingCart className="h-5 w-5" />, label: "Coupons", to: "/admin/coupons" },
         { icon: <MessageSquareHeart className="h-5 w-5" />, label: "Reviews", to: "/admin/reviews" },
+        { icon: <LayoutPanelTop className="h-5 w-5" />, label: "Banners", to: "/admin/banners" },
     ];
     const userLinksForMobileNav = [
         { icon: <Home className="h-5 w-5" />, label: "Profile", to: "/user/profile" },

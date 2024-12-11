@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/resizable"
 import BannerCarousel from './BannerCarousel'
 import CouponTimer from './CouponTimer'
+import { useAllBannerQuery } from '@/redux/apis/bannerApi'
 
 const ResizableArea = () => {
 
@@ -36,7 +37,11 @@ const ResizableArea = () => {
   "/images/slide3.jpg",
   "/images/slide4.jpg",
   "/images/slide5.jpg",
-];
+  ];
+  
+  const { data: bannersData, isLoading } = useAllBannerQuery()
+  console.log("bannersData", bannersData)
+
 
   return (
     <ResizablePanelGroup
@@ -45,7 +50,7 @@ const ResizableArea = () => {
     >
       <ResizablePanel defaultSize={70} className='border rounded-md ' >
         <div className="flex h-full items-center justify-center">
-          <BannerCarousel images={images} autoplayDelay={4000} />
+          <BannerCarousel images={images} autoplayDelay={3000} />
         </div>
       </ResizablePanel>
 
