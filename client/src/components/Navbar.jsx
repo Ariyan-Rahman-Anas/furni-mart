@@ -23,11 +23,10 @@ import { useLogOutUserMutation } from "@/redux/apis/authApi"
 import { toast } from "sonner"
 import { logout } from "@/redux/slices/authSlice"
 import { getActiveItemsLengthInCart } from "@/redux/slices/cartSlice"
-import { useAnUserWishlistQuery } from "@/redux/apis/wishlistApi"
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import MobileNav from "./dashboard/MobileNav"
-import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
+import { Home, Package, ShoppingCart } from "lucide-react";
 import ThemeSwitch from "./ThemeSwitch"
 
 const Navbar = () => {
@@ -57,8 +56,8 @@ const Navbar = () => {
     ]
 
     const cartItems = useSelector(getActiveItemsLengthInCart)
-    const { data: wishlistData } = useAnUserWishlistQuery(user?._id)
-    const wishlistItems = wishlistData?.wishlist?.products?.length >= 1 ? wishlistData.wishlist.products?.length : 0
+    const wishlist = useSelector(state=>state.wishlist.wishlistItems)
+    const wishlistItems = wishlist?.length >= 1 ? wishlist.length : 0
 
     // nav link for mobile nav
     const links = [

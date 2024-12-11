@@ -63,7 +63,7 @@ export function ModularTable({
     return (
         <div className="w-full">
             {/* Filter Input */}
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4  ">
                 <Input
                     placeholder={filterPlaceholder}
                     value={table.getColumn("name")?.getFilterValue() ?? ""}

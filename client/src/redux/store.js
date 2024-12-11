@@ -3,10 +3,10 @@ import storage from "redux-persist/lib/storage";
 import { authApi } from "./apis/authApi";
 import authReducer from "./slices/authSlice";
 import cartReducer from "./slices/cartSlice";
+import wishlistReducer from "./slices/wishlistSlice";
 import themeReducer from "./slices/themeSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import { productApi } from "./apis/productApi";
-import { wishlistApi } from "./apis/wishlistApi";
 import { paymentApi } from "./apis/paymentApi";
 import { orderApi } from "./apis/orderApi";
 import { couponApi } from "./apis/couponApi";
@@ -15,19 +15,19 @@ import { reviewApi } from "./apis/reviewApi";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["auth", "cart", "theme"],
+    whitelist: ["auth", "cart", "wishlist", "theme"],
 };
 
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
-  [wishlistApi.reducerPath]: wishlistApi.reducer,
   [paymentApi.reducerPath]: paymentApi.reducer,
   [orderApi.reducerPath]: orderApi.reducer,
   [couponApi.reducerPath]: couponApi.reducer,
   [reviewApi.reducerPath]: reviewApi.reducer,
   auth: authReducer,
   cart: cartReducer,
+  wishlist: wishlistReducer,
   theme: themeReducer,
 });
 
@@ -41,7 +41,6 @@ const store = configureStore({
     }).concat(
       authApi.middleware,
       productApi.middleware,
-      wishlistApi.middleware,
       paymentApi.middleware,
       orderApi.middleware,
       couponApi.middleware,

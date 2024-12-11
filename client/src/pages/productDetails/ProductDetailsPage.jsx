@@ -10,8 +10,7 @@ import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import OrderFeatures from "@/components/OrderFeatures"
 import { useAddRemoveToCartHandler } from "@/hooks/useAddRemoveToCartHandler"
-import { Link, useParams } from "react-router-dom"
-import { useAddToWishlistMutation, useAnUserWishlistQuery } from "@/redux/apis/wishlistApi"
+import { useParams } from "react-router-dom"
 import usePageTitle from "@/hooks/usePageTitle"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { useAProductReviewsQuery } from "@/redux/apis/reviewApi"
@@ -24,14 +23,13 @@ import { usePostReviewMutation } from "@/redux/apis/reviewApi"
 import { useAnUserOrdersQuery } from "@/redux/apis/orderApi"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import RatingStars from "@/components/RatingStars"
+import useAddRemoveFromWishlist from "@/hooks/useAddRemoveFromWishlist"
 
 const ProductDetailsPage = () => {
     usePageTitle('Product Details');
     const {
         register,
         handleSubmit,
-        formState: { errors },
-        control,
         reset,
     } = useForm();
     const [selectedColor, setSelectedColor] = useState(null);
@@ -45,31 +43,11 @@ const ProductDetailsPage = () => {
 
     const { _id, name, category, subCategory, brand, images, color, variants, description, averageRating, reviewCount, createdAt } = product || {}
 
-    const [addToWishlist, { data, isSuccess, isLoading: addToWishListLoading, error }] = useAddToWishlistMutation();
-    const { data: anUserWishlist } = useAnUserWishlistQuery(user?._id)
-    const activeItemsInWishlist = anUserWishlist?.wishlist?.products
+    const { isProductInWishlist, toggleWishlist } = useAddRemoveFromWishlist();
 
-    const addToWishlistHandler = async (item) => {
-        const payload = {
-            user: user?._id,
-            products: item
-        };
-        try {
-            await addToWishlist(payload);
-        } catch (error) {
-            toast.error("Failed to add to wishlist");
-        }
+    const handleWishlist = () => {
+        toggleWishlist(product);
     };
-
-    useEffect(() => {
-        if (error?.data) {
-            toast.error(error?.data?.message);
-        }
-        if (isSuccess) {
-            toast.success(data?.message);
-        }
-    }, [data?.message, error?.data, isSuccess]);
-
 
     const { data: productReviewData } = useAProductReviewsQuery(id)
 
@@ -173,25 +151,17 @@ const ProductDetailsPage = () => {
                         <BannerCarousel images={images} autoplayDelay={4000} />
                     </Card>
                     <div className="mt-6 text-sm ">
-                        {
-                            !activeItemsInWishlist?.find(item => item?.productId?._id === product?._id)
-                                ?
-                                <Button
-                                    onClick={() => addToWishlistHandler(product?._id)}
-                                    className="flex items-center gap-1 secondary-btn ">
-                                    {
-                                        addToWishListLoading
-                                            ? <> Add to wishlist <IsLoadingLoaderRTK /> </>
-                                            : <> <span>Add to wishlist</span> <Heart /> </>
-                                    }
-                                </Button>
-                                :
-                                <Link to={`/wishlist`} className="flex items-center w-fit gap-1 secondary-btn ">
-                                    <Button>
-                                        <span>Check Wishlist</span><Heart color={theme === "dark" ? "black" : "white"} fill={theme === "dark" ? "black" : "white"} />
-                                    </Button>
-                                </Link>
-                        }
+                        <Button
+                            onClick={() => handleWishlist(product)}
+                            className="flex items-center gap-1 secondary-btn ">
+                            {isProductInWishlist(product._id)
+                                ? <>Remove from wishlist
+                                    <Heart
+                                        fill={theme === 'dark' ? 'black' : 'white'}
+                                        className="cursor-pointer" />
+                                </>
+                                : <>Add to wishlist <Heart className="cursor-pointer" /></>}
+                        </Button>
                     </div>
                 </div>
 

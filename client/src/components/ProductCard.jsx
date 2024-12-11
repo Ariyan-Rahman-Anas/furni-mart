@@ -1,51 +1,22 @@
 import { Eye, Heart, ShoppingCart, Star } from "lucide-react";
 import { Card } from "./ui/card";
 import { useSelector } from "react-redux";
-import { useAddToWishlistMutation, useAnUserWishlistQuery } from "@/redux/apis/wishlistApi";
-import { toast } from "sonner";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getActiveItemsInCart } from "@/redux/slices/cartSlice";
 import ProductCardSkeleton from "./ProductCardSkeleton";
-import IsLoadingLoaderRTK from "./dashboard/IsLoadingLoaderRTK";
+import useAddRemoveFromWishlist from "@/hooks/useAddRemoveFromWishlist";
 
 const ProductCard = ({ isLoading, product }) => {
     const { _id, name, brand, images, variants, averageRating } = product || {};
-    const user = useSelector((state) => state?.auth?.user);
     const theme = useSelector(state => state.theme)
 
-    const [
-        addToWishlist,
-        { data, isLoading: loadingAddToWishlist, isSuccess, error },
-    ] = useAddToWishlistMutation();
-    const { data: anUserWishlist } = useAnUserWishlistQuery(user?._id);
-    const activeItemsInWishlist = anUserWishlist?.wishlist?.products;
-
-    const handleAddToWishlist = async (item) => {
-        const payload = {
-            user: user?._id,
-            products: item,
-        };
-
-        try {
-            await addToWishlist(payload);
-        } catch (error) {
-            toast.error("Failed to add to wishlist");
-            console.error("Add to wishlist failed:", error);
-        }
-    };
-
-    useEffect(() => {
-        if (error?.data) {
-            toast.error(error?.data?.message);
-        }
-
-        if (isSuccess) {
-            toast.success(data?.message);
-        }
-    }, [data?.message, error?.data, isSuccess]);
-
     const activeItemsInCart = useSelector(getActiveItemsInCart);
+
+    const { isProductInWishlist, toggleWishlist } = useAddRemoveFromWishlist();
+
+    const handleWishlist = () => {
+        toggleWishlist(product);
+    };
 
     if (isLoading) {
         return <ProductCardSkeleton />;
@@ -71,8 +42,8 @@ const ProductCard = ({ isLoading, product }) => {
                 <div className="space-y-1.5">
                     <h2 className="text-base font-semibold">{name}</h2>
                     {
-                         <div className="flex items-center gap-2 text-sm font-semibold">
-                            <Star size={16} color={theme === "dark" ? "white" : "black"} fill={theme === "dark" ? "white" : "black"}/> <span>{averageRating}</span>
+                        <div className="flex items-center gap-2 text-sm font-semibold">
+                            <Star size={16} color={theme === "dark" ? "white" : "black"} fill={theme === "dark" ? "white" : "black"} /> <span>{averageRating}</span>
                         </div>
                     }
                     <div className="flex items-center justify-between">
@@ -80,25 +51,14 @@ const ProductCard = ({ isLoading, product }) => {
                         <p className="text-base font-semibold">${variants?.[0]?.price}.00</p>
                     </div>
                     <div className="flex items-center justify-between gap-6 shadow py-2 px-5 rounded-md">
-                        <button>
-                            {loadingAddToWishlist ? (
-                                <IsLoadingLoaderRTK h="full" />
-                            ) : !activeItemsInWishlist?.find(
-                                (item) => item?.productId?._id === _id
-                            ) ? (
-                                <Heart
-                                    // color="black"
-                                    className="cursor-pointer"
-                                    onClick={() => handleAddToWishlist(_id)}
-                                />
-                            ) : (
-                                <Heart
+                        <button onClick={handleWishlist}>
+                            {isProductInWishlist(product._id)
+                                ? <Heart
                                     fill={theme === 'dark' ? 'white' : 'black'}
-                                    className="cursor-pointer  "
-                                    onClick={() => handleAddToWishlist(_id)}
-                                />
-                            )}
+                                    className="cursor-pointer" />
+                                : <Heart className="cursor-pointer" />}
                         </button>
+
                         {activeItemsInCart.find((item) => item?._id === product?._id) && (
                             <ShoppingCart
                                 color="black"
