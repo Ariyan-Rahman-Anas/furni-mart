@@ -6,9 +6,6 @@ import { deleteImgFromCloudinary } from './../utils/deleteImgFromCloudinary.js';
 export const create = async (req, res, next) => {
     try {
       const images = req.files;
-      const body = req.body;
-      console.log("images", images);
-      console.log("body", body);
       const {
         name,
         category,

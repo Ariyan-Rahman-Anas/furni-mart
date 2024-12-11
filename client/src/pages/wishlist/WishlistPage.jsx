@@ -43,7 +43,7 @@ const WishlistPage = () => {
     {
       accessorKey: "stock",
       header: "Stock",
-      cell: ({ row }) => <p>{row.original?.variants?.[0]?.stock}</p>,
+      cell: ({ row }) => <p>{row.original?.variants?.[0]?.stock === 0 ? "Not available" : row.original?.variants?.[0]?.stock <= 10 ? "Low Stock" : "In Stock" }</p>,
     },
     {
       accessorKey: "action",
