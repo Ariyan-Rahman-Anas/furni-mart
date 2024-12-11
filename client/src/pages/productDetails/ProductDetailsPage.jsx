@@ -1,4 +1,4 @@
-import { CircleCheck, Heart, ShoppingCart, Star, StarHalf } from "lucide-react"
+import { CircleCheck, Heart, ShoppingCart } from "lucide-react"
 import payments from "./../../assets/images/payments.svg"
 import { useSelector } from "react-redux"
 import { toast } from "sonner"
@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form"
 import { usePostReviewMutation } from "@/redux/apis/reviewApi"
 import { useAnUserOrdersQuery } from "@/redux/apis/orderApi"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import RatingStars from "@/components/RatingStars"
 
 const ProductDetailsPage = () => {
     usePageTitle('Product Details');
@@ -92,25 +93,24 @@ const ProductDetailsPage = () => {
         items?.some(item => item?.productId === id)
     );
 
-    const [postReview, {data:postReviewData, isSuccess:isPosted, isLoading:isPosting, error:reviewPostingError}] = usePostReviewMutation()
+    const [postReview, { data: postReviewData, isSuccess: isPosted, isLoading: isPosting, error: reviewPostingError }] = usePostReviewMutation()
 
     const onSubmit = async (formData) => {
         try {
             const payload = {
                 ...formData,
                 product: id,
-                user:user?._id,
+                user: user?._id,
             }
             await postReview(payload).unwrap()
         } catch (error) {
-            console.log("An error occurred during posting a review: ",error)
+            console.log("An error occurred during posting a review: ", error)
             toast.error("Failed to posting a review")
         }
     }
     useEffect(() => {
         if (reviewPostingError) {
             toast.error(reviewPostingError?.data?.message)
-            reset()
         }
         if (isPosted) {
             toast.success(postReviewData?.message)
@@ -155,19 +155,6 @@ const ProductDetailsPage = () => {
         handleAddRemoveToCart();
     };
 
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-        if (i <= Math.floor(averageRating)) {
-            // Render a filled star if within the integer part of the rating
-            stars.push(<Star color={theme === "dark" ? "white" : "black"} fill={theme === "dark" ? "white" : "black"} key={i} size={16} />);
-        } else if (i === Math.ceil(averageRating) && !Number.isInteger(averageRating)) {
-            // Render a half-filled star if fractional
-            stars.push(<StarHalf key={i} size={16} />);
-        } else {
-            // Render an empty star otherwise
-            stars.push(<Star key={i} size={16} />);
-        }
-    }
 
     const features = ["Secure payment method", "Free Shipping & Fasted Delivery", "100% Money-back guarantee", "24/7 Customer support", "Secure payment method"]
 
@@ -212,13 +199,13 @@ const ProductDetailsPage = () => {
                     data-aos="fade-up"
                     data-aos-duration="1000"
                     className="col-span-12 md:col-span-6">
-                    <h1 className="text-4xl mb-4" >{name}</h1>
-                    <div className="flex items-center gap-2 font-semibold text-sm mb-2">
-                        <p className="flex border2 items-center gap-1 w-fit" >{stars}</p>
+                    <h1 className="text-4xl mb-2" >{name}</h1>
+                    <div className="flex items-center gap-2 font-semibold text-sm">
+                        <RatingStars rating={averageRating} />
                         <p>{averageRating} out of 5</p>
                         <p>{`(${reviewCount} feedback)`}</p>
                     </div>
-                    <div className="space-y-2 font-semibold text-gray-600 dark:text-gray-300 ">
+                    <div className="space-y-0.5 my-2 font-semibold text-gray-600 dark:text-gray-300 ">
                         <p>Brand: <span className="text-black dark:text-white">{brand}</span> </p>
                         <p>Category: <span className="capitalize text-black dark:text-white">{category}</span> </p>
                         <p>sub-category: <span className="capitalize text-black dark:text-white">{subCategory}</span> </p>
@@ -398,7 +385,7 @@ const ProductDetailsPage = () => {
                                     {...register("rating", { required: true })}
                                 />
                             </div>
-                            <Button type="submit" disabled={isPosting || !isEligibleForPostReview } >Submit</Button>
+                            <Button type="submit" disabled={isPosting || !isEligibleForPostReview} >Submit</Button>
                         </div>
                     </form>
                     {
@@ -415,20 +402,20 @@ const ProductDetailsPage = () => {
                             : productReviewData && productReviewData?.reviews?.length >= 1 && <div className="">
                                 <CardTitle className="mb-4">Latest feedbacks</CardTitle>
                                 {
-                                    productReviewData?.reviews?.map(({ user, comment, createdAt }, index) => <div key={index} className="pb-2 border-b relative">
-                                        <p className="text-sm absolute top-3 right-3 " ><DateFormatter date={createdAt} /></p>
-                                        <div className="pt-2 flex items-center gap-2">
-                                        <Avatar>
-                                            <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
-                                            <AvatarFallback>CN</AvatarFallback>
+                                    productReviewData?.reviews?.map(({ user, comment, rating, createdAt }, index) => <div key={index} className="pb-2 border-b relative">
+                                        <p className="text-xs absolute top-3 right-3 " ><DateFormatter date={createdAt} /></p>
+                                        <div className="pt-4 flex items-center gap-2">
+                                            <Avatar>
+                                                <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
+                                                <AvatarFallback>CN</AvatarFallback>
                                             </Avatar>
-                                            <h1>{user?.name}</h1>
+                                            <h1 className="text-sm font-semibold" >{user?.name}</h1>
                                         </div>
 
-                                        <div className="flex items-center gap-2 font-semibold text-sm mb-2">
-                                            <p className="flex border2 items-center gap-1 w-fit" >{stars}</p>
+                                        <div className="flex justify-end gap-2">
+                                            <RatingStars rating={rating} />
                                         </div>
-                                        <p>{comment} </p>
+                                        <p className="text-sm" >{comment} </p>
                                     </div>)
                                 }
                             </div>

@@ -13,18 +13,18 @@ const MyOrdersPage = () => {
 
   const { data, isLoading, error } = useAnUserOrdersQuery(user.email)
 
-  const stringifyToParse = data?.orders?.map(order => order?.paymentInfo?.product_type);
+  // const stringifyToParse = data?.orders?.map(order => order?.paymentInfo?.product_type);
 
-  if (stringifyToParse) {
-    const orderedItems = stringifyToParse.map(item => {
-      try {
-        return JSON.parse(item); 
-      } catch (e) {
-        toast.error("Failed to parsing JSON")
-        return null;
-      }
-    }).filter(item => item !== null); 
-  }
+  // if (stringifyToParse) {
+  //   const orderedItems = stringifyToParse.map(item => {
+  //     try {
+  //       return JSON.parse(item); 
+  //     } catch (e) {
+  //       toast.error("Failed to parsing JSON")
+  //       return null;
+  //     }
+  //   }).filter(item => item !== null); 
+  // }
 
 
   if (isLoading) {

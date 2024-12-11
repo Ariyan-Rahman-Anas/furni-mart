@@ -34,6 +34,16 @@ const ReviewsManagement = () => {
             cell: ({ row }) => <h1>{row.original?.user?.name}</h1>,
         },
         {
+            accessorKey: "reviewer's email",
+            header: "Reviewer's email",
+            cell: ({ row }) => <h1>{row.original?.user?.email}</h1>,
+        },
+        {
+            accessorKey: "reviewer's phone",
+            header: "Reviewer's phone",
+            cell: ({ row }) => <h1>{row.original?.user?.phone}</h1>,
+        },
+        {
             accessorKey: "rating",
             header: "Rating",
             cell: ({ row }) => <p>{row.original?.rating}</p>,

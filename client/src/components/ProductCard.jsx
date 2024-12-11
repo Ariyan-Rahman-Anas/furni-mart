@@ -1,4 +1,4 @@
-import { Eye, Heart, ShoppingCart } from "lucide-react";
+import { Eye, Heart, ShoppingCart, Star } from "lucide-react";
 import { Card } from "./ui/card";
 import { useSelector } from "react-redux";
 import { useAddToWishlistMutation, useAnUserWishlistQuery } from "@/redux/apis/wishlistApi";
@@ -10,7 +10,7 @@ import ProductCardSkeleton from "./ProductCardSkeleton";
 import IsLoadingLoaderRTK from "./dashboard/IsLoadingLoaderRTK";
 
 const ProductCard = ({ isLoading, product }) => {
-    const { _id, name, brand, images, variants } = product || {};
+    const { _id, name, brand, images, variants, averageRating } = product || {};
     const user = useSelector((state) => state?.auth?.user);
     const theme = useSelector(state => state.theme)
 
@@ -68,8 +68,13 @@ const ProductCard = ({ isLoading, product }) => {
                 </div>
 
                 {/* Product Details */}
-                <div className="space-y-4">
-                    <h2 className="text-base font-semibold mb-2">{name}</h2>
+                <div className="space-y-1.5">
+                    <h2 className="text-base font-semibold">{name}</h2>
+                    {
+                         <div className="flex items-center gap-2 text-sm font-semibold">
+                            <Star size={16} color={theme === "dark" ? "white" : "black"} fill={theme === "dark" ? "white" : "black"}/> <span>{averageRating}</span>
+                        </div>
+                    }
                     <div className="flex items-center justify-between">
                         <p className="text-base font-semibold">{brand}</p>
                         <p className="text-base font-semibold">${variants?.[0]?.price}.00</p>
