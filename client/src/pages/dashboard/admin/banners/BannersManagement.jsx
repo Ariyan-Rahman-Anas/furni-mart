@@ -17,7 +17,6 @@ const BannersManagement = () => {
         handleDelete(id)
     }
     
-
     const columns = [
         {
             accessorKey: "banner",
