@@ -16,7 +16,6 @@ const BannerCarousel = ({
   const plugin = React.useRef(
     Autoplay({ delay: autoplayDelay, stopOnInteraction: true })
   );
-  console.log("img form caru", images)
 
   return (
     <Carousel

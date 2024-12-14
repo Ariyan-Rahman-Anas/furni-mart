@@ -62,11 +62,71 @@ const couponSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "expired"],
-      default: "active",
+    },
+    expirationDate: {
+      type: Date, // Store the exact expiration date when the coupon is activated
     },
   },
   { timestamps: true, versionKey: false }
 );
+
+
+// // Method to calculate and set the expiration date when the coupon is activated
+// couponSchema.methods.activateCoupon = function () {
+//   const now = new Date();
+//   const expirationDate = new Date(now);
+
+//   // Add expiration days, hours, and minutes to the current date
+//   expirationDate.setDate(expirationDate.getDate() + this.expirationDays);
+//   expirationDate.setHours(expirationDate.getHours() + this.expirationHours);
+//   expirationDate.setMinutes(expirationDate.getMinutes() + this.expirationMinutes);
+
+//   this.expirationDate = expirationDate;
+//   this.status = "active"; // Set to active
+//   return this.save(); // Save the updated coupon
+// };
+
+// // Method to check and auto-expire the coupon
+// couponSchema.methods.checkAndExpire = async function () {
+//   const now = new Date();
+//   if (this.status === "active" && this.expirationDate <= now) {
+//     this.status = "expired"; // Automatically expire the coupon
+//     await this.save(); // Save the updated coupon
+//   }
+// };
+
+
+
+// Method to calculate and set the expiration date when the coupon is activated
+couponSchema.methods.activateCoupon = async function () {
+  const now = new Date();
+  const expirationDate = new Date(now);
+
+  // Add expiration days, hours, and minutes to the current date
+  expirationDate.setDate(expirationDate.getDate() + this.expirationDays);
+  expirationDate.setHours(expirationDate.getHours() + this.expirationHours);
+  expirationDate.setMinutes(
+    expirationDate.getMinutes() + this.expirationMinutes
+  );
+
+  // Check if there is an already active coupon and deactivate it
+  const existingActiveCoupon = await this.constructor.findOne({
+    status: "active",
+  }); // Use this.constructor to access the model
+  if (
+    existingActiveCoupon &&
+    existingActiveCoupon._id.toString() !== this._id.toString()
+  ) {
+    existingActiveCoupon.status = "expired";
+    await existingActiveCoupon.save(); // Save the updated status
+  }
+
+  // Activate the current coupon
+  this.expirationDate = expirationDate;
+  this.status = "active";
+  return this.save(); // Save the updated coupon
+}
+
 
 const CouponModel =
   mongoose.models.coupons || mongoose.model("coupons", couponSchema);

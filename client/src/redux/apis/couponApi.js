@@ -16,6 +16,22 @@ export const couponApi = createApi({
       }),
       invalidatesTags: ["coupon"],
     }),
+    activeCoupon: builder.mutation({
+      query: (id) => ({
+        url: `/active/${id}`,
+        method: "POST",
+        body: id,
+      }),
+      invalidatesTags: ["coupon"],
+    }),
+    expireCoupon: builder.mutation({
+      query: (id) => ({
+        url: `/expire/${id}`,
+        method: "POST",
+        body: id,
+      }),
+      invalidatesTags: ["coupon"],
+    }),
     applyCouponForDiscount: builder.mutation({
       query: (code) => ({
         url: "/apply",
@@ -52,6 +68,8 @@ export const couponApi = createApi({
 
 export const {
   useCreateCouponMutation,
+  useActiveCouponMutation,
+  useExpireCouponMutation,
   useApplyCouponForDiscountMutation,
   useGetSingleCouponQuery,
   useAllCouponsQuery,

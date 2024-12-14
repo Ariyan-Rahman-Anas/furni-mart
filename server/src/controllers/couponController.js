@@ -4,7 +4,6 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 // creating a coupon code
 export const createCoupon = async (req, res, next) => {
-  console.log("body999", req.body)
 
   try {
     const {
@@ -60,6 +59,55 @@ export const createCoupon = async (req, res, next) => {
     next(error)
   }
 };
+
+
+// Admin activates a coupon
+export const activateCoupon = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const coupon = await CouponModel.findById(id);
+
+    if (!coupon) {
+      return next(new ErrorHandler("Coupon not found", 404));
+    }
+
+    // Activate the coupon and set the expiration date
+    await coupon.activateCoupon();
+
+    res.status(200).json({
+      success: true,
+      message: "Coupon activated successfully",
+      coupon,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Admin manually expires a coupon
+export const expireCoupon = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const coupon = await CouponModel.findById(id);
+
+    if (!coupon) {
+      return next(new ErrorHandler("Coupon not found", 404));
+    }
+
+    // Manually expire the coupon
+    coupon.status = "expired";
+    await coupon.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Coupon expired successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 
 // apply for discount
 export const applyCoupon = async (req, res, next) => {
@@ -136,54 +184,6 @@ export const getAllCoupons = async (req, res, next) => {
     });
   } catch (error) {
     next(error)
-  }
-};
-
-
-//update coupon
-export const updateCoupon = async (req, res, next) => {
-  try {
-    const { id } = req.params; 
-    const { status } = req.body;
-
-    if (!["active", "expired"].includes(status)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid status value",
-      });
-    }
-
-    // If activating a coupon, deactivate the current active coupon
-    if (status === "active") {
-      const existingActiveCoupon = await CouponModel.findOne({
-        status: "active",
-      });
-
-      if (existingActiveCoupon && existingActiveCoupon._id.toString() !== id) {
-        await CouponModel.findByIdAndUpdate(existingActiveCoupon._id, {
-          status: "expired",
-        });
-      }
-    }
-
-    // Update the current coupon's status
-    const updatedCoupon = await CouponModel.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true, runValidators: true }
-    );
-
-    if (!updateCoupon) {
-      return next(new ErrorHandler("Coupon not found", 404));
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Coupon status updated successfully",
-      updatedCoupon,
-    });
-  } catch (error) {
-    next(error);
   }
 };
 

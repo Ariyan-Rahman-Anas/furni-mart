@@ -8,18 +8,24 @@ import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { Button } from "@/components/ui/button"
 import useDelete from "@/hooks/useDelete"
 import { useDeleteACouponMutation } from "@/redux/apis/couponApi"
-import { useUpdateCouponMutation } from "@/redux/apis/couponApi"
+import { useActiveCouponMutation, useExpireCouponMutation } from "@/redux/apis/couponApi"
 import { useEffect } from "react"
 import { toast } from "sonner"
 
 const CouponsManagement = () => {
     const { data: allCouponsData, isLoading, error:couponsQueryError } = useAllCouponsQuery()
-    const [updateCoupon, { data, isLoading: isUpdating, isSuccess, error }] = useUpdateCouponMutation()
-    const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteACouponMutation)
     
-    const handleUpdateCouponStatus = (id, currentStatus) => {
-        const newStatus = currentStatus === "active" ? "expired" : "active";
-        updateCoupon({ id, status: newStatus })
+    const [activeCoupon, { data:activeData, isLoading: isActiveLoading, isSuccess: isActivate, error:activeError }] = useActiveCouponMutation()
+    
+    const [expireCoupon, { data:expireData, isLoading: isExpiring, isSuccess:isExpired, error:expiringError }] = useExpireCouponMutation()
+    
+    const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteACouponMutation)
+
+    const handleActiveCoupon = (id) => {
+        activeCoupon(id)
+    }
+    const handleExpireCoupon = (id) => {
+        expireCoupon(id)
     }
 
     const onDeleteCoupon = (id) => {
@@ -59,14 +65,30 @@ const CouponsManagement = () => {
             cell: ({ row }) => <DateFormatter date={row.original.createdAt} />,
         },
         {
+            accessorKey: "expiry",
+            header: "Expiry",
+            cell: ({ row }) => <DateFormatter date={row.original.expirationDate} />,
+        },
+        {
             accessorKey: "status",
             header: "Status",
-            cell: ({ row }) => <Button
-                disabled={isUpdating}
-                onClick={() => handleUpdateCouponStatus(row.original._id, row.original?.status)}
-                className={`${row.original?.status === "active" ? "bg-green-500" : "bg-red-500"} capitalize`}>
-                {row.original?.status}
-            </Button>,
+            cell: ({ row }) => <div>
+                {
+                    row.original.status === "active"
+                        ? <Button
+                            disabled={isExpiring}
+                            onClick={() => handleExpireCoupon(row.original._id)}
+                            className={`${row.original?.status === "active" ? "bg-green-500" : "bg-red-500"} capitalize`}>
+                            {row.original?.status}
+                        </Button>
+                        : <Button
+                            disabled={isActiveLoading}
+                            onClick={() => handleActiveCoupon(row.original._id)}
+                            className={`${row.original?.status === "active" ? "bg-green-500" : "bg-red-500"} capitalize`}>
+                            {row.original?.status}
+                        </Button>
+                }
+            </div>
         },
         {
             accessorKey: "action",
@@ -89,13 +111,22 @@ const CouponsManagement = () => {
     ]
 
     useEffect(() => {
-        if (error) {
-            toast.error(error?.data?.message)
+        if (activeError) {
+            toast.error(activeError?.data?.message)
         }
-        if (isSuccess) {
-            toast.success(data?.message)
+        if (isActivate) {
+            toast.success(activeData?.message)
         }
-    }, [data?.message, isSuccess, error])
+    }, [activeData?.message, isActivate, activeError])
+
+    useEffect(() => {
+        if (expiringError) {
+            toast.error(expiringError?.data?.message)
+        }
+        if (isExpired) {
+            toast.success(expireData?.message)
+        }
+    }, [expireData?.message, isExpired, expiringError])
 
     if (isLoading) {
         return <IsLoadingLoaderRTK h={"90vh"} />

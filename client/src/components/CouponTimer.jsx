@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card } from "./ui/card";
 
-
 const TimerCard = ({ value, label }) => (
   <Card className="flex flex-col items-center justify-center w-[4rem] h-[4rem] relative">
     <p className="absolute top-2 font-medium text-2xl">{value}</p>
@@ -11,7 +10,7 @@ const TimerCard = ({ value, label }) => (
   </Card>
 );
 
-const CouponTimer= ({ targetDate }) => {
+const CouponTimer = ({ targetDate }) => {
   const calculateTimeLeft = () => {
     const difference = new Date(targetDate).getTime() - new Date().getTime();
     if (difference > 0) {
@@ -34,14 +33,25 @@ const CouponTimer= ({ targetDate }) => {
     }, 1000);
 
     return () => clearInterval(timer); // Cleanup timer on component unmount
-  }, []);
+  }, [targetDate]); // Re-run effect if targetDate changes
+
+  // If expired, return "Expired" message
+  const isExpired = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
     <div className="flex items-center gap-4 text-lg font-semibold">
-      <TimerCard value={timeLeft.days} label="Days" />
-      <TimerCard value={timeLeft.hours} label="Hours" />
-      <TimerCard value={timeLeft.minutes} label="Minutes" />
-      <TimerCard value={timeLeft.seconds} label="Seconds" />
+      {isExpired ? (
+        <div className="flex flex-col items-center justify-center w-[16rem] h-[4rem] bg-gray-500 text-white rounded-lg">
+          <p className="text-center">Coupon Expired</p>
+        </div>
+      ) : (
+        <>
+          <TimerCard value={timeLeft.days} label="Days" />
+          <TimerCard value={timeLeft.hours} label="Hours" />
+          <TimerCard value={timeLeft.minutes} label="Minutes" />
+          <TimerCard value={timeLeft.seconds} label="Seconds" />
+        </>
+      )}
     </div>
   );
 };

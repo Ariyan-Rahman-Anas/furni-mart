@@ -7,14 +7,10 @@ import {
 import BannerCarousel from './BannerCarousel'
 import CouponTimer from './CouponTimer'
 import { useAllBannerQuery } from '@/redux/apis/bannerApi'
+import { useAllCouponsQuery } from '@/redux/apis/couponApi'
 
 const ResizableArea = () => {
-
-  const THREE_DAYS_IN_MS = 13 * 24 * 60 * 60 * 1000;
-  const NOW_IN_MS = new Date().getTime();
-
-  const dateTimeAfterThreeDays = NOW_IN_MS + THREE_DAYS_IN_MS;
-
+  
   const [isLargeScreen, setIsLargeScreen] = useState(false)
 
   // Check screen size
@@ -34,11 +30,13 @@ const ResizableArea = () => {
 
   
   const { data: bannersData, isLoading } = useAllBannerQuery()
-  console.log("bannersData", bannersData)
-
+  // console.log("bannersData", bannersData)
 
   const images = bannersData?.banners?.map(banner => banner?.images?.map(img => img?.url))
-  console.log("images2", images)
+
+
+  const { data: couponsData } = useAllCouponsQuery()
+  const activeCoupon = couponsData?.coupons?.filter(coupon => coupon.status === "active")
 
 
   return (
@@ -69,9 +67,7 @@ const ResizableArea = () => {
 
           <ResizablePanel defaultSize={50} className="border rounded-md ">
             <div className="flex h-full items-center justify-center p-6">
-              {/* <span className="font-semibold">Three</span> */}
-
-              <CouponTimer targetDate={dateTimeAfterThreeDays}    />
+              <CouponTimer targetDate={activeCoupon?.map(coupon => coupon?.expirationDate)}    />
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
