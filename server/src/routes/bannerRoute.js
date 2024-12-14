@@ -7,7 +7,7 @@ import { multerMiddleware } from "../utils/multer.js";
 const router = express.Router()
 
 router.post("/create",  isAuthenticated, isAdmin, multerMiddleware, createBanner)
-router.get("/list", isAuthenticated, isAdmin, getAllBanner)
+router.get("/list", getAllBanner)
 router.delete("/:id", isAuthenticated, isAdmin, deleteABanner);
 
 export default router;

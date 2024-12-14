@@ -106,7 +106,7 @@ export const productList = async (req, res, next) => {
 }
 
 
-export const product = async (req, res, next) => {
+export const singleProduct = async (req, res, next) => {
     try {
         const product = await ProductModel.findById(req.params.id);
         if (!product) {
