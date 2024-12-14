@@ -10,16 +10,12 @@ import useDelete from "@/hooks/useDelete"
 import { useDeleteReviewMutation } from "@/redux/apis/reviewApi"
 
 const ReviewsManagement = () => {
-
     const { data: reviewsList, isLoading, error } = useAllReviewQuery()
-
-    console.log("reviewsList", reviewsList)
 
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteReviewMutation)
     const onDeleteReview = (id) => {
         handleDelete(id)
     }
-
 
     const columns = [
         {
@@ -76,7 +72,6 @@ const ReviewsManagement = () => {
         },
     ]
 
-
     if (isLoading) {
         return <IsLoadingLoaderRTK h={"90vh"} />
     }
@@ -103,5 +98,4 @@ const ReviewsManagement = () => {
       </Card>
   )
 }
-
 export default ReviewsManagement

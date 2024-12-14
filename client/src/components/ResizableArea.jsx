@@ -10,7 +10,7 @@ import { useAllBannerQuery } from '@/redux/apis/bannerApi'
 import { useAllCouponsQuery } from '@/redux/apis/couponApi'
 
 const ResizableArea = () => {
-  
+
   const [isLargeScreen, setIsLargeScreen] = useState(false)
 
   // Check screen size
@@ -75,5 +75,4 @@ const ResizableArea = () => {
     </ResizablePanelGroup>
   )
 }
-
 export default ResizableArea

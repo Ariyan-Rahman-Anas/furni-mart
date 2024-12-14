@@ -60,7 +60,6 @@ export const createCoupon = async (req, res, next) => {
   }
 };
 
-
 // Admin activates a coupon
 export const activateCoupon = async (req, res, next) => {
   try {
@@ -107,8 +106,6 @@ export const expireCoupon = async (req, res, next) => {
   }
 };
 
-
-
 // apply for discount
 export const applyCoupon = async (req, res, next) => {
   try {
@@ -149,7 +146,6 @@ export const applyCoupon = async (req, res, next) => {
   }
 };
 
-
 // a single coupon
 export const getSingleCoupon = async (req, res, next) => {
   try {
@@ -169,7 +165,6 @@ export const getSingleCoupon = async (req, res, next) => {
   }
 }
 
-
 // all coupons
 export const getAllCoupons = async (req, res, next) => {
   try {
@@ -186,7 +181,6 @@ export const getAllCoupons = async (req, res, next) => {
     next(error)
   }
 };
-
 
 //delete coupon
 export const deleteCoupon = async (req, res, next) => {

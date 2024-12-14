@@ -16,10 +16,11 @@ const BannersManagement = () => {
     const onDeleteBanner = (id) => {
         handleDelete(id)
     }
-    
+
     const columns = [
         {
-            accessorKey: "banner",
+            accessorKey: "name",
+            accessorFn: (row) => row?.title,
             header: "Banner",
             cell: ({ row }) => (
                 <div className="w-24 max-w-fit">
@@ -44,7 +45,7 @@ const BannersManagement = () => {
         {
             accessorKey: "date",
             header: "Date",
-            cell: ({ row }) => <DateFormatter date={row.original.createdAt}/>,
+            cell: ({ row }) => <DateFormatter date={row.original.createdAt} />,
         },
         {
             accessorKey: "action",
@@ -76,34 +77,34 @@ const BannersManagement = () => {
         return <IsLoadingLoaderRTK h={"90vh"} />
     }
 
-  return (
-      <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4 relative">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2" >
-              <CardTitle className="mb-2">Banners Management</CardTitle>
-              <CardTitle className="mb-2">Total Banners: {bannersData?.banners?.length >= 1 ? bannersData?.banners?.length : 0}</CardTitle>
-          </div>
-          <Link to={"/admin/products/create"} className="absolute -top-1.5 md:-top-3  -right-1.5 md:-right-3">
-              <Button className=" h-8 w-8 rounded-full">
-                  <Plus />
-              </Button>
-          </Link>
+    return (
+        <Card className="w-[96%] mx-auto my-2 md:w-full md:m-4 p-4 relative">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-2" >
+                <CardTitle className="mb-2">Banners Management</CardTitle>
+                <CardTitle className="mb-2">Total Banners: {bannersData?.banners?.length >= 1 ? bannersData?.banners?.length : 0}</CardTitle>
+            </div>
+            <Link to={"/admin/products/create"} className="absolute -top-1.5 md:-top-3  -right-1.5 md:-right-3">
+                <Button className=" h-8 w-8 rounded-full">
+                    <Plus />
+                </Button>
+            </Link>
 
-          {
-              error && <Card className="w-fit mx-auto p-4 text-center " >
-                  <p className="font-semibold text-sm">Oops!</p>
-                  <h1 className="font-bold text-4xl mb-1">404</h1>
-                  <p>{error?.data?.message}.</p>
-              </Card>
-          }
+            {
+                error && <Card className="w-fit mx-auto p-4 text-center " >
+                    <p className="font-semibold text-sm">Oops!</p>
+                    <h1 className="font-bold text-4xl mb-1">404</h1>
+                    <p>{error?.data?.message}.</p>
+                </Card>
+            }
 
-          <ModularTable
-              columns={columns}
-              data={bannersData?.banners}
-              showPagination={true}
-              filterPlaceholder="Search by name..."
-          />
+            <ModularTable
+                columns={columns}
+                data={bannersData?.banners}
+                showPagination={true}
+                filterPlaceholder="Search by title..."
+            />
 
-      </Card>
-  )
+        </Card>
+    )
 }
 export default BannersManagement
