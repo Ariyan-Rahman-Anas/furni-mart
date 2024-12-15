@@ -106,6 +106,14 @@ const ProductDetailsPage = () => {
         setSelectedVariant(item);
     };
 
+    const { cartItems } = useSelector((state) => state.cart);
+
+    const matchedVariant = cartItems.find(item =>
+        variants?.some(variant => variant._id === item.variantId)
+    );
+
+    console.log("matchedVariant", matchedVariant)
+
     const activeItemsInCart = useSelector(getActiveItemsInCart);
     const dataForCart = {
         _id,
@@ -222,7 +230,7 @@ const ProductDetailsPage = () => {
                                 <Card
                                     key={index}
                                     className={`py-2 px-3 space-y-2 text-sm relative cursor-pointer ${selectedVariant === item ? "border-2 border-primary" : ""
-                                        }`}
+                                        } ${matchedVariant?.variantId===item?._id ? "bg-green-500" : "bg-red-500"} `}
                                     onClick={() => handleVariantSelect(item)}
                                 >
                                     <div>

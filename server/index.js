@@ -17,8 +17,6 @@ import couponRouter from "./src/routes/couponRoute.js"
 import reviewRouter from "./src/routes/reviewRoute.js"
 import bannerRouter from "./src/routes/bannerRoute.js"
 
-
-
 const port = process.env.PORT || 5001;
 const app = express();
 

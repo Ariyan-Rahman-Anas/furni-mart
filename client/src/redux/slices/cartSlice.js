@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    billingInfo: {
-        user: "",
-        anyMessage: ""
-    },
-    shippingInfo: {
-        address: "",
-        city: "",
-        state: "",
-        zipCode: 0,
-        country: "",
-        mobile: 0
-    },
+    // billingInfo: {
+    //     user: "",
+    //     anyMessage: ""
+    // },
+    // shippingInfo: {
+    //     address: "",
+    //     city: "",
+    //     state: "",
+    //     zipCode: 0,
+    //     country: "",
+    //     mobile: 0
+    // },
     discount: 0,
     subtotal: 10,
     total: 0,
@@ -23,16 +23,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    // addToCart: (state, action) => {
-    //     const existingItemsInTheCart = state.cartItems.find(item => item._id === action.payload._id)
-
-    //     if (existingItemsInTheCart) {
-
-    //     }
-    // }
     addToCart: (state, action) => {
-      // state.loading = true;
-
       const existingItem = state.cartItems.find(
         (item) => item._id === action.payload._id
       );

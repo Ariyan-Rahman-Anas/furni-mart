@@ -12,11 +12,9 @@ import { Label } from "@/components/ui/label";
 import usePageTitle from "@/hooks/usePageTitle";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 
-
 const ProductsSearchPage = () => {
     usePageTitle("Products Search")
     // const targetedCategory = location.state?.category
-
     const {
         data: categoryData,
         isLoading: categoryLoading,
@@ -51,8 +49,7 @@ const ProductsSearchPage = () => {
         price,
     })
 
-
-    const skeletonArray = Array.from({ length: searchData?.products?.length || 4 });
+    const skeletonArray = Array.from({ length: searchData?.products?.length || 3 });
 
     const resetFilters = () => {
         setSearch('');

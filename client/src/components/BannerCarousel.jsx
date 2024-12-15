@@ -31,7 +31,7 @@ const BannerCarousel = ({
               <div className="flex  items-center justify-center border4">
                 {/* Slider images */}
                 <img
-                  src={image}
+                  src={image?.url || image}
                   alt={`Slide ${index + 1}`}
                   className="w-full h-full rounded-md"
                 />

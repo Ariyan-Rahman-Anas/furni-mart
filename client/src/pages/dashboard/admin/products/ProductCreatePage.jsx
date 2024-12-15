@@ -273,7 +273,7 @@ const ProductEditPage = () => {
                                     >
                                         <div className="flex flex-col gap-1 w-full">
                                             <Label className="text-sm font-medium">Size
-                                                <span className="text-myRed text-lg "></span>
+                                                <span className="text-myRed text-lg ">*</span>
                                             </Label>
                                             <select
                                                 className="border py-1.5 px-4 outline-none rounded-md dark:bg-gray-900 hover:bg-gray-200"
@@ -348,6 +348,12 @@ const ProductEditPage = () => {
                         <span className="text-myRed text-lg ">*</span>
                     </Label>
                     <Textarea placeholder="Description" {...register("description", { required: true })} />
+                </div>
+
+                {/* Checkbox for is featured or not */}
+                <div className="border- flex items-center gap-2 w-fit" >
+                    <input id="isFeatured" type="checkbox" {...register("isFeatured", { required: false })} />
+                    <Label htmlFor="isFeatured">Featured Product</Label>
                 </div>
 
                 {/* Submit Button */}

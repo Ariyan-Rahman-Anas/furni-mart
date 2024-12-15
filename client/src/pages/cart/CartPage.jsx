@@ -28,6 +28,7 @@ const CartPage = () => {
   const [isDiscounted, setIsDiscounted] = useState(false);
 
   const { cartItems, total } = useSelector((state) => state.cart);
+  console.log("Cart items", cartItems)
 
   const { data: couponsList, isLoading: isCouponsListLoading } = useAllCouponsQuery()
 

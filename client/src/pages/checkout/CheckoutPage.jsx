@@ -59,18 +59,18 @@ const CheckoutPage = () => {
         requiredFields.forEach((field) => {
             const fieldErrors = errors[field];
             if (!fieldErrors) {
-                clearErrors(field); // Clear previous error if exists
+                clearErrors(field);
             } else {
-                hasError = true; // Set flag if there's an error
+                hasError = true;
                 setError(field, { type: "manual", message: fieldErrors.message || "This field is required" });
             }
         });
 
         // Show toast message if any required field is missing
         if (hasError) {
-            toast.error("Please fulfill all the shipping info properly"); // Show single toast message
+            toast.error("Please fulfill all the shipping info properly");
         } else {
-            handleSubmit(handleSSLPayment)(); // Proceed with form submission if no errors
+            handleSubmit(handleSSLPayment)();
         }
     };
 
@@ -83,7 +83,6 @@ const CheckoutPage = () => {
             {/* Main Form Section */}
             <main className="col-span-7 md:col-span-5">
                 <form id="checkout-form" className="space-y-6 "
-            // onSubmit={handleSubmit(submitHandler)}
             onSubmit={handleSubmit(handleSSLPayment)}
             >
                     <Card className="p-4 space-y-4">
@@ -98,7 +97,6 @@ const CheckoutPage = () => {
                                 defaultValue={user?.name}
                                     {...register("billingInfo.userId.name", { required: "Name is required" })}
                                 />
-                                {/* {errors.billingInfo?.userId?.name && <span className="text-myRed font-semibold">{errors.billingInfo.userId?.name.message}</span>} */}
                             </div>
                             <div className="flex flex-col w-full gap-1 ">
                                 <label htmlFor="billingInfo.userId.email" className="text-sm">Email</label>
@@ -110,7 +108,6 @@ const CheckoutPage = () => {
                                     className="text-Input"
                                     {...register("billingInfo.userId.email", { required: "Email is required" })}
                                 />
-                                {/* {errors.billingInfo?.userId?.email && <span className="text-myRed font-semibold">{errors.billingInfo.userId?.email.message}</span>} */}
                             </div>
                         </div>
                         <div className="flex flex-col w-full gap-1">
@@ -121,7 +118,6 @@ const CheckoutPage = () => {
                                 className="text-Input"
                                 {...register("billingInfo.anyMessage")}
                             />
-                            {/* {errors.billingInfo?.anyMessage && <span className="text-myRed font-semibold">{errors.billingInfo?.anyMessage.message}</span>} */}
                         </div>
                     </Card>
 
@@ -191,24 +187,6 @@ const CheckoutPage = () => {
                             </div>
                         </div>
                     </Card>
-
-                    {/* <Card className="p-4 space-y-4">
-                        <h1 className="mb-3 font-semibold text-lg">Payment Method</h1>
-                        <RadioGroup defaultValue="option-one">
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="Stripe" id="Stripe" />
-                                <Label htmlFor="Stripe">Pay with Stripe</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="Paypal" id="Paypal" />
-                                <Label htmlFor="Paypal">Pay with Paypal</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="SSL" id="SSL" />
-                                <Label htmlFor="SSL">Pay with SSL Commerz</Label>
-                            </div>
-                        </RadioGroup>
-                    </Card> */}
                 </form>
             </main>
 
@@ -229,7 +207,7 @@ const CheckoutPage = () => {
                     }
                 </div>
 
-                <div className="text-sm space-y-1.5">
+                <div className="text-sm space-y-1.5 mb-12">
                     <div className="flex items-center justify-between">
                         <p>Sub-total</p>
                         <p className="font-semibold" >{subtotal}.00</p>
