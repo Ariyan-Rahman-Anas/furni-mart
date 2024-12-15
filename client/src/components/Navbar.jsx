@@ -28,6 +28,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import MobileNav from "./dashboard/MobileNav"
 import { Home, Package, ShoppingCart } from "lucide-react";
 import ThemeSwitch from "./ThemeSwitch"
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "./ui/navigation-menu"
+import { useSubCategoriesQuery } from "@/redux/apis/productApi"
+import { useCategoriesQuery } from "@/redux/apis/productApi"
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -71,6 +74,19 @@ const Navbar = () => {
         alert("Upgrade clicked!");
     };
 
+
+    const {
+        data: subCategoryData,
+        isLoading: subCategoryLoading,
+        error: subCategoryError,
+    } = useSubCategoriesQuery("");
+    const {
+        data: categoryData,
+        // isLoading: subCategoryLoading,
+        // error: subCategoryError,
+    } = useCategoriesQuery("");
+
+
     return (
         <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-b-lg flex items-center justify-between bg-white z-50 dark:bg-black">
             <div className="md:hidden">
@@ -85,7 +101,7 @@ const Navbar = () => {
 
             {/* middle side */}
             <div className="hidden md:block" >
-                <ul className="flex items-center gap-4">
+                {/* <ul className="flex items-center gap-4">
                     {navItems.map((item, index) => (
                         <li key={index} className="relative group">
                             <NavLink
@@ -101,7 +117,53 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                     ))}
-                </ul>
+                </ul> */}
+
+
+                {/* .... */}
+                <NavigationMenu>
+                    <NavigationMenuList>
+                        <NavigationMenuItem>
+                            <NavLink
+                                to={"/"}
+                                className={({ isActive }) =>
+                                    isActive && location.pathname === "/"
+                                        ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
+                                        : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
+                                }
+                            >
+                                Home
+                            </NavLink>
+                        </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>Category</NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
+                                    {categoryData?.categories?.map((category, index) => (
+                                        <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
+                                            <Link to={"/search"} state={{ category }}>{category}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>Sub-Category</NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-3">
+                                    {subCategoryData?.subCategories?.map((subCategory, index) => (
+                                        <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
+                                            <Link to={"/search"} state={{ subCategory }}>{subCategory}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
+                    </NavigationMenuList>
+                </NavigationMenu>
+                {/* .... */}
             </div>
 
             {/* right side area */}

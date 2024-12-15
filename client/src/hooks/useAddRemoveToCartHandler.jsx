@@ -15,14 +15,14 @@ export const useAddRemoveToCartHandler = (product) => {
             brand: product.brand,
             category: product.category,
             subCategory: product.subCategory,
-            price: product.variant.price,
+            price: product.variant?.price,
             image: product.image,
             quantity: 1,
-            subtotal: product.variant.price,
-            variantId: product.variant._id,
+            subtotal: product.variant?.price,
+            variantId: product.variant?._id,
             color:product.color,
             productId: product._id,
-            stock: product.variant.stock,
+            stock: product.variant?.stock,
         };
 
         if (cartItem.stock <= 0) {

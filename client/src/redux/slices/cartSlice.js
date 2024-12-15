@@ -27,7 +27,6 @@ const cartSlice = createSlice({
       const existingItem = state.cartItems.find(
         (item) => item._id === action.payload._id
       );
-
       // Check if the item is already in the cart
       if (existingItem) {
         // Increment the quantity and update the subtotal

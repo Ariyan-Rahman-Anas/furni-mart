@@ -45,12 +45,12 @@ const CouponTimer = ({ targetDate }) => {
           <p className="text-center">Coupon Expired</p>
         </div>
       ) : (
-        <>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" >
           <TimerCard value={timeLeft.days} label="Days" />
           <TimerCard value={timeLeft.hours} label="Hours" />
           <TimerCard value={timeLeft.minutes} label="Minutes" />
           <TimerCard value={timeLeft.seconds} label="Seconds" />
-        </>
+        </div>
       )}
     </div>
   );

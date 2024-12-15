@@ -11,10 +11,13 @@ import {
 import { Label } from "@/components/ui/label";
 import usePageTitle from "@/hooks/usePageTitle";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
+import { useLocation } from "react-router-dom";
 
 const ProductsSearchPage = () => {
     usePageTitle("Products Search")
-    // const targetedCategory = location.state?.category
+    const location = useLocation()
+    const targetedCategory = location.state?.category
+    const targetedSubCategory = location.state?.subCategory
     const {
         data: categoryData,
         isLoading: categoryLoading,
@@ -29,9 +32,8 @@ const ProductsSearchPage = () => {
     const [search, setSearch] = useState("")
     const [sort, setSort] = useState("")
     const [price, setPrice] = useState(10)
-    // const [category, setCategory] = useState(targetedCategory ? targetedCategory : "")
-    const [category, setCategory] = useState("");
-    const [subCategory, setSubCategory] = useState("");
+    const [category, setCategory] = useState(targetedCategory ? targetedCategory : "")
+    const [subCategory, setSubCategory] = useState(targetedSubCategory ? targetedSubCategory : "")
     const [page, setPage] = useState(1)
 
     const {
