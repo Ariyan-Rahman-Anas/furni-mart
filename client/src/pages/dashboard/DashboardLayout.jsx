@@ -46,7 +46,7 @@ const DashboardLayout = () => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row items-start justify-between max-h-screen overflow-auto ">
+        <div className="flex flex-col md:flex-row items-start justify-between max-h-screen overflow-y-auto ">
 
             { adminLayout && <Sidebar navItems={adminNavItems} />}
             {userLayout && <Sidebar navItems={userNavItems} />}

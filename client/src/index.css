@@ -104,3 +104,14 @@ overflow-x: hidden;
 ::-webkit-scrollbar-thumb:hover {
   background: #555454;
 }
+
+
+
+/* Custom CSS */
+.no-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
+}

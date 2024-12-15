@@ -35,7 +35,7 @@ export default function Sidebar({ navItems }) {
     }, [data?.message, navigate, dispatch, error, isSuccess]);
 
     return (
-        <aside className="hidden w-[28%] border-r bg-muted/40 md:block min-h-screen">
+        <aside className="hidden w-[28%] border-r bg-muted/40 md:block min-h-screen max-h-screen overflow-y-auto no-scrollbar ">
             <div className="flex h-full max-h-screen flex-col gap-2">
                 <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                     <Link to="/" className="flex items-center gap-2 font-semibold">

@@ -31,6 +31,8 @@ const CartPage = () => {
   console.log("Cart items", cartItems)
 
   const { data: couponsList, isLoading: isCouponsListLoading } = useAllCouponsQuery()
+  const { expirationDate, discountType, discountValue } = couponsList?.coupons?.find(coupon => coupon?.status === "active") || {}
+  console.log("discountValuediscountValue", discountValue, discountValue)
 
   const isApplicableSubCategory = couponsList?.coupons?.filter((coupon) => {
     return (
@@ -238,26 +240,32 @@ const CartPage = () => {
                 <p className="font-semibold text-black dark:text-white">{Math.round(total?.toFixed(2))} Tk</p>
               </div>
               <div className="flex items-center justify-between">
-                <p>Discount (-14%)</p>
+                <p>Discount ({discountValue}{discountType==="flat" ? "TK" : "%"})</p>
                 <p className="font-semibold text-black dark:text-white">{discount?.toFixed(2)} Tk</p>
               </div>
             </div>
             <hr className="hr mt-5 mb-2" />
 
+            
+
+            {
+              isApplicableProducts?.length >= 1 || isApplicableSubCategory?.length >= 1 ? <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col items-center gap-2 mb-4 w-full">
+                <Input
+                  type="text"
+                  placeholder="Enter the coupon code"
+                  className=" w-full"
+                  {...register("code", { required: true })}
+                />
+                <Button disabled={isDiscounted || total < 1 || isApplying} type="submit" className="primary-btn">
+                  {isDiscounted ? "Coupon Applied" : "Apply Coupon"}
+                </Button>
+              </form> : ""
+            }
+
             {/* coupon applying form */}
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col items-center gap-2 mb-4 w-full">
-              <Input
-                type="text"
-                placeholder="Enter the coupon code"
-                className=" w-full"
-                {...register("code", { required: true })} 
-              />
-              <Button disabled={isDiscounted || total < 1 || isApplying} type="submit" className="primary-btn">
-                {isDiscounted ? "Coupon Applied" : "Apply Coupon"}
-              </Button>
-            </form>
+            
 
             <div className="mt-8 flex items-end justify-between">
               <b>Total</b>
