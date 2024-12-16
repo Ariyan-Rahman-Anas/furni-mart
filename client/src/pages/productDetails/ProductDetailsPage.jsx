@@ -1,4 +1,4 @@
-import { CircleCheck, Heart, ShoppingCart } from "lucide-react"
+import { CircleCheck, Heart, ShieldCheck, ShoppingCart } from "lucide-react"
 import payments from "./../../assets/images/payments.svg"
 import { useSelector } from "react-redux"
 import { toast } from "sonner"
@@ -385,6 +385,7 @@ const ProductDetailsPage = () => {
 
                                         <div className="flex justify-end gap-2">
                                             <RatingStars rating={rating} />
+                                            <div className="flex items-center gap-0.5 text-sm font-semibold "><ShieldCheck size={15} strokeWidth={2.5} /> <span>Verified Purchase</span></div>
                                         </div>
                                         <p className="text-sm" >{comment} </p>
                                     </div>)

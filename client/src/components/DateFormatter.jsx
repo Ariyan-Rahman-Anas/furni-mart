@@ -3,7 +3,6 @@ const DateFormatter = ({ date }) => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-
         const day = date.getDate();
         const daySuffix =
             day % 10 === 1 && day !== 11

@@ -1,13 +1,13 @@
-import { Card,CardTitle } from "@/components/ui/card"
+import { Card, CardTitle } from "@/components/ui/card"
 import { useAllReviewQuery } from "@/redux/apis/reviewApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { ModularTable } from "@/components/ModularTable"
-import { Link } from "react-router-dom"
-import { Eye, Trash } from "lucide-react"
+import { Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import DateFormatter from "@/components/DateFormatter"
 import useDelete from "@/hooks/useDelete"
 import { useDeleteReviewMutation } from "@/redux/apis/reviewApi"
+import ReviewInfoModal from "@/components/dashboard/admin/reviews/ReviewInfoModal"
 
 const ReviewsManagement = () => {
     const { data: reviewsList, isLoading, error } = useAllReviewQuery()
@@ -54,12 +54,7 @@ const ReviewsManagement = () => {
             header: "Action",
             cell: ({ row }) => (
                 <div className="flex items-center gap-4">
-                    <Link
-                        to={`/search/${row.original?._id}`}>
-                        <Eye
-                            size={17}
-                            className="cursor-pointer" />
-                    </Link>
+                    <ReviewInfoModal reviewData={row.original} />
                     <Button
                         disabled={isDeleting}
                         onClick={() => onDeleteReview(row.original._id)}
@@ -76,26 +71,26 @@ const ReviewsManagement = () => {
         return <IsLoadingLoaderRTK h={"90vh"} />
     }
 
-  return (
-      <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4" >
-          <div className="mb-4 flex flex-col md:flex-row items-center justify-between ">
-              <CardTitle>Reviews Management</CardTitle>
-              <CardTitle>Total Reviews: {reviewsList?.reviews?.length >= 1 ? reviewsList?.reviews?.length : 0 }</CardTitle>
-          </div>
-          {
-              error && <Card className="w-fit mx-auto p-4 text-center " >
-                  <p className="font-semibold text-sm">Oops!</p>
-                  <h1 className="font-bold text-4xl mb-1">404</h1>
-                  <p>{error?.data?.message}.</p>
-              </Card>
-          }
-          <ModularTable
-              columns={columns}
-              data={reviewsList?.reviews}
-              showPagination={true}
-              filterPlaceholder="Search by product name..."
-          />
-      </Card>
-  )
+    return (
+        <Card className="w-[98%] mx-auto my-2 md:w-full md:m-4 p-4" >
+            <div className="mb-4 flex flex-col md:flex-row items-center justify-between ">
+                <CardTitle>Reviews Management</CardTitle>
+                <CardTitle>Total Reviews: {reviewsList?.reviews?.length >= 1 ? reviewsList?.reviews?.length : 0}</CardTitle>
+            </div>
+            {
+                error && <Card className="w-fit mx-auto p-4 text-center " >
+                    <p className="font-semibold text-sm">Oops!</p>
+                    <h1 className="font-bold text-4xl mb-1">404</h1>
+                    <p>{error?.data?.message}.</p>
+                </Card>
+            }
+            <ModularTable
+                columns={columns}
+                data={reviewsList?.reviews}
+                showPagination={true}
+                filterPlaceholder="Search by product name..."
+            />
+        </Card>
+    )
 }
 export default ReviewsManagement
