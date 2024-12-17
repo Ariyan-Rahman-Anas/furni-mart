@@ -15,8 +15,8 @@ const CouponInfo = () => {
     <Card className="p-4" >
       <CardTitle>Active Coupon</CardTitle>
 
-      <div>
-        <h1>{code}</h1>
+      <h1 className='font-semibold'>{code}</h1>
+      <div className='flex items-center gap-2 mb-2 '>
         <h2>{discountType}</h2>
         <h2>{  discountValue}</h2>
         <p>{}</p>

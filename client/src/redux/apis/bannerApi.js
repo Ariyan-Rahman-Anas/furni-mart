@@ -20,6 +20,10 @@ export const bannerApi = createApi({
       query: () => "/list",
       providesTags: ["banner"],
     }),
+    singleBanner: builder.query({
+      query: (id) => `/${id}`,
+      providesTags: ["banner"],
+    }),
     deleteBanner: builder.mutation({
       query: (id) => ({
         url: `/${id}`,
@@ -30,5 +34,9 @@ export const bannerApi = createApi({
   }),
 });
 
-export const { useCreateBannerMutation, useAllBannerQuery, useDeleteBannerMutation } =
-  bannerApi;
+export const {
+  useCreateBannerMutation,
+  useAllBannerQuery,
+  useSingleBannerQuery,
+  useDeleteBannerMutation,
+} = bannerApi;

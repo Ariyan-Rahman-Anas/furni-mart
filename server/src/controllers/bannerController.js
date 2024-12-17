@@ -56,6 +56,24 @@ export const getAllBanner = async (req, res, next) => {
     }
 }
 
+
+export const getSingleBanner = async (req, res, next) => {
+    try {
+        const banner = await BannerModel.findById(req.params.id)
+        if (!banner) {
+            return next(new ErrorHandler("Banner not found", 404));
+        }
+        return res.status(200).json({
+          success: true,
+          message: "A single banner retrieved successfully",
+          banner,
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
+
 export const deleteABanner = async (req, res, next) => {
     try {
         const banner = await BannerModel.findById(req.params.id)
