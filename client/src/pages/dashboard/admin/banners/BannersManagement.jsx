@@ -1,13 +1,14 @@
 import { Card, CardTitle } from "@/components/ui/card"
 import { useAllBannerQuery } from "@/redux/apis/bannerApi"
 import { Button } from "@/components/ui/button"
-import { Eye, FilePenLine, Plus, Trash } from "lucide-react"
+import { FilePenLine, Plus, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import { ModularTable } from "@/components/ModularTable"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import DateFormatter from "@/components/DateFormatter"
 import { useDeleteBannerMutation } from "@/redux/apis/bannerApi"
 import useDelete from "@/hooks/useDelete"
+import BannerDetailsModal from "@/components/dashboard/admin/banners/BannerDetailsModal"
 
 const BannersManagement = () => {
 
@@ -52,12 +53,7 @@ const BannersManagement = () => {
             header: "Action",
             cell: ({ row }) => (
                 <div className="flex items-center gap-4">
-                    <Link
-                        to={`/admin/banners/${row.original?._id}`}>
-                        <Eye
-                            size={17}
-                            className="cursor-pointer" />
-                    </Link>
+                    <BannerDetailsModal bannerData={row.original}/>
                     <Link to={`/admin/banners/${row.original._id}`}>
                         <FilePenLine size={17} />
                     </Link>

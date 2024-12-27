@@ -3,7 +3,7 @@ import RatingStars from "@/components/RatingStars"
 import { Eye } from "lucide-react"
 import DateFormatter from "@/components/DateFormatter"
 
-const ReviewInfoModal = ({ reviewData }) => {
+const ReviewDetailsModal = ({ reviewData }) => {
     const { product, rating, comment, createdAt } = reviewData || {}
     console.log("data", comment)
     console.log("data", reviewData)
@@ -24,4 +24,4 @@ const ReviewInfoModal = ({ reviewData }) => {
         </Dialog>
     )
 }
-export default ReviewInfoModal
+export default ReviewDetailsModal

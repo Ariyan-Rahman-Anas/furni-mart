@@ -147,22 +147,33 @@ const ProductDetailsPage = () => {
                 <div
                     data-aos="zoom-in-up"
                     data-aos-duration="1000"
-                    className="product-media col-span-12 md:col-span-6">
-                    <Card>
-                        <BannerCarousel images={images} autoplayDelay={4000} />
-                    </Card>
-                    <div className="mt-6 text-sm ">
-                        <Button
-                            onClick={() => handleWishlist(product)}
-                            className="flex items-center gap-1 secondary-btn ">
-                            {isProductInWishlist(product._id)
-                                ? <>Remove from wishlist
-                                    <Heart
-                                        fill={theme === 'dark' ? 'black' : 'white'}
-                                        className="cursor-pointer" />
-                                </>
-                                : <>Add to wishlist <Heart className="cursor-pointer" /></>}
-                        </Button>
+                    className="product-media col-span-12 md:col-span-6 flex flex-col justify-between">
+                    <div>
+                        <Card>
+                            <BannerCarousel images={images} autoplayDelay={4000} />
+                        </Card>
+                        <div className="mt-4 text-sm ">
+                            <Button
+                                onClick={() => handleWishlist(product)}
+                                className="flex items-center gap-1 secondary-btn ">
+                                {isProductInWishlist(product._id)
+                                    ? <>Remove from wishlist
+                                        <Heart
+                                            fill={theme === 'dark' ? 'black' : 'white'}
+                                            className="cursor-pointer" />
+                                    </>
+                                    : <>Add to wishlist <Heart className="cursor-pointer" /></>}
+                            </Button>
+                        </div>
+                    </div>
+                    <div
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                        className="space-y-2 hidden md:block ">
+                        <h1 className="font-semibold"><span className="text-2xl font-bold " >100%</span> Guaranteed safe checkout</h1>
+                        <div>
+                            <img src={payments} alt="SSL Commerz payment methods" className="w-full h-full" />
+                        </div>
                     </div>
                 </div>
 
@@ -292,7 +303,7 @@ const ProductDetailsPage = () => {
                     <div
                         data-aos="fade-up"
                         data-aos-duration="1000"
-                        className="space-y-2 mt-4 ">
+                        className="space-y-2 mt-4 md:hidden">
                         <h1 className="font-semibold"><span className="text-2xl font-bold " >100%</span> Guaranteed safe checkout</h1>
                         <div>
                             <img src={payments} alt="payment methods" className="w-full h-full" />

@@ -8,8 +8,6 @@ const CouponInfo = () => {
   const { code,
     discountType,
     discountValue, expirationDate } = data?.coupons.find(coupon => coupon.status === "active") || {}
-  const activc = data?.coupons.find(coupon => coupon.status === "active")
-  console.log("Active coupon", activc)
 
   return (
     <Card className="p-4" >

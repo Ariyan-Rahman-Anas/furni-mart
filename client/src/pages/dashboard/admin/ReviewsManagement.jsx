@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import DateFormatter from "@/components/DateFormatter"
 import useDelete from "@/hooks/useDelete"
 import { useDeleteReviewMutation } from "@/redux/apis/reviewApi"
-import ReviewInfoModal from "@/components/dashboard/admin/reviews/ReviewInfoModal"
+import ReviewDetailsModal from "@/components/dashboard/admin/reviews/ReviewDetailsModal"
 
 const ReviewsManagement = () => {
     const { data: reviewsList, isLoading, error } = useAllReviewQuery()
@@ -54,7 +54,7 @@ const ReviewsManagement = () => {
             header: "Action",
             cell: ({ row }) => (
                 <div className="flex items-center gap-4">
-                    <ReviewInfoModal reviewData={row.original} />
+                    <ReviewDetailsModal reviewData={row.original} />
                     <Button
                         disabled={isDeleting}
                         onClick={() => onDeleteReview(row.original._id)}

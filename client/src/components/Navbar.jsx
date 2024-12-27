@@ -89,18 +89,20 @@ const Navbar = () => {
 
     return (
         <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-b-lg flex items-center justify-between bg-white z-50 dark:bg-black">
-            <div className="md:hidden">
-                <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
+            <div className="flex items-center gap-2">
+                <div className="lg:hidden">
+                    <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
+                </div>
+
+                <Link
+                    to={"/"}
+                    className="text-3xl font-semibold "
+                >FurnitureMart
+                </Link>
             </div>
 
-            <Link
-                to={"/"}
-                className="text-3xl font-semibold "
-            >FurnitureMart
-            </Link>
-
             {/* middle side */}
-            <div className="hidden md:block" >
+            <div className="hidden lg:block" >
                 {/* <ul className="flex items-center gap-4">
                     {navItems.map((item, index) => (
                         <li key={index} className="relative group">
@@ -152,7 +154,7 @@ const Navbar = () => {
                         <NavigationMenuItem>
                             <NavigationMenuTrigger>Sub-Category</NavigationMenuTrigger>
                             <NavigationMenuContent>
-                                <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-3">
+                                <ul className="grid w-[400px] gap3 p-2 md:grid-cols-3">
                                     {subCategoryData?.subCategories?.map((subCategory, index) => (
                                         <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
                                             <Link to={"/search"} state={{ subCategory }}>{subCategory}</Link>
@@ -169,10 +171,10 @@ const Navbar = () => {
             {/* right side area */}
             <div className="flex items-end gap-10">
 
-                <Link to="/search" className="hidden md:block p-1.5 " >
+                <Link to="/search" className="hidden lg:block p-1.5 " >
                     <Search />
                 </Link>
-                <div className="hidden md:block ">
+                <div className="hidden lg:block ">
                     <ThemeSwitch />
                 </div>
                 <Link to="/wishlist" className="relative p-1 " >
@@ -184,7 +186,7 @@ const Navbar = () => {
                     <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center ">{cartItems} </p>
                 </Link>
 
-                <div className="hidden md:block ">
+                <div className="hidden lg:block ">
                     {
                         user
                             ?

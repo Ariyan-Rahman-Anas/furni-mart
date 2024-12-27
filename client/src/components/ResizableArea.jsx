@@ -30,8 +30,6 @@ const ResizableArea = () => {
 
   
   const { data: bannersData, isLoading } = useAllBannerQuery()
-  // console.log("bannersData", bannersData)
-
   const images = bannersData?.banners?.map(banner => banner?.images?.map(img => img?.url))
 
 

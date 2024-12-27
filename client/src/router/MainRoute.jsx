@@ -34,6 +34,7 @@ const CreateCouponPage = lazy(() => import("../pages/dashboard/admin/coupons/Cou
 const CouponDetailsPage = lazy(() => import("../pages/dashboard/admin/coupons/CouponDetailsPage"));
 const ReviewsManagement = lazy(() => import("../pages/dashboard/admin/ReviewsManagement"));
 const BannersManagement = lazy(() => import("../pages/dashboard/admin/banners/BannersManagement"));
+const BannerEditPage = lazy(() => import("../pages/dashboard/admin/banners/BannerEditPage"));
 
 
 // User profile components
@@ -56,7 +57,7 @@ const MainRoute = createBrowserRouter([
             { path: "/search", element: <ProductSearchPage /> },
             { path: "/search/:id", element: <ProductDetailsPage /> },
             { path: "/cart", element: <ProtectedRoute><CartPage /></ProtectedRoute> },
-            { path: "/wishlist", element: <ProtectedRoute><WishlistPage /></ProtectedRoute> },
+            { path: "/wishlist", element: <WishlistPage /> },
             { path: "/checkout", element: <ProtectedRoute><CheckoutPage /></ProtectedRoute> },
             { path: "/payment-success", element: <ProtectedRoute><PaymentSuccessPage /></ProtectedRoute>},
             { path: "/payment-failed", element: <ProtectedRoute><PaymentFailedPage /></ProtectedRoute> },
@@ -86,6 +87,7 @@ const MainRoute = createBrowserRouter([
             { path: "coupons/:id", element: <CouponDetailsPage /> },
             { path: "reviews", element: <ReviewsManagement /> },
             { path: "banners", element: <BannersManagement /> },
+            { path: "banners/:id", element: <BannerEditPage /> },
         ]
     },
     {

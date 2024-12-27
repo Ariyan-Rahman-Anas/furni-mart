@@ -4,7 +4,7 @@ import { Card } from "./ui/card";
 const TimerCard = ({ value, label }) => (
   <Card className="flex flex-col items-center justify-center w-[4rem] h-[4rem] relative">
     <p className="absolute top-2 font-medium text-2xl">{value}</p>
-    <span className="absolute bottom-0 p-[0.15rem] fontlight text-xs font-medium text-center text-white dark:text-black bg-black dark:bg-gray-200 w-full rounded-b-md">
+    <span className="absolute bottom-0 p-[0.15rem] text-xs font-medium text-center text-white dark:text-black bg-black dark:bg-gray-200 w-full rounded-b-md">
       {label}
     </span>
   </Card>
@@ -45,7 +45,7 @@ const CouponTimer = ({ targetDate }) => {
           <p className="text-center">Coupon Expired</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" >
+        <div className="flex items-center justify-between gap-4" >
           <TimerCard value={timeLeft.days} label="Days" />
           <TimerCard value={timeLeft.hours} label="Hours" />
           <TimerCard value={timeLeft.minutes} label="Minutes" />
