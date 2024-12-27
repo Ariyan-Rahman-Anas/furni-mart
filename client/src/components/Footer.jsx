@@ -10,7 +10,6 @@ const Footer = () => {
     {title:"Home", route:"/"},
     {title:"Login", route:"/login"},
     {title:"Shop Now", route:"/search"},
-    {title:"About Us", route:"/about"},
   ]
 
   const getInTouch = [

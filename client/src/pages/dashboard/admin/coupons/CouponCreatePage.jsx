@@ -113,7 +113,7 @@ const CouponCreatePage = () => {
             >
               <option value="">Select Discount type</option>
               <option value="flat">flat</option>
-              <option value="percentage">Percentage</option>
+              <option value="percentage">percentage</option>
             </select>
           </div>
         </div>

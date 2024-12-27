@@ -32,7 +32,8 @@ const CartPage = () => {
 
   const { data: couponsList, isLoading: isCouponsListLoading } = useAllCouponsQuery()
   const { expirationDate, discountType, discountValue } = couponsList?.coupons?.find(coupon => coupon?.status === "active") || {}
-  console.log("discountValuediscountValue", discountValue, discountValue)
+  console.log("discount Value", discountValue)
+  console.log("discount discountType", discountType)
 
   const isApplicableSubCategory = couponsList?.coupons?.filter((coupon) => {
     return (
@@ -43,7 +44,6 @@ const CartPage = () => {
         ))
     );
   });
-
 
   const isApplicableProducts = couponsList?.coupons?.filter((coupon) => {
     return (
@@ -63,7 +63,13 @@ const CartPage = () => {
 
   console.log("Matched Cart Items:", matchedCartItems);
 
-  const discount = isDiscounted ? Math.round((total / 100) * 14) : 0;
+  const discount = isDiscounted
+    ? discountType === "flat"
+      ? discountValue
+      : discountType === "percentage"
+        ? Math.round((total / 100) * discountValue)
+        : 0
+    : 0;
 
   // Handle coupon apply and calculation of final amount
   const [applyCouponForDiscount, { data: couponAppliedData, isLoading: isApplying, isSuccess: isApplied, error:couponApplyingError }] = useApplyCouponForDiscountMutation()
@@ -204,7 +210,7 @@ const CartPage = () => {
           isApplicableSubCategory?.length >= 1 && <Card className="my-6 w-fit mx-auto p-4 text-base tracking-wide">
             <div className="text-center">
               {
-                isApplicableSubCategory?.map(({ code, discountValue, discountType }, index) => <p key={index}>Apply coupon <span className="font-semibold text-lg">{code}</span> to get  <span className="font-semibold text-lg">{discountValue} {discountType === "flat" ? "Tk" : "%"} </span> discount on your total payment</p>)
+                isApplicableSubCategory?.map(({ code, discountValue, discountType }, index) => <p key={index}>Apply coupon <span className="font-semibold text-lg">{code}</span> to get  <span className="font-semibold text-lg">{discountValue}{discountType === "flat" ? "Tk" : "%"} </span> discount on your total payment</p>)
               }
             </div>
           </Card>
