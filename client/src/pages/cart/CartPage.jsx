@@ -31,6 +31,9 @@ const CartPage = () => {
   console.log("Cart items", cartItems)
 
   const { data: couponsList, isLoading: isCouponsListLoading } = useAllCouponsQuery()
+  
+  console.log("couponsList", couponsList)
+
   const { expirationDate, discountType, discountValue } = couponsList?.coupons?.find(coupon => coupon?.status === "active") || {}
   console.log("discount Value", discountValue)
   console.log("discount discountType", discountType)
@@ -44,6 +47,7 @@ const CartPage = () => {
         ))
     );
   });
+  console.log("isApplicableSubCategory", isApplicableSubCategory)
 
   const isApplicableProducts = couponsList?.coupons?.filter((coupon) => {
     return (
@@ -54,12 +58,43 @@ const CartPage = () => {
     );
   });
 
-  const matchedCartItems = cartItems.filter((item) =>
-    couponsList?.coupons?.some((coupon) =>
-      coupon?.status === "active" &&
-      coupon?.applicableProducts?.includes(item._id)
-    )
-  );
+  // let matchedCartItems = []
+
+  const [matchedCartItems, setMatchedCartItems] = useState([])
+
+  useEffect(() => {
+    if (cartItems.filter((item) =>
+      couponsList?.coupons?.some((coupon) =>
+        coupon?.status === "active" &&
+        coupon?.applicableProducts?.includes(item._id)
+      )
+    )) {
+      setMatchedCartItems(matchedCartItems)
+    }
+
+    if (cartItems.filter((item) =>
+      couponsList?.coupons?.some((coupon) =>
+        coupon?.status === "active" &&
+        coupon?.applicableSubcategories?.includes(item?.subCategory)
+      )
+    )) {
+      setMatchedCartItems(matchedCartItems)
+    }
+  }, [cartItems, matchedCartItems, couponsList?.coupons])
+
+  //  matchedCartItems = cartItems.filter((item) =>
+  //   couponsList?.coupons?.some((coupon) =>
+  //     coupon?.status === "active" &&
+  //     coupon?.applicableProducts?.includes(item._id)
+  //   )
+  //  );
+//    matchedCartItems = cartItems.filter((item) =>
+//     couponsList?.coupons?.some((coupon) =>
+//       coupon?.status === "active" &&
+//    coupon?.applicableSubcategories?.includes(item?.subCategory)
+//   )
+// );
+  // coupon?.applicableProducts?.includes(item._id)
 
   console.log("Matched Cart Items:", matchedCartItems);
 

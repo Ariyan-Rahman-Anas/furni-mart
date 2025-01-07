@@ -35,25 +35,16 @@ const CouponTimer = ({ targetDate }) => {
     return () => clearInterval(timer); // Cleanup timer on component unmount
   }, [targetDate]); // Re-run effect if targetDate changes
 
-  // If expired, return "Expired" message
-  const isExpired = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
     <div className="flex items-center gap-4 text-lg font-semibold">
-      {isExpired ? (
-        <div className="flex flex-col items-center justify-center w-[16rem] h-[4rem] bg-gray-500 text-white rounded-lg">
-          <p className="text-center">Coupon Expired</p>
-        </div>
-      ) : (
         <div className="flex items-center justify-between gap-4" >
           <TimerCard value={timeLeft.days} label="Days" />
           <TimerCard value={timeLeft.hours} label="Hours" />
           <TimerCard value={timeLeft.minutes} label="Minutes" />
           <TimerCard value={timeLeft.seconds} label="Seconds" />
         </div>
-      )}
     </div>
   );
 };
-
 export default CouponTimer;

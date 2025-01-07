@@ -70,6 +70,7 @@ const ProductDetailsPage = () => {
     const isEligibleForPostReview = !!orderedItems?.some(items =>
         items?.some(item => item?.productId === id)
     );
+    const isReviewed = !!productReviewData?.reviews?.find(review => review?.user?._id === user?._id)
 
     const [postReview, { data: postReviewData, isSuccess: isPosted, isLoading: isPosting, error: reviewPostingError }] = usePostReviewMutation()
 
@@ -199,10 +200,7 @@ const ProductDetailsPage = () => {
                             }
                         </span></p>
                     </div>
-                    <div className="flex items-center gap-6 my-7 ">
-                        <p className="text-3xl font-semibold">${variants?.[0].price}</p>
-                        <p className="text-xl font-semibold py-2 px-5 rounded-md text-white dark:text-black bg-black dark:bg-white ">0% OFF </p>
-                    </div>
+                    <p className="text-3xl font-semibold my-3">${variants?.[0].price}</p>
 
                     <Card className="p-4 my-4 space-y-2 text-sm ">
                         <h3 className="font-semibold text-base ">Colors:</h3>
@@ -367,11 +365,18 @@ const ProductDetailsPage = () => {
                                     {...register("rating", { required: true })}
                                 />
                             </div>
-                            <Button type="submit" disabled={isPosting || !isEligibleForPostReview} >Submit</Button>
+                            <Button type="submit" disabled={isPosting || !isEligibleForPostReview || isReviewed} >Submit</Button>
                         </div>
                     </form>
                     {
-                        isEligibleForPostReview !== true ? <p className="text-sm" ><span className="font-semibold" >Note: </span> You can only leave a review for a product you have purchased, and each product can only be reviewed once.</p> : <p className="text-sm" ><span className="font-semibold" >Note: </span>Each product can only be reviewed once.</p>
+                        isEligibleForPostReview !== true
+                            ? <p className="text-sm"><span className="font-semibold" >Note: </span> You can only leave a review for a product you have purchased, and each product can only be reviewed once.</p>
+                            : isReviewed
+                                ? <p className="text-sm" >You have already reviewed this product</p>
+                                : <div>
+                                    <p className="text-sm">Please leave your review here!</p>
+                                    <p className="text-sm" ><span className="font-semibold" >Note: </span>Each product can only be reviewed once.</p>
+                                </div>
                     }
                 </Card>
 
