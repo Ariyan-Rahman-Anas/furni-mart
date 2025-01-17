@@ -5,7 +5,6 @@ import { toast } from "sonner"
 import { useEffect, useState } from "react"
 import { getActiveItemsInCart } from "@/redux/slices/cartSlice"
 import { useSingleProductQuery } from "@/redux/apis/productApi"
-import BannerCarousel from "@/components/BannerCarousel"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import OrderFeatures from "@/components/OrderFeatures"
@@ -24,6 +23,7 @@ import { useAnUserOrdersQuery } from "@/redux/apis/orderApi"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import RatingStars from "@/components/RatingStars"
 import useAddRemoveFromWishlist from "@/hooks/useAddRemoveFromWishlist"
+import ProductImaCarousel from "./ProductImaCarousel"
 
 const ProductDetailsPage = () => {
     usePageTitle('Product Details');
@@ -150,9 +150,10 @@ const ProductDetailsPage = () => {
                     data-aos-duration="1000"
                     className="product-media col-span-12 md:col-span-6 flex flex-col justify-between">
                     <div>
-                        <Card>
-                            <BannerCarousel images={images} autoplayDelay={4000} />
-                        </Card>
+
+                        {/* <Carousel6 images={images} /> */}
+                        <ProductImaCarousel images={images} />
+
                         <div className="mt-4 text-sm ">
                             <Button
                                 onClick={() => handleWishlist(product)}
@@ -410,7 +411,6 @@ const ProductDetailsPage = () => {
                     }
                 </Card>
             </section>
-
             <OrderFeatures />
         </div>
     )
