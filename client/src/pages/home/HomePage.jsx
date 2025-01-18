@@ -7,6 +7,7 @@ import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import CouponTimer from "@/components/CouponTimer"
 import { useAllCouponsQuery } from "@/redux/apis/couponApi"
 import { ChevronRight } from "lucide-react"
+import SpecialOffers from "./sections/SpecialOffers"
 
 const HomePage = () => {
   usePageTitle("Home")
@@ -51,6 +52,11 @@ const givenDate = new Date(activeCoupon?.map(coupon => coupon?.expirationDate));
         </div>
         <FeaturedProducts />
       </div>
+
+      
+      <SpecialOffers />
+
+
     </div>
   )
 }
