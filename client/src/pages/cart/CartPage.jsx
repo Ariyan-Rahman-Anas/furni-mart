@@ -217,7 +217,7 @@ const CartPage = () => {
       cell: ({ row }) => (
         <div className="flex items-center gap-4">
           <Link
-            to={`/search/${row.original.productId}`}>
+            to={`/products/${row.original.productId}`}>
             <Eye
               size={17}
               className="cursor-pointer" />
@@ -324,7 +324,7 @@ const CartPage = () => {
             <Link to={total < 1 ? "" : "/checkout"} state={{ cartItems, total, finalTotal, discount }}>
               <Button disabled={total < 1} className="w-full my-5">Proceed to checkout →</Button>
             </Link>
-            <Link to={"/search"}>
+            <Link to={"/products"}>
               <Button className="w-full">← Continue Shopping</Button>
             </Link>
           </Card>

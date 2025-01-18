@@ -66,7 +66,7 @@ const ProductCard = ({ isLoading, product }) => {
                                 className="absolute top-3 right-3  flex items-center gap-3 primary-btn"
                             />
                         )}
-                        <Link to={`/search/${_id}`} state={{ product }}>
+                        <Link to={`/products/${_id}`} state={{ product }}>
                             <Eye className="cursor-pointer" />
                         </Link>
                     </div>

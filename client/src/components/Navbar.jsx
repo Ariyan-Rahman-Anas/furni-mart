@@ -65,7 +65,8 @@ const Navbar = () => {
     // nav link for mobile nav
     const links = [
         { icon: <Home className="h-5 w-5" />, label: "Home", to: "/" },
-        { icon: <Package className="h-5 w-5" />, label: "Products", to: "/search" },
+        { icon: <Package className="h-5 w-5" />, label: "Products", to: "/products" },
+        { icon: <Package className="h-5 w-5" />, label: "Products", to: "/products" },
         { icon: <ShoppingCart className="h-5 w-5" />, label: "Orders", to: "/cart" },
     ];
 
@@ -138,13 +139,28 @@ const Navbar = () => {
                             </NavLink>
                         </NavigationMenuItem>
 
+
+                        <NavigationMenuItem>
+                            <NavLink
+                                to={"/products"}
+                                className={({ isActive }) =>
+                                    isActive && location.pathname === "/"
+                                        ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
+                                        : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
+                                }
+                            >
+                                Products
+                            </NavLink>
+                        </NavigationMenuItem>
+
+
                         <NavigationMenuItem>
                             <NavigationMenuTrigger>Category</NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
                                     {categoryData?.categories?.map((category, index) => (
                                         <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
-                                            <Link to={"/search"} state={{ category }}>{category}</Link>
+                                            <Link to={"/products"} state={{ category }}>{category}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -157,7 +173,7 @@ const Navbar = () => {
                                 <ul className="grid w-[400px] gap3 p-2 md:grid-cols-3">
                                     {subCategoryData?.subCategories?.map((subCategory, index) => (
                                         <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
-                                            <Link to={"/search"} state={{ subCategory }}>{subCategory}</Link>
+                                            <Link to={"/products"} state={{ subCategory }}>{subCategory}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -170,10 +186,6 @@ const Navbar = () => {
 
             {/* right side area */}
             <div className="flex items-end gap-10">
-
-                <Link to="/search" className="hidden lg:block p-1.5 " >
-                    <Search />
-                </Link>
                 <div className="hidden lg:block ">
                     <ThemeSwitch />
                 </div>
