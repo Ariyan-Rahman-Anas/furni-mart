@@ -19,7 +19,6 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { Button } from "./ui/button"
-import { useLogOutUserMutation } from "@/redux/apis/authApi"
 import { toast } from "sonner"
 import { logout } from "@/redux/slices/authSlice"
 import { getActiveItemsLengthInCart } from "@/redux/slices/cartSlice"
@@ -29,8 +28,8 @@ import MobileNav from "./dashboard/MobileNav"
 import { Home, Package, ShoppingCart } from "lucide-react";
 import ThemeSwitch from "./ThemeSwitch"
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "./ui/navigation-menu"
-import { useSubCategoriesQuery } from "@/redux/apis/productApi"
-import { useCategoriesQuery } from "@/redux/apis/productApi"
+import { useLogOutUserMutation } from "@/redux/apis/authApi"
+import { useCategoriesQuery, useSubCategoriesQuery } from "@/redux/apis/productApi"
 
 const Navbar = () => {
     const navigate = useNavigate()

@@ -4,7 +4,6 @@ import { useSelector } from "react-redux"
 import { toast } from "sonner"
 import { useEffect, useState } from "react"
 import { getActiveItemsInCart } from "@/redux/slices/cartSlice"
-import { useSingleProductQuery } from "@/redux/apis/productApi"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import OrderFeatures from "@/components/OrderFeatures"
@@ -24,6 +23,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import RatingStars from "@/components/RatingStars"
 import useAddRemoveFromWishlist from "@/hooks/useAddRemoveFromWishlist"
 import ProductImaCarousel from "./ProductImaCarousel"
+import { useSingleProductQuery } from "@/redux/apis/productApi"
 
 const ProductDetailsPage = () => {
     usePageTitle('Product Details');

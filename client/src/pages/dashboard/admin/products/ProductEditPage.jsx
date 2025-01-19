@@ -5,11 +5,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
-import { useSingleProductQuery, useUpdateProductMutation } from "@/redux/apis/productApi";
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK";
 import { Trash } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useSingleProductQuery, useUpdateProductMutation } from "@/redux/apis/productApi";
 
 const ProductEditPage = () => {
     const { id } = useParams();

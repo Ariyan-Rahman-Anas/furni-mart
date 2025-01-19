@@ -1,4 +1,5 @@
 import ErrorHandler from "../utils/errorHandler.js";
+import { generateToken, sendTokenInCookie } from "../utils/generateJWT.js";
 import UserModel from './../models/userModel.js';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -18,7 +19,7 @@ export const registration = async (req, res, next) => {
       );
     }
     if (address.length > 20) {
-      return next(new ErrorHandler("Address must not exceed 20 characters",400));
+      return next(new ErrorHandler("Address must not exceed 20 characters", 400));
     }
 
     // Check if user already exists
@@ -29,6 +30,41 @@ export const registration = async (req, res, next) => {
           `You're already registered with ${email}, please log in`,
           409
         ));
+    }
+
+
+    // Step 1: Check for minimum length
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 8 characters long",
+      });
+    }
+
+    // Step 2: Check for at least one letter (uppercase or lowercase)
+    if (!/[A-Za-z]/.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Password must contain at least one letter",
+      });
+    }
+
+    // Step 3: Check for at least one number
+    if (!/\d/.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must contain at least one number",
+      });
+    }
+
+    // Step 4: Check for at least one special character
+    if (!/[@$!%*?&]/.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Password must contain at least one special character",
+      });
     }
 
     // Hash the password
@@ -89,11 +125,10 @@ export const loginUser = async (req, res, next) => {
     });
 
     // Set the token in an HTTP-only cookie
-    const cookieExpiryDays = parseInt(process.env.JWT_COOKIE_EXPIRY) || 7;
+    const cookieExpiryDays = parseInt(process.env.COOKIE_EXPIRY) || 7;
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      // sameSite: "Strict",
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
       maxAge: cookieExpiryDays * 24 * 60 * 60 * 1000,
     });
@@ -109,6 +144,48 @@ export const loginUser = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const googleAuth = async (req, res, next) => {
+  try {
+    const user = await UserModel.findOne({ email: req.body.email })
+    if (user) {
+      // Generate JWT token
+      const token = generateToken(user._id.toString());
+
+      // Set the token in an HTTP-only cookie
+      sendTokenInCookie(res, user._id.toString());
+
+      // Send response
+      res.status(200).json({
+        success: true,
+        message: `Welcome back, ${user.name}`,
+        token,
+        user,
+      });
+    } else {
+      const generatedPassword = Math.random().toString(36).slice(-8);
+      const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
+      const newUser = await UserModel.create({
+        name: req.body.name, 
+        email: req.body.email,
+        password: hashedPassword, 
+      });
+
+      const token = generateToken(newUser._id.toString());
+      sendTokenInCookie(res, newUser._id.toString());
+      return res.status(200).json({
+        success: true,
+        message: `Welcome ${newUser.name}`,
+        user: newUser,
+        token,
+      });
+    }
+  } catch (error) {
+    next(error)
+  }
+}
 
 
 export const logout = async (req, res, next) => {

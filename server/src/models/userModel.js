@@ -17,11 +17,9 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: Number,
-      required: [true, "Please provide Contact number"],
     },
     address: {
       type: String,
-      required: [true, "Please provide your address"],
     },
     isVerified: {
       type: Boolean,

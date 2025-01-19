@@ -1,8 +1,10 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import LoginForm from "./LoginForm"
 import { Link } from "react-router-dom"
+import usePageTitle from "@/hooks/usePageTitle"
 
 const LoginPage = () => {
+  usePageTitle("Login")
 
   return (
     <div className="flex items-center justify-center my-6 px-2">
@@ -24,7 +26,6 @@ const LoginPage = () => {
             Registration
           </Link>
         </div>
-
       </Card>
     </div>
   )

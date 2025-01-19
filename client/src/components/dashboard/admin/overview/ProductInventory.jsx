@@ -1,6 +1,6 @@
 import { Card, CardTitle, CardDescription } from "@/components/ui/card"
-import { useCategoryCountsQuery, useSubcategoryCountsQuery } from "@/redux/apis/productApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
+import { useCategoryCountsQuery, useSubcategoryCountsQuery } from "@/redux/apis/productApi"
 
 const ProductInventory = () => {
     const { data: categoryCountsData } = useCategoryCountsQuery()

@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { build } from "vite";
 
 export const authApi = createApi({
     reducerPath: "authApi",
@@ -22,6 +21,14 @@ export const authApi = createApi({
                 url: "/registration",
                 method: "POST",
                 body:userData
+            }),
+            invalidatesTags:['user']
+        }),
+        googleLogin: builder.mutation({
+            query: (userData) => ({
+                url: "/google-auth",
+                method: "POST",
+                body: userData
             }),
             invalidatesTags:['user']
         }),
@@ -49,6 +56,7 @@ export const authApi = createApi({
 export const {
     useLoginUserMutation,
     useRegisterUserMutation,
+    useGoogleLoginMutation,
     useLogOutUserMutation,
     useUserListQuery,
     useDeleteUserMutation

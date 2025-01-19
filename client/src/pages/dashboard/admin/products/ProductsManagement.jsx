@@ -1,12 +1,11 @@
-import { useAllProductsQuery } from "@/redux/apis/productApi"
 import { ModularTable } from "@/components/ModularTable"
 import { ArrowUpDown, Eye, FilePenLine, Plus, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
-import { useDeleteProductMutation } from "@/redux/apis/productApi"
 import useDelete from "@/hooks/useDelete"
+import { useAllProductsQuery, useDeleteProductMutation } from "@/redux/apis/productApi"
 
 const ProductsManagement = () => {
   const { data: allProducts, isLoading, error} = useAllProductsQuery()

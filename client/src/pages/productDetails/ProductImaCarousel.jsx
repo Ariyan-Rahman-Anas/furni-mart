@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react';
 
 const ProductImaCarousel = ({ images }) => {
 
-
-    console.log({images})
-
     const [currentSlider, setCurrentSlider] = useState(0);
     // if you don't want to change the slider automatically then you can just remove the useEffect
     useEffect(() => {

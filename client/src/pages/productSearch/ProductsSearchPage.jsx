@@ -3,15 +3,11 @@ import ProductCard from "../../components/ProductCard";
 import { Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-    useCategoriesQuery,
-    useSearchProductsQuery,
-    useSubCategoriesQuery,
-} from "@/redux/apis/productApi";
 import { Label } from "@/components/ui/label";
 import usePageTitle from "@/hooks/usePageTitle";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 import { useLocation } from "react-router-dom";
+import { useCategoriesQuery, useSearchProductsQuery, useSubCategoriesQuery } from "@/redux/apis/productApi";
 
 const ProductsSearchPage = () => {
     usePageTitle("Products Search")

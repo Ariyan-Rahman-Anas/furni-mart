@@ -4,12 +4,12 @@ import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenuSeparator, DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
-import { useLogOutUserMutation } from "@/redux/apis/authApi";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { logout } from "@/redux/slices/authSlice";
 import { Loader2, LogOut, Package2 } from "lucide-react";
 import ThemeSwitch from "@/components/ThemeSwitch";
+import { useLogOutUserMutation } from "@/redux/apis/authApi";
 
 export default function Sidebar({ navItems }) {
     const location =  useLocation()

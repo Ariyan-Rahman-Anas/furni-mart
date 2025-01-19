@@ -7,10 +7,10 @@ import { Card, CardContent, CardTitle } from "../ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenuSeparator, DropdownMenuShortcut } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useLogOutUserMutation } from "../../redux/apis/authApi";
 import { toast } from "sonner";
 import { logout } from "../../redux/slices/authSlice";
 import ThemeSwitch from "@/components/ThemeSwitch";
+import { useLogOutUserMutation } from "@/redux/apis/authApi";
 
 /**
  * @param {Object} props

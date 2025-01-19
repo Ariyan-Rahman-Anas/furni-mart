@@ -1,10 +1,10 @@
 import { Card, CardTitle } from "@/components/ui/card"
-import { useUserListQuery } from "@/redux/apis/authApi"
 import { ArrowLeftRight, Package, UsersRound } from "lucide-react"
 import { Link } from "react-router-dom"
-import { useAllProductsQuery } from "@/redux/apis/productApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { useAllOrdersQuery } from "@/redux/apis/orderApi"
+import { useUserListQuery } from "@/redux/apis/authApi"
+import { useAllProductsQuery } from "@/redux/apis/productApi"
 
 const TopCardsOverview = () => {
 

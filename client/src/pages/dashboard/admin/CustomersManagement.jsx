@@ -1,12 +1,11 @@
-import { useUserListQuery } from "@/redux/apis/authApi"
 import { ModularTable } from "@/components/ModularTable"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Trash } from "lucide-react"
 import DateFormatter from "@/components/DateFormatter"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import { Button } from "@/components/ui/button"
-import { useDeleteUserMutation } from "@/redux/apis/authApi"
 import useDelete from "@/hooks/useDelete"
+import { useDeleteUserMutation, useUserListQuery } from "@/redux/apis/authApi"
 
 const CustomersManagement = () => {
     const { data: userList, isLoading:isLoadingUserList, error } = useUserListQuery()

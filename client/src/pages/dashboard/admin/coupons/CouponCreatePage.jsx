@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useForm } from "react-hook-form"
-import { useSubCategoriesQuery } from "@/redux/apis/productApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import MultiSelectDropdown from "@/components/MultiSelectDropdown"
-import { useAllProductsQuery } from "@/redux/apis/productApi"
 import { toast } from "sonner"
 import { useCreateCouponMutation } from "@/redux/apis/couponApi"
 import { useNavigate } from "react-router-dom"
+import { useAllProductsQuery, useSubCategoriesQuery } from "@/redux/apis/productApi"
 
 const CouponCreatePage = () => {
   const {

@@ -1,17 +1,17 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage"; 
-import { authApi } from "./apis/authApi";
 import authReducer from "./slices/authSlice";
 import cartReducer from "./slices/cartSlice";
 import wishlistReducer from "./slices/wishlistSlice";
 import themeReducer from "./slices/themeSlice";
 import { persistReducer, persistStore } from "redux-persist";
-import { productApi } from "./apis/productApi";
 import { paymentApi } from "./apis/paymentApi";
 import { orderApi } from "./apis/orderApi";
 import { couponApi } from "./apis/couponApi";
 import { reviewApi } from "./apis/reviewApi";
 import { bannerApi } from "./apis/bannerApi";
+import { authApi } from "./apis/authApi";
+import { productApi } from "./apis/productApi";
 
 const persistConfig = {
     key: "root",
