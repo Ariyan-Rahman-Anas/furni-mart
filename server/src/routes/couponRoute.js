@@ -9,7 +9,7 @@ import {
   getSingleCoupon,
 } from "../controllers/couponController.js";
 import { isAuthenticated } from './../middlewares/isAuthenticated.js';
-import { isAdmin } from './../middlewares/isAdmin.js';
+import { isAdmin, isSuperAdmin } from './../middlewares/isAdmin.js';
 
 const router = express.Router()
 
@@ -19,6 +19,6 @@ router.post("/expire/:id", isAuthenticated, isAdmin, expireCoupon);
 router.post("/apply", isAuthenticated, applyCoupon)
 router.get("/list", getAllCoupons);
 router.get("/:id", isAuthenticated, isAdmin, getSingleCoupon);
-router.delete("/:id", isAuthenticated, isAdmin, deleteCoupon);
+router.delete("/:id", isAuthenticated, isSuperAdmin, deleteCoupon);
 
 export default router

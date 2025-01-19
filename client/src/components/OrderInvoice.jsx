@@ -35,7 +35,7 @@ const OrderInvoice = ({ orderDetails, orderedProducts }) => {
             <h1 className="text-3xl font-semibold text-center mb-6">Invoice</h1>
             <div className="flex items-center justify-between gap-4 mb-1.5">
                 <div className="text-sm space-y-1.5 ">
-                    <h2 className="text-2xl font-semibold">Furniture Mart</h2>
+                    <h2 className="text-2xl font-semibold">Well Wood</h2>
                     <div className="space-y-0.5" >
                         <p><span className="font-semibold">Corporate Office: </span> Plot-82, Block-C,</p>
                         <p>Zakir Hossain Raod, Khulshi, Chattogram-4225</p>
@@ -74,14 +74,14 @@ const OrderInvoice = ({ orderDetails, orderedProducts }) => {
 
             <div className="flex items-end justify-between mt-6 text-sm w-full ">
                 <div>
-                    <strong>Thank you for choosing Furniture Mart!</strong>
+                    <strong>Thank you for choosing Well Wood!</strong>
                     <p>We appreciate your trust in us and hope you’re satisfied with your purchase.</p>
                     <p>For any questions or support, contact us at +88 01600 112233 or furni.mart@info.com</p>
 
                     <p>We look forward to serving you again!</p>
 
                     <p>Warm regards,</p>
-                    <strong>Furniture Mart Team</strong>
+                    <strong>Well Wood Team</strong>
                 </div>
                 <div>
                     <hr className="border border-black" />

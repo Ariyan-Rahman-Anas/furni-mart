@@ -12,7 +12,7 @@ import ThemeSwitch from "@/components/ThemeSwitch";
 import { useLogOutUserMutation } from "@/redux/apis/authApi";
 
 export default function Sidebar({ navItems }) {
-    const location =  useLocation()
+    const location = useLocation()
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state?.auth?.user);
@@ -40,7 +40,7 @@ export default function Sidebar({ navItems }) {
                 <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                     <Link to="/" className="flex items-center gap-2 font-semibold">
                         <Package2 className="h-6 w-6" />
-                        <span>Furniture Mart</span>
+                        <span>Well Wood</span>
                     </Link>
                 </div>
                 <div className="flex flex-col justify-between w-full min-h-[90vh] h-full">

@@ -1,4 +1,4 @@
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardDescription, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import LoginForm from "./LoginForm"
 import { Link } from "react-router-dom"
 import usePageTitle from "@/hooks/usePageTitle"
@@ -17,15 +17,16 @@ const LoginPage = () => {
             Enter your credentials below to login your account
           </CardDescription>
         </CardHeader>
-        
-        <LoginForm />
 
-        <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link to="/registration" className="underline font-medium ">
-            Registration
-          </Link>
-        </div>
+        <CardContent className="space-y-4" >
+          <LoginForm />
+          <div className="text-center text-sm">
+            Don&apos;t have an account?{" "}
+            <Link to="/registration" className="underline font-medium ">
+              Registration
+            </Link>
+          </div>
+        </CardContent>
       </Card>
     </div>
   )

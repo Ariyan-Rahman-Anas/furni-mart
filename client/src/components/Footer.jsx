@@ -7,21 +7,21 @@ const Footer = () => {
   ]
 
   const quickLinks = [
-    {title:"Home", route:"/"},
-    {title:"Login", route:"/login"},
-    {title:"Shop Now", route:"/products"},
+    { title: "Home", route: "/" },
+    { title: "Login", route: "/login" },
+    { title: "Shop Now", route: "/products" },
   ]
 
   const getInTouch = [
-    {title:"Facebook", route:"/"},
-    { title: "Youtube", route:"/products"},
-    { title: "Whatsapp", route:"/"},
+    { title: "Facebook", route: "/" },
+    { title: "Youtube", route: "/products" },
+    { title: "Whatsapp", route: "/" },
   ]
 
   const guidances = [
-    {title:"Privacy Policy", route:"/privacy-policy"},
-    {title:"Terms & Conditions", route:"/terms-conditions"},
-    {title:"Refund & Exchange Policy", route:"/return-exchange-policy"},
+    { title: "Privacy Policy", route: "/privacy-policy" },
+    { title: "Terms & Conditions", route: "/terms-conditions" },
+    { title: "Refund & Exchange Policy", route: "/return-exchange-policy" },
   ]
 
   const today = new Date()
@@ -32,9 +32,9 @@ const Footer = () => {
       <div className="px-4 md:px-8 pt-16 pb-8 flex flex-col lg:flex-row gap-10 ">
         <div id="support" className="space-y-4 w-full lg:w-[40%] " >
           <Link to={"/"} className="text-3xl text-white " >
-            Furniture Mart
+            Well Wood
           </Link>
-          
+
           <div>
             <p className="text-white">Any questions? Feel free to call us:</p>
             <Link to="tel:+8801610195968" className="text-lg font-medium hover:text-white duration-300" >+88 01600 112233</Link>
@@ -84,17 +84,17 @@ const Footer = () => {
       </div>
       <hr className="mb-6 border-gray-500 " />
       <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 pb-4">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4">
-        <p>© Copyright {fullYear} Furniture Mart </p> 
-        <p className="hidden md:block">|</p>
-        <p>Developed by <Link to={"https://ariyanrahmananas.vercel.app"} target="_blank" className="hover:text-white duration-300" >Ariyan Rahman Anas</Link> </p>
-      </div>   
-      <ul className="flex items-center md:flex-row gap-4 text-sm">
-      {
-        guidances.map(({ title, route }, idx) => <li key={idx} className="hover:text-white hover:underline font-medium tracking-wide duration-500" >
-          <Link to={route}>{title}</Link>
-        </li>)
-      }
+        <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4">
+          <p>© Copyright {fullYear} Well Wood </p>
+          <p className="hidden md:block">|</p>
+          <p>Developed by <Link to={"https://ariyanrahmananas.vercel.app"} target="_blank" className="hover:text-white duration-300" >Ariyan Rahman Anas</Link> </p>
+        </div>
+        <ul className="flex items-center md:flex-row gap-4 text-sm">
+          {
+            guidances.map(({ title, route }, idx) => <li key={idx} className="hover:text-white hover:underline font-medium tracking-wide duration-500" >
+              <Link to={route}>{title}</Link>
+            </li>)
+          }
         </ul>
       </div>
     </footer>

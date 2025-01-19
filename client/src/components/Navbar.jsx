@@ -97,7 +97,7 @@ const Navbar = () => {
                 <Link
                     to={"/"}
                     className="text-3xl font-semibold "
-                >FurnitureMart
+                >Well Wood
                 </Link>
             </div>
 
@@ -218,7 +218,7 @@ const Navbar = () => {
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             {
-                                                user.isAdmin === true && <>
+                                                (user.role === "admin" || user.role === "superAdmin") && <>
                                                     <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
                                                     <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
                                                 </>
@@ -230,12 +230,12 @@ const Navbar = () => {
                                         <Button
                                             disabled={isLoading}
                                             onClick={handleLogout}
-                                            className="w-full absolut bottom-0 left-0 ">
+                                            className="w-full">
                                             {
                                                 isLoading ? (
                                                     <>
-                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                                         Please wait
+                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                                     </>
                                                 ) : <> <LogOut />Logout </>
                                             }

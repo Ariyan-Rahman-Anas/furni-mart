@@ -13,7 +13,7 @@ import {
 } from "../controllers/productController.js";
 import { multerMiddleware } from "../utils/multer.js";
 import { isAuthenticated } from "../middlewares/isAuthenticated.js";
-import { isAdmin } from "../middlewares/isAdmin.js";
+import { isAdmin, isSuperAdmin } from "../middlewares/isAdmin.js";
 
 const router = express.Router()
 
@@ -25,7 +25,7 @@ router.get("/sub-categories", allSubCategory);
 router.get("/category-counts", isAuthenticated, isAdmin, getCategoryCounts)
 router.get( "/subcategory-counts", isAuthenticated, isAdmin, getSubCategoryCounts);
 router.get("/:id", singleProduct)
-router.put("/:id", isAuthenticated, isAdmin, multerMiddleware, updateProduct);
-router.delete("/:id", isAuthenticated, isAdmin, deleteProduct);
+router.put("/:id", isAuthenticated, isSuperAdmin, multerMiddleware, updateProduct);
+router.delete("/:id", isAuthenticated, isSuperAdmin, deleteProduct);
 
 export default router;

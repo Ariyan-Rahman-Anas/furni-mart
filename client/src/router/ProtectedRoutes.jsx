@@ -16,12 +16,12 @@ const ProtectedRoute = ({ children, redirectTo = "/login", isAdmin, isPublic = f
             navigate(redirectTo);
         } else if (isPublic && isAuthenticated) {
             navigate("/");
-        } else if (isAuthenticated && isAdmin && user?.isAdmin !== true) {
+        } else if (isAuthenticated && isAdmin && user?.role !== "admin" && user?.role !== "superAdmin"){
             toast.error("Sorry, you are not authorized to access this section.", { duration: 3000 });
             navigate(redirectTo);
         }
     }, [isAuthenticated, isAdmin, user, navigate, redirectTo, isPublic]);
-    if ((isAuthenticated && (!isAdmin || user.isAdmin === true)) || isPublic) {
+    if ((isAuthenticated && (user?.role === "user" || user?.role === "admin" || user?.role==="superAdmin")) || isPublic) {
         return children;
     }
     return null;

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react"
@@ -50,63 +49,62 @@ const LoginForm = () => {
 
 
     return (
-        <div>
+        <div className="space-y-2 flex flex-col items-center">
             <form
                 onSubmit={handleSubmit(handleLogin)}
+                className="w-full"
             >
-                <CardContent>
-                    <div className="grid gap-4">
-                        <div className="grid gap-0.5">
-                            <Label htmlFor="email">Email
-                                <span className="text-myRed text-lg">*</span>
-                            </Label>
-                            <Input
-                                {...register("email", { required: true })}
-                                id="email"
-                                name="email"
-                                type="email"
-                                placeholder="name@example.com"
-                            />
-                        </div>
+                <div className="grid gap-4">
+                    <div className="grid gap-0.5">
+                        <Label htmlFor="email">Email
+                            <span className="text-myRed text-lg">*</span>
+                        </Label>
+                        <Input
+                            {...register("email", { required: true })}
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="name@example.com"
+                        />
+                    </div>
 
-                        <div className="grid gap-0.5">
-                            <Label htmlFor="password">Password
-                                <span className="text-myRed text-lg">*</span>
-                            </Label>
-                            <Input
-                                {...register("password", {
-                                    required: true,
-                                    minLength: {
-                                        value: 6,
-                                        message: "Password must be at least 6 characters",
-                                    },
-                                })}
-                                id="password"
-                                name="password"
-                                type="password"
-                                placeholder="********"
-                            />
-                        </div>
+                    <div className="grid gap-0.5">
+                        <Label htmlFor="password">Password
+                            <span className="text-myRed text-lg">*</span>
+                        </Label>
+                        <Input
+                            {...register("password", {
+                                required: true,
+                                minLength: {
+                                    value: 6,
+                                    message: "Password must be at least 6 characters",
+                                },
+                            })}
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="********"
+                        />
+                    </div>
 
-                        <Button
-                            disabled={isLoading}
-                        >
-                            {
-                                isLoading ? (
-                                    <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Please wait
-                                    </>
-                                ) : "Login"
-                            }
-                        </Button>
-                    </div> 
-                </CardContent>
+                    <Button
+                        disabled={isLoading}
+                    >
+                        {
+                            isLoading ? (
+                                <>
+                                    Please wait
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                </>
+                            ) : "Login"
+                        }
+                    </Button>
+                </div>
             </form>
 
-            <div className="border-2 w-fit mx-auto mb-4">
+            {/* <div className=""> */}
                 <GoogleAuth />
-            </div>
+            {/* </div> */}
         </div>
 
     )

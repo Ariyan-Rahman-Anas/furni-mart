@@ -5,8 +5,6 @@ import DateFormatter from "@/components/DateFormatter"
 
 const ReviewDetailsModal = ({ reviewData }) => {
     const { product, rating, comment, createdAt } = reviewData || {}
-    console.log("data", comment)
-    console.log("data", reviewData)
     return (
         <Dialog>
             <DialogTrigger asChild>

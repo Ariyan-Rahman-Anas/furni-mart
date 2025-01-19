@@ -11,6 +11,7 @@ import ReviewDetailsModal from "@/components/dashboard/admin/reviews/ReviewDetai
 
 const ReviewsManagement = () => {
     const { data: reviewsList, isLoading, error } = useAllReviewQuery()
+    console.log({error})
 
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteReviewMutation)
     const onDeleteReview = (id) => {

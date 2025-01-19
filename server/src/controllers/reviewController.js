@@ -57,22 +57,22 @@ export const postReview = async (req, res, next) => {
 
 
 export const reviewsList = async (req, res, next) => {
-    try {
-        const reviews = await ReviewModel.find({})
-          .populate("user")
-          .populate("product");
-        if (reviews.length < 1) {
-          return next(new ErrorHandler("There's no reviews right now", 404));
-        }
-        return res.status(200).json({
-          success: true,
-          message: "All reviews retrieved successfully",
-          totalReviews: reviews.length,
-          reviews,
-        });
-    } catch (error) {
-        next(error);
+  try {
+    const reviews = await ReviewModel.find({})
+      .populate("user")
+      .populate("product");
+    if (reviews.length < 1) {
+      return next(new ErrorHandler("There's no reviews right now", 404));
     }
+    return res.status(200).json({
+      success: true,
+      message: "All reviews retrieved successfully",
+      totalReviews: reviews.length,
+      reviews,
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 
@@ -109,9 +109,7 @@ export const aProductReviews = async (req, res, next) => {
 
 
 export const deleteReview = async (req, res, next) => {
-    try {
-        console.log("req.user.id", req.user);
-        
+  try {
     // Find the review by ID
     const review = await ReviewModel.findById(req.params.id);
 
@@ -123,13 +121,13 @@ export const deleteReview = async (req, res, next) => {
     const product = await ProductModel.findById(review.product);
     if (!product) {
       return next(new ErrorHandler("Product not found", 404));
-      }
-            
-      if (review.user.toString() !== req.user._id && req.user.isAdmin !== true) {
-        return next(
-          new ErrorHandler("Not authorized to delete this review", 403)
-        );
-      }
+    }
+
+    if (review.user.toString() !== req.user._id && req.user.role !== "superAdmin"){
+      return next(
+        new ErrorHandler("Unauthorized to take this action.", 403)
+      );
+    }
 
     // Delete the review
     await review.deleteOne();

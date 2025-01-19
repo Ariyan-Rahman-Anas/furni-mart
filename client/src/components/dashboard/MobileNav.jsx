@@ -60,7 +60,7 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
             <SheetContent side="left" className="flex flex-col">
                 <Link to="/" className="flex items-center gap-2 font-semibold">
                     <Package2 className="h-6 w-6" />
-                    <span>Furniture Mart</span>
+                    <span>Well Wood</span>
                 </Link>
                 <nav className="grid gap-2 text-lg font-medium">
                     {links.map(({ icon, label, to }, index) => (
