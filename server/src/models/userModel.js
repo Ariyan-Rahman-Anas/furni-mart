@@ -30,10 +30,6 @@ const userSchema = new mongoose.Schema(
       default: "user",
       enum: ["user", "admin", "superAdmin"],
     },
-    // isAdmin: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,

@@ -4,7 +4,6 @@ import {
     LogOut,
     ShoppingCartIcon,
     Heart,
-    Search
 } from "lucide-react"
 import {
     DropdownMenu,
@@ -27,7 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import MobileNav from "./dashboard/MobileNav"
 import { Home, Package, ShoppingCart } from "lucide-react";
 import ThemeSwitch from "./ThemeSwitch"
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "./ui/navigation-menu"
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu"
 import { useLogOutUserMutation } from "@/redux/apis/authApi"
 import { useCategoriesQuery, useSubCategoriesQuery } from "@/redux/apis/productApi"
 
@@ -52,11 +51,6 @@ const Navbar = () => {
         }
     }, [data?.message, navigate, dispatch, error, isSuccess])
 
-    const navItems = [
-        { title: "Home", route: "/" },
-        { title: "Categories", route: "" }
-    ]
-
     const cartItems = useSelector(getActiveItemsLengthInCart)
     const wishlist = useSelector(state=>state.wishlist.wishlistItems)
     const wishlistItems = wishlist?.length >= 1 ? wishlist.length : 0
@@ -77,13 +71,11 @@ const Navbar = () => {
 
     const {
         data: subCategoryData,
-        isLoading: subCategoryLoading,
-        error: subCategoryError,
+        // isLoading: subCategoryLoading,
+        // error: subCategoryError,
     } = useSubCategoriesQuery("");
     const {
         data: categoryData,
-        // isLoading: subCategoryLoading,
-        // error: subCategoryError,
     } = useCategoriesQuery("");
 
 
@@ -103,26 +95,6 @@ const Navbar = () => {
 
             {/* middle side */}
             <div className="hidden lg:block" >
-                {/* <ul className="flex items-center gap-4">
-                    {navItems.map((item, index) => (
-                        <li key={index} className="relative group">
-                            <NavLink
-                                to={item.route}
-                                className={({ isActive }) =>
-                                    isActive && location.pathname === item.route
-                                        ? "border-b-2 border-b-black dark:text-white duration-500"
-                                        : "border-b-2 border-b-transparent text-gray-800 dark:text-gray-300 duration-500"
-                                }
-                            >
-                                {item.title}
-                                <span className="absolute left-0 right-0 bottom-0 top-[1.35rem] h-[.14rem] w-full rounded-md bg-black transform scale-x-0 origin-bottom transition-transform group-hover:scale-x-100 duration-300"></span>
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul> */}
-
-
-                {/* .... */}
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
@@ -180,7 +152,6 @@ const Navbar = () => {
                         </NavigationMenuItem>
                     </NavigationMenuList>
                 </NavigationMenu>
-                {/* .... */}
             </div>
 
             {/* right side area */}

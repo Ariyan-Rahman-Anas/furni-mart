@@ -47,7 +47,7 @@ export const postReview = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: "Review added successfully",
+      message: "Thank you very much for your review!",
       newReview,
     });
   } catch (error) {
@@ -144,7 +144,7 @@ export const deleteReview = async (req, res, next) => {
     // Send success response
     return res.status(200).json({
       success: true,
-      message: "Review deleted successfully",
+      message: "Deleted!",
     });
   } catch (error) {
     next(error);

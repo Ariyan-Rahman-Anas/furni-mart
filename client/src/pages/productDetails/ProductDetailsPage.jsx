@@ -1,8 +1,8 @@
-import { CircleCheck, Heart, ShieldCheck, ShoppingCart } from "lucide-react"
+import { CircleCheck, Heart,  ShoppingCart } from "lucide-react"
 import payments from "./../../assets/images/payments.svg"
 import { useSelector } from "react-redux"
 import { toast } from "sonner"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { getActiveItemsInCart } from "@/redux/slices/cartSlice"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -11,30 +11,16 @@ import { useAddRemoveToCartHandler } from "@/hooks/useAddRemoveToCartHandler"
 import { useParams } from "react-router-dom"
 import usePageTitle from "@/hooks/usePageTitle"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
-import { useAProductReviewsQuery } from "@/redux/apis/reviewApi"
-import DateFormatter from "@/components/DateFormatter"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-import { usePostReviewMutation } from "@/redux/apis/reviewApi"
-import { useAnUserOrdersQuery } from "@/redux/apis/orderApi"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import RatingStars from "@/components/RatingStars"
 import useAddRemoveFromWishlist from "@/hooks/useAddRemoveFromWishlist"
 import ProductImaCarousel from "./ProductImaCarousel"
 import { useSingleProductQuery } from "@/redux/apis/productApi"
+import ProductReviews from "./ProductReviews"
 
 const ProductDetailsPage = () => {
     usePageTitle('Product Details');
-    const {
-        register,
-        handleSubmit,
-        reset,
-    } = useForm();
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedVariant, setSelectedVariant] = useState(null);
-    const user = useSelector(state => state?.auth?.user)
     const theme = useSelector(state => state.theme)
     const { id } = useParams()
 
@@ -48,54 +34,6 @@ const ProductDetailsPage = () => {
     const handleWishlist = () => {
         toggleWishlist(product);
     };
-
-    const { data: productReviewData } = useAProductReviewsQuery(id)
-
-    const { data: myOrdersData } = useAnUserOrdersQuery(user?.email)
-
-    const productType = myOrdersData?.orders?.map(order => order.paymentInfo?.product_type)
-
-    let orderedItems = []
-    if (productType) {
-        orderedItems = productType.map(item => {
-            try {
-                return JSON.parse(item);
-            } catch (e) {
-                toast.error("Failed to parsing JSON")
-                return null;
-            }
-        }).filter(item => item !== null);
-    }
-
-    const isEligibleForPostReview = !!orderedItems?.some(items =>
-        items?.some(item => item?.productId === id)
-    );
-    const isReviewed = !!productReviewData?.reviews?.find(review => review?.user?._id === user?._id)
-
-    const [postReview, { data: postReviewData, isSuccess: isPosted, isLoading: isPosting, error: reviewPostingError }] = usePostReviewMutation()
-
-    const onSubmit = async (formData) => {
-        try {
-            const payload = {
-                ...formData,
-                product: id,
-                user: user?._id,
-            }
-            await postReview(payload).unwrap()
-        } catch (error) {
-            console.log("An error occurred during posting a review: ", error)
-            toast.error("Failed to posting a review")
-        }
-    }
-    useEffect(() => {
-        if (reviewPostingError) {
-            toast.error(reviewPostingError?.data?.message)
-        }
-        if (isPosted) {
-            toast.success(postReviewData?.message)
-            reset()
-        }
-    }, [isPosted, postReviewData?.message, reviewPostingError, reset])
 
     // Convert the color string into an array
     const colors = color?.split(",")?.map((item) => item.trim());
@@ -135,12 +73,11 @@ const ProductDetailsPage = () => {
         handleAddRemoveToCart();
     };
 
-
-    const features = ["Secure payment method", "Free Shipping & Fasted Delivery", "100% Money-back guarantee", "24/7 Customer support", "Secure payment method"]
-
     if (isLoading) {
         return <IsLoadingLoaderRTK h={"90vh"} />
     }
+
+    const features = ["Secure payment method", "Free Shipping & Fasted Delivery", "100% Money-back guarantee", "24/7 Customer support", "Secure payment method"]
 
     return (
         <div className="w-full md:w-[90%] mx-auto p-2 md:p-4 md:pb20  space-y-20">
@@ -344,73 +281,8 @@ const ProductDetailsPage = () => {
 
 
             {/* review section */}
-            <section className="flex flex-col md:flex-row items-start justify-between gap-6" >
-                <Card className="w-full p-4 " >
-                    <CardTitle>Leave a feedback</CardTitle>
-                    <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-1 my-4 " >
-                        <div>
-                            <Label>Comment
-                                <span className="text-myRed text-lg ">*</span>
-                            </Label>
-                            <Textarea placeholder="Write your comment.." {...register("comment", { required: true })} ></Textarea>
-                        </div>
-                        <div className="flex items-end gap-4" >
-                            <div>
-                                <Label>Rating
-                                    <span className="text-myRed text-lg ">*</span>
-                                </Label>
-                                <Input
-                                    type="number"
-                                    id="rating"
-                                    placeholder="Enter rating (1-5)"
-                                    {...register("rating", { required: true })}
-                                />
-                            </div>
-                            <Button type="submit" disabled={isPosting || !isEligibleForPostReview || isReviewed} >Submit</Button>
-                        </div>
-                    </form>
-                    {
-                        isEligibleForPostReview !== true
-                            ? <p className="text-sm"><span className="font-semibold" >Note: </span> You can only leave a review for a product you have purchased, and each product can only be reviewed once.</p>
-                            : isReviewed
-                                ? <p className="text-sm" >You have already reviewed this product</p>
-                                : <div>
-                                    <p className="text-sm">Please leave your review here!</p>
-                                    <p className="text-sm" ><span className="font-semibold" >Note: </span>Each product can only be reviewed once.</p>
-                                </div>
-                    }
-                </Card>
-
-                <Card className="w-full p-4">
-                    {
-                        !productReviewData || productReviewData?.reviews?.length < 1
-                            ? <div>
-                                No feedback yet
-                            </div>
-                            : productReviewData && productReviewData?.reviews?.length >= 1 && <div className="">
-                                <CardTitle className="mb-4">Latest feedbacks</CardTitle>
-                                {
-                                    productReviewData?.reviews?.map(({ user, comment, rating, createdAt }, index) => <div key={index} className="pb-2 border-b relative">
-                                        <p className="text-xs absolute top-3 right-3 " ><DateFormatter date={createdAt} /></p>
-                                        <div className="pt-4 flex items-center gap-2">
-                                            <Avatar>
-                                                <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
-                                                <AvatarFallback>CN</AvatarFallback>
-                                            </Avatar>
-                                            <h1 className="text-sm font-semibold" >{user?.name}</h1>
-                                        </div>
-
-                                        <div className="flex justify-end gap-2">
-                                            <RatingStars rating={rating} />
-                                            <div className="flex items-center gap-0.5 text-sm font-semibold "><ShieldCheck size={15} strokeWidth={2.5} /> <span>Verified Purchase</span></div>
-                                        </div>
-                                        <p className="text-sm" >{comment} </p>
-                                    </div>)
-                                }
-                            </div>
-                    }
-                </Card>
-            </section>
+            <ProductReviews productId={_id} />
+            
             <OrderFeatures />
         </div>
     )
