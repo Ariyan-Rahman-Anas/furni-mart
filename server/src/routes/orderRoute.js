@@ -1,7 +1,7 @@
 import express from "express"
 import { allOrders, anUserOrders, deleteAnOrder, deletePendingTransaction, getSingleOrder, getTransactionPendingOrders } from "../controllers/orderController.js"
 import { isAuthenticated } from "../middlewares/isAuthenticated.js";
-import { isAdmin, isAdminOrSuperAdmin, isSuperAdmin } from "../middlewares/isAdmin.js";
+import { isAdminOrSuperAdmin, isSuperAdmin } from "../middlewares/isAdmin.js";
 
 const router = express.Router()
 

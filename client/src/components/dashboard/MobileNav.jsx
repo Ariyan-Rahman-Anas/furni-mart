@@ -98,7 +98,7 @@ export default function MobileNav({ links = [], onUpgradeClick }) {
 
                                     <DropdownMenuSeparator />
                                     {
-                                        user.isAdmin === true && <>
+                                        (user.role === "admin" || user.role === "superAdmin") && <>
                                             <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
                                             <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
                                         </>
