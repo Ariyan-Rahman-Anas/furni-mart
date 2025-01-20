@@ -6,7 +6,7 @@ import { isAdminOrSuperAdmin } from './../middlewares/isAdmin.js';
 const router = express.Router()
 
 router.post("/create", isAuthenticated, postReview)
-router.get("/list", isAuthenticated, isAdminOrSuperAdmin, reviewsList)
+router.get("/list", isAuthenticated, reviewsList)
 router.get("/:productId", aProductReviews);
 router.delete("/:id", isAuthenticated, deleteReview);
 

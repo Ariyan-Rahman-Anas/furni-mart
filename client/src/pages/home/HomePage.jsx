@@ -5,10 +5,15 @@ import { useAllBannerQuery } from "@/redux/apis/bannerApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import CouponTimer from "@/components/CouponTimer"
 import { useAllCouponsQuery } from "@/redux/apis/couponApi"
-import SpecialOffers from "./sections/SpecialOffers"
 import PersonalizedRecommendations from "./sections/PersonalizedRecommendations"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import WhyChooseUs from "./sections/WhyChooseUs"
+import CustomerReviews from "./sections/CustomerReviews"
+import Newsletter from "./sections/Newsletter"
+import Blog from "./sections/Blog "
+import ModernFurniture from "./sections/ModernFurniture"
+import SpecialOffers from "./sections/SpecialOffers"
 
 const HomePage = () => {
   usePageTitle("Home")
@@ -56,9 +61,23 @@ const HomePage = () => {
         </div>
       </div>
 
+      <ModernFurniture />
+
+
       <SpecialOffers />
 
+
       <PersonalizedRecommendations />
+
+      <WhyChooseUs />
+
+      <CustomerReviews />
+
+
+      <Newsletter />
+
+
+      <Blog />
 
     </div>
   )

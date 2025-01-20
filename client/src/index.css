@@ -235,5 +235,5 @@ overflow-x: hidden;
 }
 
 .subheading{
-  @apply poppins-regular text-gray-400 md:text-[20px]
+  @apply poppins-regular text-gray-500 md:text-[20px]
 }

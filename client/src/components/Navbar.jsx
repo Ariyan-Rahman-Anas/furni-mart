@@ -88,8 +88,8 @@ const Navbar = () => {
 
                 <Link
                     to={"/"}
-                    className="text-3xl font-semibold "
-                >Well Wood
+                    className="poppins-bold text-[30px]"
+                >WellWood
                 </Link>
             </div>
 

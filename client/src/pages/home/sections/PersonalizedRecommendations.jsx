@@ -1,17 +1,20 @@
-import { useGetProductsBySubCategoryQuery } from "@/redux/apis/productApi"
+import { useSubCategoriesQuery, useGetProductsBySubCategoryQuery } from "@/redux/apis/productApi"
 import ProductCard from "@/components/ProductCard"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 
+
 const PersonalizedRecommendations = () => {
 
-    const { data: bedData } = useGetProductsBySubCategoryQuery({ subCategory: "Bed" })
-    const { data: almirahData } = useGetProductsBySubCategoryQuery({ subCategory: "Almirah" })
-    const { data: diningTableData } = useGetProductsBySubCategoryQuery({ subCategory: "Dining Table" })
+    const { data: subCategoryData } = useSubCategoriesQuery()
+    const subcategories = subCategoryData?.subCategories
+
+    const { data: bedData } = useGetProductsBySubCategoryQuery({ subCategory: subcategories?.[0] })
+    const { data: almirahData } = useGetProductsBySubCategoryQuery({ subCategory: subcategories?.[1] })
+    const { data: diningTableData } = useGetProductsBySubCategoryQuery({ subCategory: subcategories?.[2] })
     const { data: centerTableData, isLoading } = useGetProductsBySubCategoryQuery({
-        subCategory: "Center Table"
-    })
+        subCategory: subcategories?.[3]})
 
     const recommendedProducts = [
         ...(bedData?.products || []),

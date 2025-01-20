@@ -109,7 +109,6 @@ export const productList = async (req, res, next) => {
 
 export const productsBySubcategory = async (req, res, next) => {
   try {
-    // console.log()
     const products = await ProductModel.find({ subCategory: req.params.subCategory })
     if (products.length < 1) {
       return next(new ErrorHandler("No products found in this subcategory", 404));
