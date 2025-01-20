@@ -28,7 +28,7 @@ const Footer = () => {
   const fullYear = today.getFullYear()
 
   return (
-    <footer className="border-t bg-slate-900 border- text-gray-300 mt-6 px-3">
+    <footer className="border-t bg-slate-900 border- text-gray-300 px-3">
       <div className="md:px-8 pt-16 pb-8 flex flex-col lg:flex-row gap-10 ">
         <div id="support" className="space-y-4 w-full lg:w-[40%] " >
           <Link to={"/"} className="poppins-bold text-[30px] md:text-[40px] text-white " >

@@ -8,7 +8,9 @@ function App() {
     <div className='min-h-screen' >
       <ScrollToTop />
       <Navbar />
-      <Outlet></Outlet>
+      <div className='max-w-[1920px] mx-auto mb-16'>
+        <Outlet></Outlet>
+      </div>
       <Footer />
     </div>
   )

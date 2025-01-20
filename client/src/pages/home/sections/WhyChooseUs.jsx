@@ -46,7 +46,7 @@ const WhyChooseUs = () => {
             <div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {benefits.map(({icon, title, description}, index) => (
-                        <Card key={index} className="p-4 space-y-2 text-center group hover:bg-gray-100 duration-1000 ">
+                        <Card key={index} className="p-4 space-y-2 text-center group hover:bg-gray-100 hover:dark:bg-gray-800 duration-1000 ">
                             <p className="text-4xl group-hover:animate-bounce mx-auto w-fit">{icon}</p>
                             <h2 className="text-xl font-semibold">{title}</h2>
                             <p className="text-gray-500 ">{description}</p>
