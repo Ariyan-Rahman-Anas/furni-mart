@@ -106,6 +106,28 @@ export const productList = async (req, res, next) => {
 }
 
 
+
+export const productsBySubcategory = async (req, res, next) => {
+  try {
+    // console.log()
+    const products = await ProductModel.find({ subCategory: req.params.subCategory })
+    if (products.length < 1) {
+      return next(new ErrorHandler("No products found in this subcategory", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Products retrieved successfully by category.",
+      totalProducts: products.length,
+      products,
+    });
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+
 export const singleProduct = async (req, res, next) => {
     try {
         const product = await ProductModel.findById(req.params.id);

@@ -7,6 +7,7 @@ import {
   getCategoryCounts,
   getSubCategoryCounts,
   productList,
+  productsBySubcategory,
   searchProduct,
   singleProduct,
   updateProduct,
@@ -25,6 +26,7 @@ router.get("/sub-categories", allSubCategory);
 router.get("/category-counts", isAuthenticated, isAdminOrSuperAdmin, getCategoryCounts)
 router.get( "/subcategory-counts", isAuthenticated, isAdminOrSuperAdmin, getSubCategoryCounts);
 router.get("/:id", singleProduct)
+router.get("/sub-category/:subCategory", productsBySubcategory )
 router.put("/:id", isAuthenticated, isSuperAdmin, multerMiddleware, updateProduct);
 router.delete("/:id", isAuthenticated, isSuperAdmin, deleteProduct);
 

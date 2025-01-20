@@ -20,6 +20,10 @@ export const productApi = createApi({
             query: () => "/list",
             providesTags: ["product"]
         }),
+        getProductsBySubCategory: builder.query({
+            query: ({ subCategory }) => `/sub-category/${subCategory}`,
+            providesTags: ["product"]
+        }),
         singleProduct: builder.query({
             query: (id) => `/${id}`,
             providesTags: ["product"]
@@ -72,6 +76,7 @@ export const productApi = createApi({
 export const {
     useCreateProductMutation,
     useAllProductsQuery,
+    useGetProductsBySubCategoryQuery,
     useSingleProductQuery,
     useSearchProductsQuery,
     useCategoriesQuery,

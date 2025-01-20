@@ -34,6 +34,7 @@ const ProductCard = ({ isLoading, product }) => {
                     <img
                         src={images?.[0]?.url || "/placeholder.jpg"}
                         alt={name || "Loading..."}
+                        loading="lazy"
                         className="w-full h-full transition-opacity duration-500 mx-auto rounded-md"
                     />
                 </div>
@@ -52,14 +53,14 @@ const ProductCard = ({ isLoading, product }) => {
                     </div>
                     <div className="flex items-center justify-between gap-6 shadow py-2 px-5 rounded-md">
                         <button onClick={handleWishlist}>
-                            {isProductInWishlist(product._id)
+                            {isProductInWishlist(_id)
                                 ? <Heart
                                     fill={theme === 'dark' ? 'white' : 'black'}
                                     className="cursor-pointer" />
                                 : <Heart className="cursor-pointer" />}
                         </button>
 
-                        {activeItemsInCart.find((item) => item?._id === product?._id) && (
+                        {activeItemsInCart.find((item) => item?._id === _id) && (
                             <ShoppingCart
                                 color="black"
                                 fill="black"

@@ -1,4 +1,4 @@
-import { CircleCheck, Heart,  ShoppingCart } from "lucide-react"
+import { CircleCheck, Heart, ShoppingCart } from "lucide-react"
 import payments from "./../../assets/images/payments.svg"
 import { useSelector } from "react-redux"
 import { toast } from "sonner"
@@ -121,11 +121,14 @@ const ProductDetailsPage = () => {
                     data-aos-duration="1000"
                     className="col-span-12 md:col-span-6">
                     <h1 className="text-4xl mb-2" >{name}</h1>
-                    <div className="flex items-center gap-2 font-semibold text-sm">
-                        <RatingStars rating={averageRating} />
-                        <p>{averageRating} out of 5</p>
-                        <p>{`(${reviewCount} feedback)`}</p>
-                    </div>
+                    {
+                        reviewCount > 0 &&
+                        <div className="flex items-center gap-2 font-semibold text-sm">
+                            <RatingStars rating={averageRating} />
+                            <p>{averageRating} out of 5</p>
+                            <p>{`(${reviewCount} feedback)`}</p>
+                        </div>
+                    }
                     <div className="space-y-0.5 my-2 font-semibold text-gray-600 dark:text-gray-300 ">
                         <p>Brand: <span className="text-black dark:text-white">{brand}</span> </p>
                         <p>Category: <span className="capitalize text-black dark:text-white">{category}</span> </p>
@@ -282,7 +285,7 @@ const ProductDetailsPage = () => {
 
             {/* review section */}
             <ProductReviews productId={_id} />
-            
+
             <OrderFeatures />
         </div>
     )

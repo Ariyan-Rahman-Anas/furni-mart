@@ -1,13 +1,14 @@
 import usePageTitle from "@/hooks/usePageTitle"
 import FeaturedProducts from "@/components/FeaturedProducts"
-import { CardTitle } from "@/components/ui/card"
 import BannerCarousel from "@/components/BannerCarousel"
 import { useAllBannerQuery } from "@/redux/apis/bannerApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
 import CouponTimer from "@/components/CouponTimer"
 import { useAllCouponsQuery } from "@/redux/apis/couponApi"
-import { ChevronRight } from "lucide-react"
 import SpecialOffers from "./sections/SpecialOffers"
+import PersonalizedRecommendations from "./sections/PersonalizedRecommendations"
+import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button"
 
 const HomePage = () => {
   usePageTitle("Home")
@@ -18,18 +19,18 @@ const HomePage = () => {
   const { data: couponsData } = useAllCouponsQuery()
   const activeCoupon = couponsData?.coupons?.filter(coupon => coupon.status === "active")
 
-// Current date and time
-const currentDate = new Date();
+  // Current date and time
+  const currentDate = new Date();
 
-// Convert the string to a Date object
-const givenDate = new Date(activeCoupon?.map(coupon => coupon?.expirationDate));
+  // Convert the string to a Date object
+  const givenDate = new Date(activeCoupon?.map(coupon => coupon?.expirationDate));
 
-  if(isLoading){
-    return <IsLoadingLoaderRTK h={"90vh"}/>
+  if (isLoading) {
+    return <IsLoadingLoaderRTK h={"90vh"} />
   }
 
   return (
-    <div className="px-2 space-y-20 ">
+    <div className="px-2 space-y-24 md:space-y-28 ">
       <div>
         <div className="w-full my-1.5">
           <BannerCarousel images={images} autoplayDelay={3000} />
@@ -37,25 +38,27 @@ const givenDate = new Date(activeCoupon?.map(coupon => coupon?.expirationDate));
 
         {
           currentDate < givenDate && <div className="flex items-center justify-center shadow hover:shadow-md dark:shadow-white w-full md:w-fit p-4 rounded-md duration-500 ">
-          <CouponTimer targetDate={activeCoupon?.map(coupon => coupon?.expirationDate)} />
-        </div>
+            <CouponTimer targetDate={activeCoupon?.map(coupon => coupon?.expirationDate)} />
+          </div>
         }
       </div>
-      
-      <div className="p-4 rounded-lg shadow-sm border-2 border-dashed ">
-        <div className="mb-4 flex items-center justify-between">
-          <CardTitle className="border-b-2 border-dotted w-fit ">Featured Products</CardTitle>
-          <div className="flex items-center gap-2">
-            <CardTitle className="border-dotted w-fit ">See all</CardTitle>
-          <ChevronRight size={17} /> 
-          </div>
-        </div>
+
+      <div className="space-y-6">
+          <div className="space-y-3">
+            <h1 className="heading ">Featured Products</h1>
+            <p className="subheading" >Top Picks for Your Home – Discover Our Most Loved and Trending Furniture!</p>
+          </div>         
         <FeaturedProducts />
+        <div className="flex items-center justify-center ">
+          <Link to={"/products"}>
+            <Button>Explore all</Button>
+          </Link>
+        </div>
       </div>
 
-      
       <SpecialOffers />
 
+      <PersonalizedRecommendations />
 
     </div>
   )
