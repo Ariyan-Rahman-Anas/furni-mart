@@ -16,6 +16,7 @@ import orderRouter from "./src/routes/orderRoute.js"
 import couponRouter from "./src/routes/couponRoute.js"
 import reviewRouter from "./src/routes/reviewRoute.js"
 import bannerRouter from "./src/routes/bannerRoute.js"
+import subscriptionRouter from "./src/routes/subscriptionRoute.js"
 
 const port = process.env.PORT || 5001;
 const app = express();
@@ -59,7 +60,7 @@ app.use("/api/orders", orderRouter);
 app.use("/api/coupons", couponRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/banners", bannerRouter);
-
+app.use("/api/subscribe", subscriptionRouter);
 
 
 // Cloudinary configuration

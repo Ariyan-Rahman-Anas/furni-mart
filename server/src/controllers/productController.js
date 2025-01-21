@@ -106,7 +106,6 @@ export const productList = async (req, res, next) => {
 }
 
 
-
 export const productsBySubcategory = async (req, res, next) => {
   try {
     const products = await ProductModel.find({ subCategory: req.params.subCategory })
@@ -124,7 +123,6 @@ export const productsBySubcategory = async (req, res, next) => {
     next(error)
   }
 }
-
 
 
 export const singleProduct = async (req, res, next) => {

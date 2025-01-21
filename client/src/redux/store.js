@@ -12,6 +12,7 @@ import { reviewApi } from "./apis/reviewApi";
 import { bannerApi } from "./apis/bannerApi";
 import { authApi } from "./apis/authApi";
 import { productApi } from "./apis/productApi";
+import { subscriptionApi } from "./apis/subscriptionApi";
 
 const persistConfig = {
     key: "root",
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   [couponApi.reducerPath]: couponApi.reducer,
   [reviewApi.reducerPath]: reviewApi.reducer,
   [bannerApi.reducerPath]: bannerApi.reducer,
+  [subscriptionApi.reducerPath]: subscriptionApi.reducer,
   auth: authReducer,
   cart: cartReducer,
   wishlist: wishlistReducer,
@@ -47,7 +49,8 @@ const store = configureStore({
       orderApi.middleware,
       couponApi.middleware,
       reviewApi.middleware,
-      bannerApi.middleware
+      bannerApi.middleware,
+      subscriptionApi.middleware,
     ),
   // devTools: process.env.NODE_ENV !== "production",
 });

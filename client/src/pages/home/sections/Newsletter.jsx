@@ -1,29 +1,40 @@
 import { useForm } from "react-hook-form"
 import newsLetterImg from "./../../../assets/images/home/newsLetter.webp"
-import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import {  useSelector } from "react-redux"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2, Send } from "lucide-react"
 import { Card } from "@/components/ui/card"
+import { useCreateSubscriptionMutation } from "@/redux/apis/subscriptionApi"
+import { useEffect } from "react"
+import { toast } from "sonner"
 
 const Newsletter = () => {
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    setError
+    reset,
   } = useForm()
 
   const user = useSelector(state => state?.auth?.user)
+  const [createSubscription, {data, isLoading, isSuccess, error}] = useCreateSubscriptionMutation()
 
   const handleSubscribe = (formData) => {
     console.log({ formData })
+    createSubscription(formData)
   }
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error?.data?.message)
+    }
+    if (isSuccess) {
+      toast.success(data?.message)
+      reset()
+    }
+  },[data?.message, error, isSuccess, reset])
 
 
   const newsLetterFacilities = [
@@ -48,7 +59,7 @@ const Newsletter = () => {
 
         <Card className="p-4">
           <h1 className="poppins-bold text-2xl">Be Inspired Every Month!</h1>
-          <p className="mt-4 mb-2 text-lg text-gray-500">Sign up for our newsletter and enjoy:</p>
+          <p className="mt-4 mb-2 text-lg text-gray-500">Subscribe for our newsletter and enjoy:</p>
           <ul className="list-disc ">
             {newsLetterFacilities.map(({ id, title }) => (
               <li key={id} className="list-inside">
@@ -98,18 +109,17 @@ const Newsletter = () => {
               </div>
 
               <Button
-                // disabled={isLoading}
+                disabled={isLoading}
                 className="w-fit mx-auto"
               >
-                {/* {
+                {
                 isLoading ? (
                   <>
-                    Please wait
+                      Subscribe Now
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   </>
-                ) : "Login"
-              } */}
-                Subscribe Now
+                  ) : "Subscribe Now"
+              }
               </Button>
             </div>
           </form>
@@ -119,5 +129,4 @@ const Newsletter = () => {
     </div>
   )
 }
-
 export default Newsletter
