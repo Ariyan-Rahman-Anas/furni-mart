@@ -1,6 +1,5 @@
 import {
     Loader2,
-    LogIn,
     LogOut,
     ShoppingCartIcon,
     Heart,
@@ -215,7 +214,9 @@ const Navbar = () => {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             :
-                            <Link to={"/login"}  ><LogIn /> </Link>
+                            <Link to={"/login"}  >
+                            <Button>Login</Button>
+                            </Link>
                     }
                 </div>
             </div>
