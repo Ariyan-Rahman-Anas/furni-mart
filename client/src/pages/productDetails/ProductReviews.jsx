@@ -24,10 +24,10 @@ const ProductReviews = ({ productId }) => {
             handleSubmit,
             reset,
     } = useForm();
-    const {_id, email} = useSelector(state => state?.auth?.user)
+    const user = useSelector(state => state?.auth?.user)
 
     const { data: productReviewData, isLoading, error } = useAProductReviewsQuery(productId)
-    const { data: myOrdersData } = useAnUserOrdersQuery(email)
+    const { data: myOrdersData } = useAnUserOrdersQuery(user?.email)
     const productType = myOrdersData?.orders?.map(order => order.paymentInfo?.product_type)
 
     let orderedItems = []
@@ -51,7 +51,7 @@ const ProductReviews = ({ productId }) => {
             const payload = {
                 ...formData,
                 product: productId,
-                user: _id,
+                user: user?._id,
             }
             await postReview(payload).unwrap()
         } catch (error) {
@@ -73,7 +73,7 @@ const ProductReviews = ({ productId }) => {
     const isEligibleForPostReview = !!orderedItems?.some(items =>
         items?.some(item => item?.productId === productId)
     );
-    const isReviewed = !!productReviewData?.reviews?.find(review => review?.user?._id === _id)
+    const isReviewed = !!productReviewData?.reviews?.find(review => review?.user?._id === user?._id)
 
 
     const [deleteReview, { data, isLoading: isDeleting, isSuccess, error: isDeleteError }] = useDeleteReviewMutation()
@@ -143,11 +143,11 @@ const ProductReviews = ({ productId }) => {
                       : productReviewData && productReviewData?.reviews?.length >= 1 && <div className="">
                           <CardTitle className="mb-4">Latest feedbacks</CardTitle>
                           {
-                              productReviewData?.reviews?.map(({_id:reviewId, user, comment, rating, createdAt }, index) => <div key={index} className="pb-2 border-b relative">
+                              productReviewData?.reviews?.map(({_id:reviewId, user:reviewer, comment, rating, createdAt }, index) => <div key={index} className="pb-2 border-b relative">
                                   <p className="text-xs absolute top-3 right-3 " ><DateFormatter date={createdAt} /></p>
 
                                   {
-                                      user._id === _id && <div className="w-fit absolute top-7 right-3"> 
+                                      reviewer._id === user?._id && <div className="w-fit absolute top-7 right-3"> 
                                           {
                                               isDeleting ? (
                                                   <>
@@ -163,7 +163,7 @@ const ProductReviews = ({ productId }) => {
                                           <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
                                           <AvatarFallback>CN</AvatarFallback>
                                       </Avatar>
-                                      <h1 className="text-sm font-semibold" >{user?.name}</h1>
+                                      <h1 className="text-sm font-semibold" >{reviewer?.name}</h1>
                                   </div>
 
                                   

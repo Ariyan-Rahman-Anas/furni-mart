@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowUpDown, Minus, Plus, Trash, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { Card } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { decrementQuantity, incrementQuantity, removeFromCart } from "@/redux/slices/cartSlice";
@@ -263,7 +263,7 @@ const CartPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-7 gap-6 mt-6">
           <Card className="col-span-7 md:col-span-5 p-4 ">
-            <h1 className="heading">Cart Items</h1>
+            <CardTitle>Cart Items</CardTitle>
             <ModularTable
               columns={columns}
               data={cartItems}
@@ -273,7 +273,7 @@ const CartPage = () => {
           </Card>
 
           <Card className="col-span-7 md:col-span-2 section-grant p-4 w-full">
-            <h1 className="heading">Cart Total</h1>
+            <CardTitle>Cart Total</CardTitle>
             {/* payment calculating */}
             <div className="text-sm space-y-6 px-3">
               <div className="flex items-center justify-between">
