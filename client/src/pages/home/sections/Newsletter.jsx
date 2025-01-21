@@ -21,7 +21,9 @@ const Newsletter = () => {
   const [createSubscription, { data, isLoading, isSuccess, error }] = useCreateSubscriptionMutation()
 
   const { data: subscriberData } = useSingleSubscriberQuery({ email: user?.email })
-  const currentSubscriber = subscriberData?.subscriber?.email === user?.email;
+
+  const loggedInSubscriber = subscriberData?.subscriber?.email
+  const currentSubscriber = loggedInSubscriber !== undefined && loggedInSubscriber === user?.email;
 
   const handleSubscribe = (formData) => {
     console.log({ formData })
