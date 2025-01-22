@@ -28,16 +28,16 @@ const Footer = () => {
   const fullYear = today.getFullYear()
 
   return (
-    <footer className="border-t bg-slate-900 border- text-gray-300 px-3">
+    <footer className="border-t bg-slate-900 border- text-gray-300 text-sm px-3">
       <div className="md:px-8 pt-16 pb-8 flex flex-col lg:flex-row gap-10 ">
         <div id="support" className="space-y-4 w-full lg:w-[40%] " >
-          <Link to={"/"} className="poppins-bold text-[30px] md:text-[40px] text-white " >
+          <Link to={"/"} className="poppins-semibold text-[30px] text-white " >
             WellWood
           </Link>
 
           <div>
             <p className="text-white">Any questions? Feel free to call us:</p>
-            <Link to="tel:+8801610195968" className="text-lg font-medium hover:text-white duration-300" >+88 01600 112233</Link>
+            <Link to="tel:+8801610195968" className="text-base font-medium hover:text-white duration-300" >+88 01600 112233</Link>
           </div>
 
           <div className="text-gray-400">
@@ -47,13 +47,13 @@ const Footer = () => {
 
           <div>
             <p className="text-white">Any queries? Feel free to email us:</p>
-            <Link to="mailto:dev.m.ar.anas@gmail.com" className="text-lg font-medium hover:text-white duration-300 ">wellwood@info.com</Link>
+            <Link to="mailto:dev.m.ar.anas@gmail.com" className="text-base font-medium hover:text-white duration-300 ">wellwood@info.com</Link>
           </div>
         </div>
 
         <div className="w-full lg:w-[60%] flex items-start justify-between gap-8 ">
           <div id="top-categories" className=" flex-1 ">
-            <h1 className="font-bold text-xl mb-5 text-white">Top Categories</h1>
+            <h1 className="font-semibold text-lg mb-5 text-white">Top Categories</h1>
             <ul className="space-y-3 mb-3">
               {
                 topCategories?.map((category, index) => <li key={index} className="hover:ml-2 hover:font-semibold hover:text-white hover:underline duration-300" > <Link to={"/products"}>{category}</Link> </li>)
@@ -63,7 +63,7 @@ const Footer = () => {
           </div>
 
           <div id="quick-links" className="flex-1 ">
-            <h1 className="font-bold text-xl mb-5 text-white " >Quick Links</h1>
+            <h1 className="font-semibold text-lg mb-5 text-white " >Quick Links</h1>
             <ul className="space-y-3">
               {
                 quickLinks?.map((link, index) => <li key={index} className="hover:ml-2 hover:font-semibold hover:text-white hover:underline duration-300" > <Link to={link.route}>{link.title}</Link> </li>)
@@ -72,7 +72,7 @@ const Footer = () => {
           </div>
 
           <div id="quick-links" className="flex-1 ">
-            <h1 className="font-bold text-xl mb-5  text-white">Get in touch</h1>
+            <h1 className="font-semibold text-lg mb-5  text-white">Get in touch</h1>
             <ul className="space-y-3">
               {
                 getInTouch?.map((link, index) => <li key={index} className="hover:ml-2 hover:font-semibold hover:text-white duration-300" > <Link to={link.route}>{link.title}</Link> </li>)
@@ -87,7 +87,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4">
           <p>© Copyright {fullYear} Well Wood </p>
           <p className="hidden md:block">|</p>
-          <p>Developed by <Link to={"https://ariyanrahmananas.vercel.app"} target="_blank" className="hover:text-white duration-300" >Ariyan Rahman Anas</Link> </p>
+          <p>Developed by <Link to={"https://ariyanrahmananas.vercel.app"} target="_blank" className="text-white hover:underline duration-500" >Ariyan Rahman Anas</Link> </p>
         </div>
         <ul className="flex items-center md:flex-row gap-4 text-sm">
           {

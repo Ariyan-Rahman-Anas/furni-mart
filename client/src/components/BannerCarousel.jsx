@@ -28,7 +28,7 @@ const BannerCarousel = ({
         {images?.map((image, index) => (
           <CarouselItem key={index}>
             <Card className="border-0 shadow-none">
-              <div className="flex  items-center justify-center  h-auto lg:h-[86.5vh] ">
+              <div className="flex  items-center justify-center h-auto lg:h-[86.5vh] ">
                 {/* Slider images */}
                 <img
                   src={image?.url || image}
