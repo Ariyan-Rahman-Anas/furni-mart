@@ -63,9 +63,7 @@ const HomePage = () => {
 
       <ModernFurniture />
 
-
       <SpecialOffers />
-
 
       <PersonalizedRecommendations />
 
@@ -73,9 +71,7 @@ const HomePage = () => {
 
       <CustomerReviews />
 
-
       <Newsletter />
-
 
       <Blog />
 

@@ -51,7 +51,7 @@ const Navbar = () => {
     }, [data?.message, navigate, dispatch, error, isSuccess])
 
     const cartItems = useSelector(getActiveItemsLengthInCart)
-    const wishlist = useSelector(state=>state.wishlist.wishlistItems)
+    const wishlist = useSelector(state => state.wishlist.wishlistItems)
     const wishlistItems = wishlist?.length >= 1 ? wishlist.length : 0
 
     // nav link for mobile nav
@@ -79,145 +79,147 @@ const Navbar = () => {
 
 
     return (
-        <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-b-lg flex items-center justify-between bg-white z-50 dark:bg-black">
-            <div className="flex items-center gap-2">
-                <div className="lg:hidden">
-                    <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
+        <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-b-lg bg-white z-50 dark:bg-black">
+            <div className="max-w-[1920px] mx-auto flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <div className="lg:hidden">
+                        <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
+                    </div>
+
+                    <Link
+                        to={"/"}
+                        className="poppins-bold text-[30px]"
+                    >WellWood
+                    </Link>
                 </div>
 
-                <Link
-                    to={"/"}
-                    className="poppins-bold text-[30px]"
-                >WellWood
-                </Link>
-            </div>
-
-            {/* middle side */}
-            <div className="hidden lg:block" >
-                <NavigationMenu>
-                    <NavigationMenuList>
-                        <NavigationMenuItem>
-                            <NavLink
-                                to={"/"}
-                                className={({ isActive }) =>
-                                    isActive && location.pathname === "/"
-                                        ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
-                                        : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
-                                }
-                            >
-                                Home
-                            </NavLink>
-                        </NavigationMenuItem>
+                {/* middle side */}
+                <div className="hidden lg:block" >
+                    <NavigationMenu>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <NavLink
+                                    to={"/"}
+                                    className={({ isActive }) =>
+                                        isActive && location.pathname === "/"
+                                            ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
+                                            : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
+                                    }
+                                >
+                                    Home
+                                </NavLink>
+                            </NavigationMenuItem>
 
 
-                        <NavigationMenuItem>
-                            <NavLink
-                                to={"/products"}
-                                className={({ isActive }) =>
-                                    isActive && location.pathname === "/"
-                                        ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
-                                        : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
-                                }
-                            >
-                                Products
-                            </NavLink>
-                        </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavLink
+                                    to={"/products"}
+                                    className={({ isActive }) =>
+                                        isActive && location.pathname === "/"
+                                            ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
+                                            : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
+                                    }
+                                >
+                                    Products
+                                </NavLink>
+                            </NavigationMenuItem>
 
 
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Category</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
-                                    {categoryData?.categories?.map((category, index) => (
-                                        <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
-                                            <Link to={"/products"} state={{ category }}>{category}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>Category</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
+                                        {categoryData?.categories?.map((category, index) => (
+                                            <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
+                                                <Link to={"/products"} state={{ category }}>{category}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
 
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Sub-Category</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[400px] gap3 p-2 md:grid-cols-3">
-                                    {subCategoryData?.subCategories?.map((subCategory, index) => (
-                                        <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
-                                            <Link to={"/products"} state={{ subCategory }}>{subCategory}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-                    </NavigationMenuList>
-                </NavigationMenu>
-            </div>
-
-            {/* right side area */}
-            <div className="flex items-end gap-10">
-                <div className="hidden lg:block ">
-                    <ThemeSwitch />
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>Sub-Category</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid w-[400px] gap3 p-2 md:grid-cols-3">
+                                        {subCategoryData?.subCategories?.map((subCategory, index) => (
+                                            <li key={index} className="hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded-md">
+                                                <Link to={"/products"} state={{ subCategory }}>{subCategory}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
                 </div>
-                <Link to="/wishlist" className="relative p-1 " >
-                    <Heart />
-                    <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center " > {wishlistItems} </p>
-                </Link>
-                <Link to="/cart" className="relative p-1">
-                    <ShoppingCartIcon />
-                    <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center ">{cartItems} </p>
-                </Link>
 
-                <div className="hidden lg:block ">
-                    {
-                        user
-                            ?
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Avatar>
-                                        <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
-                                        <AvatarFallback>CN</AvatarFallback>
-                                    </Avatar>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-56">
-                                    <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuGroup>
-                                        <DropdownMenuItem>
-                                            <Link to={"/user/profile"}>My Profile</Link>
-                                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            {
-                                                (user.role === "admin" || user.role === "superAdmin") && <>
-                                                    <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
-                                                    <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
-                                                </>
-                                            }
-                                        </DropdownMenuItem>
-                                    </DropdownMenuGroup>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <Button
-                                            disabled={isLoading}
-                                            onClick={handleLogout}
-                                            className="w-full">
-                                            {
-                                                isLoading ? (
-                                                    <>
-                                                        Please wait
-                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {/* right side area */}
+                <div className="flex items-end gap-10">
+                    <div className="hidden lg:block ">
+                        <ThemeSwitch />
+                    </div>
+                    <Link to="/wishlist" className="relative p-1 " >
+                        <Heart />
+                        <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center " > {wishlistItems} </p>
+                    </Link>
+                    <Link to="/cart" className="relative p-1">
+                        <ShoppingCartIcon />
+                        <p className="absolute -top-[.75rem] -right-1 h-5 w-5 font-semibold rounded-sm text-sm text-white dark:text-black bg-black dark:bg-white leading-5 text-center ">{cartItems} </p>
+                    </Link>
+
+                    <div className="hidden lg:block ">
+                        {
+                            user
+                                ?
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" alt="user's avatar" />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuGroup>
+                                            <DropdownMenuItem>
+                                                <Link to={"/user/profile"}>My Profile</Link>
+                                                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                {
+                                                    (user.role === "admin" || user.role === "superAdmin") && <>
+                                                        <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
+                                                        <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
                                                     </>
-                                                ) : <> <LogOut />Logout </>
-                                            }
-                                        </Button>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            :
-                            <Link to={"/login"}  >
-                            <Button>Login</Button>
-                            </Link>
-                    }
+                                                }
+                                            </DropdownMenuItem>
+                                        </DropdownMenuGroup>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem>
+                                            <Button
+                                                disabled={isLoading}
+                                                onClick={handleLogout}
+                                                className="w-full">
+                                                {
+                                                    isLoading ? (
+                                                        <>
+                                                            Please wait
+                                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                        </>
+                                                    ) : <> <LogOut />Logout </>
+                                                }
+                                            </Button>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                :
+                                <Link to={"/login"}  >
+                                    <Button>Login</Button>
+                                </Link>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>
