@@ -12,7 +12,7 @@ const useAddRemoveFromWishlist = () => {
     const toggleWishlist = (product) => {
         if (isProductInWishlist(product.id)) {
             dispatch(removeFromWishlist(product.id));
-            toast.error("Remove from wishlist")
+            toast.error("Removed")
         } else {
             dispatch(addToWishlist(product));
             toast.success("Added to Wishlist")

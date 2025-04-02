@@ -10,7 +10,7 @@ export const allOrders = async (req, res, next) => {
     }
     return res.status(200).json({
       success: true,
-      message: "All order retrieved successfully",
+      message: "All Order Retrieved",
       totalOrders: orders.length,
       orders,
     });
@@ -27,7 +27,7 @@ export const getSingleOrder = async (req, res, next) => {
     }
     return res.status(200).json({
       success: true,
-      message: "An order details retrieved successfully",
+      message: "An order details retrieved",
       order
     })
   } catch (error) {
@@ -47,7 +47,7 @@ export const anUserOrders = async (req, res, next) => {
     }
     return res.status(200).json({
       success: true,
-      message: "User's orders retrieved successfully",
+      message: "User's orders retrieved",
       totalOrders: orders.length,
       orders,
     });
@@ -65,7 +65,7 @@ export const deleteAnOrder = async (req, res, next) => {
     await order.deleteOne();
     return res.status(200).json({
       success: true,
-      message: "An order deleted successfully",
+      message: "An order deleted",
     });
   } catch (error) {
     next(error);
@@ -84,7 +84,7 @@ export const getTransactionPendingOrders = async (req, res, next) => {
     }
     return res.status(200).json({
       success: false,
-      message: "Pending order retrieved successfully",
+      message: "Pending order retrieved",
       totalPendingOrders:pendingOrders.length,
       pendingOrders
     })
@@ -102,7 +102,7 @@ export const deletePendingTransaction = async (req, res, next) => {
     await pendingTransaction.deleteOne()
     return res.status(200).json({
       success: true,
-      message:"Pending transaction deleted successfully"
+      message:"Pending transaction deleted"
     })
   } catch (error) {
     next(error)

@@ -51,7 +51,7 @@ export const create = async (req, res, next) => {
 
       return res.status(201).json({
         success: true,
-        message: "Product created successfully",
+        message: "Product Created",
         product,
       });
     } catch (error) {
@@ -65,7 +65,7 @@ export const allCategory = async (req, res, next) => {
         const categories = await ProductModel.distinct("category");
         return res.status(200).json({
             success: true,
-            message: "All category retrieved successfully",
+            message: "All Category Retrieved",
             categories
         })
     } catch (error) {
@@ -79,7 +79,7 @@ export const allSubCategory = async (req, res, next) => {
         const subCategories = await ProductModel.distinct("subCategory");
         return res.status(200).json({
           success: true,
-          message: "All subCategories retrieved successfully",
+          message: "All Sub-Categories Retrieved",
           subCategories,
         });
     } catch (error) {
@@ -96,7 +96,7 @@ export const productList = async (req, res, next) => {
         }
         return res.status(200).json({
             success: true,
-            message: "All products retrieved successfully",
+            message: "All Products Retrieved",
             totalProducts: products.length,
             products
         })
@@ -115,7 +115,7 @@ export const productsBySubcategory = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Products retrieved successfully by category.",
+      message: "Products retrieved by category.",
       totalProducts: products.length,
       products,
     });
@@ -133,7 +133,7 @@ export const singleProduct = async (req, res, next) => {
         }
         return res.status(200).json({
             success: true,
-            message: "Product retrieved successfully",
+            message: "Product Retrieved",
             product
         })
     } catch (error) {
@@ -200,7 +200,7 @@ export const searchProduct = async (req, res, next) => {
 
          res.status(200).json({
            success: true,
-           message: "Products retrieved successfully by searching...",
+           message: "Products retrieved by searching...",
            totalPage,
            totalItems: filteredProducts.length,
            products,
@@ -268,7 +268,7 @@ export const updateProduct = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: "Product updated successfully",
+      message: "Product Updated",
       product,
     });
   } catch (error) {
@@ -291,7 +291,7 @@ export const deleteProduct= async (req, res, next) => {
 
         res.status(200).json({
           success: true,
-          message: "Product deleted successfully",
+          message: "Product Deleted",
         });
     } catch (error) {
         next(error)
@@ -318,7 +318,7 @@ export const getCategoryCounts = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Category counting retrieved successfully",
+      message: "Category counting retrieved",
       categoryCounts,
     });
   } catch (error) {
@@ -346,7 +346,7 @@ export const getSubCategoryCounts = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message:"sub category counts data retrieved successfully",
+      message:"sub category counts data retrieved",
       subCategoryCounts,
     });
   } catch (error) {

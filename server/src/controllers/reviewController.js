@@ -66,7 +66,7 @@ export const reviewsList = async (req, res, next) => {
     }
     return res.status(200).json({
       success: true,
-      message: "All reviews retrieved successfully",
+      message: "All Reviews Retrieved",
       totalReviews: reviews.length,
       reviews,
     });
@@ -99,7 +99,7 @@ export const aProductReviews = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "A Product's review retrieved successfully",
+      message: "A Product's Review Retrieved",
       reviews,
     });
   } catch (error) {

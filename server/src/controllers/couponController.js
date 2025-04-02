@@ -52,7 +52,7 @@ export const createCoupon = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Coupon created Successfully",
+      message: "Coupon Created",
       coupon,
     });
   } catch (error) {
@@ -75,7 +75,7 @@ export const activateCoupon = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Coupon activated successfully",
+      message: "Coupon Activated",
       coupon,
     });
   } catch (error) {
@@ -99,7 +99,7 @@ export const expireCoupon = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Coupon expired successfully",
+      message: "Coupon Expired",
     });
   } catch (error) {
     next(error);
@@ -157,7 +157,7 @@ export const getSingleCoupon = async (req, res, next) => {
     }
     return res.status(200).json({
       success: true,
-      message: "A coupon retrieved successfully",
+      message: "A Coupon Retrieved",
       coupon
     })
   } catch (error) {
@@ -173,7 +173,7 @@ export const getAllCoupons = async (req, res, next) => {
       return next(new ErrorHandler("There's no coupons right now", 404));
     res.status(200).json({
       success: true,
-      message: "All coupons retrieved successfully",
+      message: "All Coupons Retrieved",
       totalCoupons: coupons.length,
       coupons,
     });
@@ -193,7 +193,7 @@ export const deleteCoupon = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Coupon deleted successfully",
+      message: "Coupon Deleted",
     });
   } catch (error) {
     next(error)

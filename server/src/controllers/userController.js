@@ -191,7 +191,7 @@ export const googleAuth = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     res.clearCookie("token");
-    res.status(200).json({ success: true, message: "Logged out Successfully" });
+    res.status(200).json({ success: true, message: "Logged Out" });
   } catch (error) {
     next(error)
   }
@@ -206,7 +206,7 @@ export const allUser = async (req, res, next) => {
     }
     return res.status(200).json({
       success: true,
-      message: "All users retrieved successfully",
+      message: "All Users Retrieved",
       totalUser: users.length,
       users
     })
@@ -225,7 +225,7 @@ export const deleteUser = async (req, res, next) => {
     await user.deleteOne();
     return res.status(200).json({
       success: true,
-      message: "User deleted successfully",
+      message: "User Deleted",
     });
   } catch (error) {
     next(error);

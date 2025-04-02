@@ -65,7 +65,7 @@ export const getSingleBanner = async (req, res, next) => {
         }
         return res.status(200).json({
           success: true,
-          message: "A single banner retrieved successfully",
+          message: "A Single Banner Retrieved",
           banner,
         });
     } catch (error) {

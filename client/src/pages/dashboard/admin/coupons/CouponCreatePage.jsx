@@ -76,7 +76,7 @@ const CouponCreatePage = () => {
       toast.error(error?.data?.message || "An unknown error occurred.");
     }
     if (isSuccess) {
-      toast.success(couponCreateData?.message || "Coupon created successfully!");
+      toast.success(couponCreateData?.message || "Coupon Created");
       navigate("/admin/coupons");
     }
   }, [couponCreateData?.message, error, isSuccess, navigate]);

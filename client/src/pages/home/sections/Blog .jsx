@@ -8,7 +8,7 @@ const Blog  = () => {
               <p className="subheading">Explore Our Blog for Expert Advice, Styling Ideas, and Furniture Care Tips!</p>
           </div>
 
-          <ComingSoon />
+          {/* <ComingSoon /> */}
 
       </div>
   )

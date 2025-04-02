@@ -12,7 +12,7 @@ const useDelete = (deleteMutation) => {
             toast.error(error?.data?.message || "Something went wrong");
         }
         if (isSuccess) {
-            toast.success(data?.message || "Deleted successfully");
+            toast.success(data?.message || "Deleted");
         }
     }, [data?.message, error, isSuccess]);
 

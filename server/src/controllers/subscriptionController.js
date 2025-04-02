@@ -40,7 +40,7 @@ export const getSubscribers = async (req, res, next) => {
         
         res.status(200).json({
             success: true,
-            message: "Subscribers retrieved successfully",
+            message: "Subscribers Retrieved",
             totalSubscribers: subscribers.length,
             subscribers
         })
@@ -58,7 +58,7 @@ export const getSingleSubscriber = async (req, res, next) => {
         }
         res.status(200).json({
             success: true,
-            message: "Subscriber retrieved successfully",
+            message: "Subscriber Retrieved",
             subscriber
         })
     } catch (error) {

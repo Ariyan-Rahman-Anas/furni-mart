@@ -188,7 +188,7 @@ export const paymentSuccess = async (req, res, next) => {
         await product.save();
       }
 
-      console.log("Stock updated successfully");
+      console.log("Stock updated");
 
       // Redirect to the success page
       res.redirect(`${process.env.CLIENT_URL}/payment-success?success=true`);

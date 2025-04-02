@@ -12,7 +12,7 @@ export const deleteImgFromCloudinary = async (publicIds) => {
                     console.warn(`Image deletion not successful for id ${id}:`, result); // Log warning if not "ok"
                     return reject(new Error("Deletion unsuccessful"));
                 }
-                console.log(`Successfully deleted image with id ${id}`);
+                console.log(`Deleted image with id ${id}`);
                 resolve();
             });
         });

@@ -49,7 +49,7 @@ const ProductEditPage = () => {
             toast.error(error?.data?.message || "An unknown error occurred.");
         }
         if (isSuccess) {
-            toast.success(data?.message || "Product updated successfully!");
+            toast.success(data?.message || "Product Updated");
             navigate("/admin/products");
         }
     }, [data?.message, error, isSuccess, navigate]);
