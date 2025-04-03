@@ -21,7 +21,7 @@ const Footer = () => {
   const guidances = [
     { title: "Privacy Policy", route: "/privacy-policy" },
     { title: "Terms & Conditions", route: "/terms-conditions" },
-    { title: "Refund & Exchange Policy", route: "/return-exchange-policy" },
+    { title: "Refund & Exchange Policy", route: "/refund-exchange" },
   ]
 
   const today = new Date()
@@ -32,7 +32,7 @@ const Footer = () => {
       <div className="max-w-[1920px] mx-auto">
         <div className="md:px-8 pt-16 pb-8 flex flex-col lg:flex-row gap-10 ">
           <div id="support" className="space-y-4 w-full lg:w-[40%] " >
-            <Link to={"/"} className="poppins-semibold text-[30px] text-white " >
+            <Link to={"/"} className="poppins-semibold text-[24px] text-white " >
               WellWood
             </Link>
 
@@ -86,7 +86,7 @@ const Footer = () => {
         <hr className="mb-6 border-gray-500 " />
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 pb-4">
           <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4">
-            <p>© Copyright {fullYear} Well Wood </p>
+            <p>© Copyright {fullYear} WellWood </p>
             <p className="hidden md:block">|</p>
             <p>Developed by <Link to={"https://ariyanrahmananas.vercel.app"} target="_blank" className="text-white hover:underline duration-500" >Ariyan Rahman Anas</Link> </p>
           </div>

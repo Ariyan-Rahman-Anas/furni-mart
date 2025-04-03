@@ -6,6 +6,7 @@ import NotFoundPage from "@/pages/NotFoundPage";
 
 const App = lazy(() => import("./../App"));
 const HomePage = lazy(() => import("./../pages/home/HomePage"));
+const AboutPage = lazy(() => import("./../pages/about/AboutPage"));
 const RegistrationPage = lazy(() => import("./../pages/registration/RegistrationPage"));
 const LoginPage = lazy(() => import("./../pages/login/LoginPage"));
 const ProductSearchPage = lazy(() => import("../pages/productSearch/ProductsSearchPage"));
@@ -16,6 +17,9 @@ const CheckoutPage = lazy(() => import("../pages/checkout/CheckoutPage"));
 const PaymentSuccessPage = lazy(() => import("../pages/payments/PaymentSuccessPage"));
 const PaymentFailedPage = lazy(() => import("../pages/payments/PaymentFailedPage"));
 const PaymentCancelPage = lazy(() => import("../pages/payments/PaymentCancelPage"));
+const PrivacyPolicyPage = lazy(() => import("../pages/privacyPolicy/PrivacyPolicyPage"));
+const TermsAndConditionsPage = lazy(() => import("../pages/termsAndConditions/TermsAndConditionsPage"));
+const RefundAndEPPage = lazy(() => import("../pages/refundAndEP/RefundAndEPPage"));
 
 
 
@@ -52,6 +56,7 @@ const MainRoute = createBrowserRouter([
         errorElement:<NotFoundPage />,  
         children: [
             { path: "/", element: <HomePage /> },
+            { path: "/about", element: <AboutPage /> },
             { path: "/registration", element: <ProtectedRoute isPublic={true} > <RegistrationPage /> </ProtectedRoute> },
             { path: "/login", element: <ProtectedRoute isPublic={true} ><LoginPage /></ProtectedRoute> },
             { path: "/products", element: <ProductSearchPage /> },
@@ -62,6 +67,9 @@ const MainRoute = createBrowserRouter([
             { path: "/payment-success", element: <ProtectedRoute><PaymentSuccessPage /></ProtectedRoute>},
             { path: "/payment-failed", element: <ProtectedRoute><PaymentFailedPage /></ProtectedRoute> },
             { path: "/payment-cancel", element: <ProtectedRoute><PaymentCancelPage /></ProtectedRoute>},
+            { path: "/privacy-policy", element: <ProtectedRoute><PrivacyPolicyPage /></ProtectedRoute>},
+            { path: "/terms-conditions", element: <ProtectedRoute><TermsAndConditionsPage /></ProtectedRoute>},
+            { path: "/refund-exchange", element: <ProtectedRoute><RefundAndEPPage /></ProtectedRoute>},
         ]
     },
     {

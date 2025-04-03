@@ -57,6 +57,7 @@ const Navbar = () => {
     // nav link for mobile nav
     const links = [
         { icon: <Home className="h-5 w-5" />, label: "Home", to: "/" },
+        { icon: <Home className="h-5 w-5" />, label: "About", to: "/about" },
         { icon: <Package className="h-5 w-5" />, label: "Products", to: "/products" },
         { icon: <Package className="h-5 w-5" />, label: "Products", to: "/products" },
         { icon: <ShoppingCart className="h-5 w-5" />, label: "Orders", to: "/cart" },
@@ -81,6 +82,7 @@ const Navbar = () => {
     return (
         <nav className="sticky top-0 w-full shadow p-4 md:p-3 rounded-b-lg bg-white z-50 dark:bg-black">
             <div className="max-w-[1920px] mx-auto flex items-center justify-between">
+                {/* left side */}
                 <div className="flex items-center gap-2">
                     <div className="lg:hidden">
                         <MobileNav links={links} onUpgradeClick={handleUpgradeClick} />
@@ -88,7 +90,7 @@ const Navbar = () => {
 
                     <Link
                         to={"/"}
-                        className="poppins-bold text-[30px]"
+                        className="poppins-bold text-[24px]"
                     >WellWood
                     </Link>
                 </div>
@@ -102,11 +104,24 @@ const Navbar = () => {
                                     to={"/"}
                                     className={({ isActive }) =>
                                         isActive && location.pathname === "/"
-                                            ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
-                                            : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
+                                            ? "px-4 py-2 rounded-md font-medium text-sm bg-accent text-accent-foreground "
+                                            : "px-4 py-2 rounded-md font-medium text-sm hover:bg-accent hover:text-accent-foreground "
                                     }
                                 >
                                     Home
+                                </NavLink>
+                            </NavigationMenuItem>
+
+                            <NavigationMenuItem>
+                                <NavLink
+                                    to={"/about"}
+                                    className={({ isActive }) =>
+                                        isActive && location.pathname === "/about"
+                                            ? "px-4 py-2 rounded-md font-medium text-sm bg-accent text-accent-foreground "
+                                            : "px-4 py-2 rounded-md font-medium text-sm hover:bg-accent hover:text-accent-foreground "
+                                    }
+                                >
+                                    About
                                 </NavLink>
                             </NavigationMenuItem>
 
@@ -115,9 +130,9 @@ const Navbar = () => {
                                 <NavLink
                                     to={"/products"}
                                     className={({ isActive }) =>
-                                        isActive && location.pathname === "/"
-                                            ? "px-4 py-2 rounded-md font-semibold text-sm bg-accent text-accent-foreground "
-                                            : "px-4 py-2 rounded-md font-semibold text-sm hover:bg-accent hover:text-accent-foreground "
+                                        isActive && location.pathname === "/products"
+                                            ? "px-4 py-2 rounded-md font-medium text-sm bg-accent text-accent-foreground "
+                                            : "px-4 py-2 rounded-md font-medium text-sm hover:bg-accent hover:text-accent-foreground "
                                     }
                                 >
                                     Products
@@ -155,7 +170,7 @@ const Navbar = () => {
                 </div>
 
                 {/* right side area */}
-                <div className="flex items-end gap-10">
+                <div className="flex items-end gap-6">
                     <div className="hidden lg:block ">
                         <ThemeSwitch />
                     </div>

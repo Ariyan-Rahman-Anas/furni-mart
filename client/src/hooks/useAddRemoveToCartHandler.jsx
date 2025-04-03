@@ -31,11 +31,11 @@ export const useAddRemoveToCartHandler = (product) => {
 
         if (!isProductInCart) {
             dispatch(addToCart(cartItem));
-            toast.success("Product added to cart");
+            toast.success("Added to Cart");
         }
         else {
             dispatch(removeFromCart(cartItem.productId));
-            toast.error("Product removed from cart");
+            toast.success("Removed from Cart");
         }
     };
 

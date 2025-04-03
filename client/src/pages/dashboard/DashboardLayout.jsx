@@ -1,6 +1,6 @@
 import MobileNav from "@/components/dashboard/MobileNav";
 import Sidebar from "@/components/dashboard/Sidebar";
-import { Home, LayoutPanelTop, LineChart, MessageSquareHeart, Package, ShoppingCart, Users } from "lucide-react";
+import { Home, LayoutPanelTop, MessageSquareHeart, Package, ShoppingCart, Users } from "lucide-react";
 import { Outlet, useLocation } from "react-router-dom"
 
 const DashboardLayout = () => {

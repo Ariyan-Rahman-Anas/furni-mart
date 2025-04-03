@@ -34,8 +34,8 @@ const CustomerReviews = () => {
                     <DateFormatter date={createdAt} />
                   </p>
                   <div className="flex items-center justify-center flex-col mt-4">
-                    <span className="text-xs">({rating} out of 5)</span>
                     <RatingStars rating={rating} />
+                    <span className="text-xs">({rating} out of 5)</span>
                   </div>
                 </Card>
               </CarouselItem>
