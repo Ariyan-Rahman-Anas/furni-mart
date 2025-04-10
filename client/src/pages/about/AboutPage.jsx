@@ -1,7 +1,25 @@
 import { Button } from "@/components/ui/button";
+import usePageTitle from "@/hooks/usePageTitle";
 import { Link } from "react-router-dom";
 
 const AboutPage = () => {
+  usePageTitle('About');
+
+  const whatWeOffer = [
+    {
+      title: "Home Furniture",
+      details:"From cozy sofas to sleek dining tables, we design pieces that turn houses into homes."
+    },
+    {
+      title: "Office Furniture",
+      details: "Smart, ergonomic, and stylish setups to boost productivity and comfort at work."
+    },
+    {
+      title: "Custom Designs",
+      details: "Got a vision? Let’s bring it to life with bespoke pieces tailored to your taste and needs."
+    }
+  ]
+
   return (
     <div className="px-2 md:px-6 space-y-24 mt-6 max-w-6xl mx-auto text-black">
       {/* Hero Section */}
@@ -36,18 +54,12 @@ const AboutPage = () => {
       <section>
         <h2 className="text-3xl font-bold mb-6 text-center">What We Offer</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-xl border shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold mb-3">Home Furniture</h3>
-            <p className="text-gray-700">From cozy sofas to sleek dining tables, we design pieces that turn houses into homes.</p>
-          </div>
-          <div className="bg-white p-6 rounded-xl border shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold mb-3">Office Furniture</h3>
-            <p className="text-gray-700">Smart, ergonomic, and stylish setups to boost productivity and comfort at work.</p>
-          </div>
-          <div className="bg-white p-6 rounded-xl border shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold mb-3">Custom Designs</h3>
-            <p className="text-gray-700">Got a vision? Let’s bring it to life with bespoke pieces tailored to your taste and needs.</p>
-          </div>
+          {whatWeOffer.map(({title, details}, index) => (
+            <div key={index} className="bg-white p-6 rounded-xl border shadow hover:shadow-lg transition">
+              <h3 className="text-xl font-semibold mb-3">{title}</h3>
+              <p className="text-gray-700">{details}</p>
+            </div>
+          ))}
         </div>
       </section>
 
