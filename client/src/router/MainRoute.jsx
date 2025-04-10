@@ -17,6 +17,7 @@ const CheckoutPage = lazy(() => import("../pages/checkout/CheckoutPage"));
 const PaymentSuccessPage = lazy(() => import("../pages/payments/PaymentSuccessPage"));
 const PaymentFailedPage = lazy(() => import("../pages/payments/PaymentFailedPage"));
 const PaymentCancelPage = lazy(() => import("../pages/payments/PaymentCancelPage"));
+const BlogsPage = lazy(() => import("../pages/blogs/BlogsPage"));
 const PrivacyPolicyPage = lazy(() => import("../pages/privacyPolicy/PrivacyPolicyPage"));
 const TermsAndConditionsPage = lazy(() => import("../pages/termsAndConditions/TermsAndConditionsPage"));
 const RefundAndEPPage = lazy(() => import("../pages/refundAndEP/RefundAndEPPage"));
@@ -67,9 +68,10 @@ const MainRoute = createBrowserRouter([
             { path: "/payment-success", element: <ProtectedRoute><PaymentSuccessPage /></ProtectedRoute>},
             { path: "/payment-failed", element: <ProtectedRoute><PaymentFailedPage /></ProtectedRoute> },
             { path: "/payment-cancel", element: <ProtectedRoute><PaymentCancelPage /></ProtectedRoute>},
-            { path: "/privacy-policy", element: <ProtectedRoute><PrivacyPolicyPage /></ProtectedRoute>},
-            { path: "/terms-conditions", element: <ProtectedRoute><TermsAndConditionsPage /></ProtectedRoute>},
-            { path: "/refund-exchange", element: <ProtectedRoute><RefundAndEPPage /></ProtectedRoute>},
+            { path: "/blogs", element: <BlogsPage />},
+            { path: "/privacy-policy", element: <PrivacyPolicyPage />},
+            { path: "/terms-conditions", element: <TermsAndConditionsPage />},
+            { path: "/refund-exchange", element: <RefundAndEPPage />},
         ]
     },
     {

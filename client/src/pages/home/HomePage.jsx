@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import WhyChooseUs from "./sections/WhyChooseUs"
 import CustomerReviews from "./sections/CustomerReviews"
 import Newsletter from "./sections/Newsletter"
-import Blog from "./sections/Blog "
+import Blog from "./sections/Blog"
 import ModernFurniture from "./sections/ModernFurniture"
 import SpecialOffers from "./sections/SpecialOffers"
 

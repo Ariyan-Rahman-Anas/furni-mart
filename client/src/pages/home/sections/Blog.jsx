@@ -1,5 +1,3 @@
-import ComingSoon from "@/components/ComingSoon"
-
 const Blog  = () => {
   return (
       <div className="space-y-6">
@@ -9,6 +7,7 @@ const Blog  = () => {
           </div>
 
           {/* <ComingSoon /> */}
+          
 
       </div>
   )
