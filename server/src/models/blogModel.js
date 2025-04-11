@@ -20,7 +20,7 @@ const blogSchema = new mongoose.Schema(
         categories: [String],
         tags: [String],
         author: { type: String, default: 'WellWood Team' },
-        published: { type: Boolean, default: false },
+        published: { type: Boolean, default: true },
         publishedAt: { type: Date },
         readingTime: { type: Number, default: 0 },
         views: { type: Number, default: 0 },

@@ -2,6 +2,8 @@ import BlogModel from "../models/blogModel.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import { uploadImagesToCloudinary } from "../utils/uploadImagesToCloudinary.js";
 
+
+// posting a blog
 export const createBlog = async (req, res, next) => {
     try {
         const images = req.files
@@ -43,7 +45,7 @@ export const createBlog = async (req, res, next) => {
     }
 }
 
-
+// getting all blogs
 export const getBlogs = async (req, res, next) => {
     try {
         const blogs = await BlogModel.find({})
@@ -56,6 +58,24 @@ export const getBlogs = async (req, res, next) => {
             totalBlogs: blogs.length,
             blogs,
         });
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+// delete a blog
+export const deleteBlog = async (req, res, next) => {
+    try {
+        const blog = await BlogModel.findById(req.params.id)
+        if (!blog) {
+            return next(new ErrorHandler("Blog not found", 404))
+        }
+        await blog.deleteOne()
+        return res.status(200).json({
+            success: true,
+            message: "Deleted"
+        })
     } catch (error) {
         next(error)
     }

@@ -21,29 +21,29 @@ const AboutPage = () => {
   ]
 
   return (
-    <div className="px-2 md:px-6 space-y-24 mt-6 max-w-6xl mx-auto text-black">
+    <div className="px-2 md:px-6 space-y-24 mt-6 max-w-6xl mx-auto text-black dark:text-white ">
       {/* Hero Section */}
-      <section className="text-center p-6 md:p-12 bg-white rounded-3xl shadow-xl border border-gray-200">
+      <section className="text-center p-6 md:p-12 bg-white dark:bg-black rounded-3xl shadow-xl border border-gray-200 dark:border-gray-500">
         <h1 className="text-5xl font-extrabold mb-6 tracking-tight">Designing Comfort. <br /> Inspiring Style.</h1>
-        <p className="text-xl max-w-3xl mx-auto text-gray-600">
-          At <span className="text-black font-bold">WellWood</span>, furniture is an experience. Whether you&apos;re   building your dream home or refining your workspace, our signature pieces fuse purpose with personality.
+        <p className="text-xl max-w-3xl mx-auto text-gray-600 dark:text-gray-400 ">
+          At <span className="text-black dark:text-white font-bold">WellWood</span>, furniture is an experience. Whether you&apos;re   building your dream home or refining your workspace, our signature pieces fuse purpose with personality.
         </p>
       </section>
 
       {/* Our Story & Mission */}
       <section className="grid md:grid-cols-2 gap-12">
         <div>
-          <h2 className="text-3xl font-bold mb-4 border-l-4 rounded-l-sm border-black pl-4">Our Story</h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <h2 className="text-3xl font-bold mb-4 border-l-4 rounded-l-sm border-black dark:border-white pl-4">Our Story</h2>
+          <p className="text-lg text-gray-700 dark:text-gray-400 leading-relaxed">
             WellWood started with a simple question: <em>Why settle for furniture that just fills a room,
               when it can transform it?</em> What began as a small design studio has grown into a brand trusted by
             homeowners and businesses alike. Every piece we create reflects our passion for high-quality
             craftsmanship and modern aesthetics.
           </p>
         </div>
-        <div className="bg-gray-50 p-8 rounded-2xl shadow-md">
+        <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl shadow-md">
           <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray-700 dark:text-gray-400 ">
             To provide timeless, well-crafted furniture that enhances everyday living—at home and at work. We aim
             to blend style, functionality, and sustainability in every design.
           </p>
@@ -55,18 +55,18 @@ const AboutPage = () => {
         <h2 className="text-3xl font-bold mb-6 text-center">What We Offer</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {whatWeOffer.map(({title, details}, index) => (
-            <div key={index} className="bg-white p-6 rounded-xl border shadow hover:shadow-lg transition">
+            <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl border shadow hover:shadow-lg transition">
               <h3 className="text-xl font-semibold mb-3">{title}</h3>
-              <p className="text-gray-700">{details}</p>
+              <p className="text-gray-700 dark:text-gray-400 ">{details}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Why Choose Us */}
-      <section className=" bg-gray-50 p-10 rounded-2xl shadow-md">
+      <section className=" bg-gray-50 dark:bg-gray-800 p-10 rounded-2xl shadow-md">
         <h2 className="text-3xl font-bold mb-6 text-center">Why Choose Us?</h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg text-gray-700 list-disc list-inside">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg text-gray-700 dark:text-gray-400 list-disc list-inside">
           <li>Thoughtful design meets premium materials</li>
           <li>Ethical, sustainable manufacturing</li>
           <li>Exceptional customer service and support</li>
@@ -76,9 +76,9 @@ const AboutPage = () => {
       </section>
 
       {/* Sustainability Commitment */}
-      <section className=" bg-white p-10 rounded-2xl shadow-md border">
-        <h2 className="text-3xl font-bold mb-4">Sustainability Commitment</h2>
-        <p className="text-lg text-gray-700">
+      <section className=" bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-md border">
+        <h2 className="text-3xl font-bold mb-4 text-center ">Sustainability Commitment</h2>
+        <p className="text-lg text-gray-700 dark:text-gray-400">
           Sustainability is not a trend—it’s our foundation. We partner with responsible suppliers, use low-impact finishes, and minimize waste. Every product is a pledge to protect what matters most: your environment and ours.
         </p>
       </section>
@@ -86,7 +86,7 @@ const AboutPage = () => {
       {/* Call to Action */}
       <section className="text-center">
         <h2 className="text-3xl font-bold mb-4">Let’s Make Your Space Remarkable</h2>
-        <p className="mb-6 text-lg text-gray-700">Explore our collections or get in touch with our design team today.</p>
+        <p className="mb-6 text-lg text-gray-700 dark:text-gray-400">Explore our collections or get in touch with our design team today.</p>
         <div className="flex justify-center gap-6">
           <Link to={"/products"}  >
             <Button>Explore Collections</Button>
