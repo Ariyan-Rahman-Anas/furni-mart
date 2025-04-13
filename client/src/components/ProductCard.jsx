@@ -3,8 +3,8 @@ import { Card } from "./ui/card";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getActiveItemsInCart } from "@/redux/slices/cartSlice";
-import ProductCardSkeleton from "./ProductCardSkeleton";
 import useAddRemoveFromWishlist from "@/hooks/useAddRemoveFromWishlist";
+import ProductCardSkeleton from "./skeletons/ProductCardSkeleton";
 
 const ProductCard = ({ isLoading, product }) => {
     const { _id, name, brand, images, variants, averageRating } = product || {};

@@ -3,6 +3,7 @@ import ErrorHandler from '../utils/errorHandler.js';
 import { uploadImagesToCloudinary } from './../utils/uploadImagesToCloudinary.js';
 import { deleteImgFromCloudinary } from './../utils/deleteImgFromCloudinary.js';
 
+
 export const create = async (req, res, next) => {
     try {
       const images = req.files;
@@ -15,6 +16,7 @@ export const create = async (req, res, next) => {
         isFeatured,
         variants,
         brand,
+        tag
       } = req.body;
 
       // Parse variants if it's a string
@@ -47,6 +49,7 @@ export const create = async (req, res, next) => {
         color,
         isFeatured,
         images: imgUrl,
+        tag
       });
 
       return res.status(201).json({

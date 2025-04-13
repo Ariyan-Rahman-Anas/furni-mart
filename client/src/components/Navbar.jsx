@@ -125,7 +125,6 @@ const Navbar = () => {
                                 </NavLink>
                             </NavigationMenuItem>
 
-
                             <NavigationMenuItem>
                                 <NavLink
                                     to={"/products"}
@@ -138,7 +137,6 @@ const Navbar = () => {
                                     Products
                                 </NavLink>
                             </NavigationMenuItem>
-
 
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger>Category</NavigationMenuTrigger>
@@ -165,6 +163,20 @@ const Navbar = () => {
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
+
+                            <NavigationMenuItem>
+                                <NavLink
+                                    to={"/blogs"}
+                                    className={({ isActive }) =>
+                                        isActive && location.pathname === "/blogs"
+                                            ? "px-4 py-2 rounded-md font-medium text-sm bg-accent text-accent-foreground "
+                                            : "px-4 py-2 rounded-md font-medium text-sm hover:bg-accent hover:text-accent-foreground "
+                                    }
+                                >
+                                    Blogs
+                                </NavLink>
+                            </NavigationMenuItem>
+
                         </NavigationMenuList>
                     </NavigationMenu>
                 </div>

@@ -72,6 +72,11 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    tag: {
+      type: String,
+      default: "new",
+      enum:["new", "deal", "limited"]
+    },
     variants: [
       {
         size: {

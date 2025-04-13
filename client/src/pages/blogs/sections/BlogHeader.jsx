@@ -13,8 +13,8 @@ const BlogHeader = () => {
   return (
     <section className="space-y-3">
       <div className="space-y-3">
-        <h1 className="heading" >Our Blog</h1>
-        <p className="subheading" >Short summary about what users can expect.</p>
+        <h1 className="heading" >The WellWood Journal</h1>
+        <p className="subheading" >Design stories, practical tips, and curated ideas to transform your everyday spaces.</p>
       </div>
 
       <div>
@@ -22,16 +22,13 @@ const BlogHeader = () => {
           <Input type="text" placeholder="Search..." />
           <Select>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a fruit" />
+              <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
+                <SelectLabel>Select one</SelectLabel>
+                <SelectItem value="newest">Newest</SelectItem>
+                <SelectItem value="popular">Most Popular</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

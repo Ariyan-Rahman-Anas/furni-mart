@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import usePageTitle from "@/hooks/usePageTitle";
-import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 import { useLocation } from "react-router-dom";
 import { useCategoriesQuery, useSearchProductsQuery, useSubCategoriesQuery } from "@/redux/apis/productApi";
+import ProductCardSkeleton from "@/components/skeletons/ProductCardSkeleton";
 
 const ProductsSearchPage = () => {
     usePageTitle("Products Search")
