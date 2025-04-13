@@ -11,18 +11,35 @@ export const blogApi = createApi({
             query: formData => ({
                 url: "/create",
                 method: "POST",
-                body:formData
+                body: formData
             }),
-            invalidatesTags:["blogs"]
+            invalidatesTags: ["blogs"]
         }),
         readBlogs: builder.query({
             query: () => "/list",
+            providesTags: ["blogs"]
+        }),
+        searchBlog: builder.query({
+            query: ({search, popular}) => {
+                let baseQuery = `/search?search=${search}`
+                if (popular) baseQuery += `&popular=${popular}`
+                return baseQuery
+            },
             providesTags:["blogs"]
+        }),
+        deleteBlog: builder.mutation({
+            query: (id) => ({
+                url: `${id}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["blogs"]
         })
     })
 })
 
 export const {
     usePostBlogMutation,
-    useReadBlogsQuery
+    useReadBlogsQuery,
+    useSearchBlogQuery,
+    useDeleteBlogMutation
 } = blogApi

@@ -45,12 +45,13 @@ export const createBlog = async (req, res, next) => {
     }
 }
 
+
 // getting all blogs
 export const getBlogs = async (req, res, next) => {
     try {
         const blogs = await BlogModel.find({})
         if (blogs.length < 1) {
-            return next(new ErrorHandler("There's no blogs right now"))
+            return next(new ErrorHandler("There's no blogs right now", 404))
         }
         return res.status(200).json({
             success: true,
@@ -62,6 +63,38 @@ export const getBlogs = async (req, res, next) => {
         next(error)
     }
 }
+
+
+// search blog
+export const searchBlog = async (req, res, next) => {
+  try {
+    const { search, popular } = req.query;
+    const baseQuery = {};
+    if (search) {
+      baseQuery.title = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    const sortByViews = popular === "true" ? { views: -1 } : { createdAt: -1 };
+
+    const blogs = await BlogModel.find(baseQuery).sort(sortByViews);
+
+    if (blogs.length < 1) {
+      return next(new ErrorHandler("No blogs found!", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Blogs retrieved",
+      totalBlogs: blogs.length,
+      blogs,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 // delete a blog

@@ -26,7 +26,7 @@ const ProductReviews = ({ productId }) => {
     } = useForm();
     const user = useSelector(state => state?.auth?.user)
 
-    const { data: productReviewData, isLoading, error } = useAProductReviewsQuery(productId)
+    const { data: productReviewData, isLoading } = useAProductReviewsQuery(productId)
     const { data: myOrdersData } = useAnUserOrdersQuery(user?.email)
     const productType = myOrdersData?.orders?.map(order => order.paymentInfo?.product_type)
 
@@ -147,7 +147,7 @@ const ProductReviews = ({ productId }) => {
                                   <p className="text-xs absolute top-3 right-3 " ><DateFormatter date={createdAt} /></p>
 
                                   {
-                                      reviewer._id === user?._id && <div className="w-fit absolute top-7 right-3"> 
+                                      reviewer?._id === user?._id && <div className="w-fit absolute top-7 right-3"> 
                                           {
                                               isDeleting ? (
                                                   <>
