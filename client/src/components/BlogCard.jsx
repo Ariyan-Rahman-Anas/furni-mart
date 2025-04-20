@@ -18,10 +18,10 @@ const BlogCard = ({ blog }) => {
     };
 
   return (
-      <div className="shadow border rounded-md py-2 px-3 overflow-hidden" >
+      <div className="shadow border rounded-md py-2 px-3 overflow-hidden group ">
           <div className="flex items-center justify-between">
-              <p className="bg-gray-300 text-black text-xs rounded-md px-2.5 py-1 font-medium  " >{categories?.[0]}</p>
-              <p>{tags?.[0]}</p>
+              <p className="bg-gray-300 text-black text-xs rounded-md px-2.5 py-1 font-medium  ">{categories?.[0]}</p>
+              <p className="bg-gray-300 text-black text-xs rounded-md px-2.5 py-1 font-medium">{tags?.[0]}</p>
           </div>
           <div className="h-[200px] w-full my-1 ">
               <img src={images?.[0]?.url} alt={title} className="w-full h-full rounded-md object-cover " />
@@ -33,14 +33,16 @@ const BlogCard = ({ blog }) => {
                   <p className="font-medium" >{views}</p>
               </div>
           </div>
-          <h3 className="text-lg font-semibold my-2 ">{title}</h3>
+          {
+              title.length > 45 ? <h3 className="text-lg font-semibold my-2 ">{title.slice(0, 45)}...</h3> : <h3 className="text-lg font-semibold my-2 ">{title}</h3>
+          }
               <p className="text-gray-600 leading-relaxed " >{formatContent(content.slice(0, 110))}</p>
-          <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1 text-gray-600 ">
+          <div className="flex items-center justify-between text-gray-600">
+              <div className="flex items-center gap-1  ">
                   <Clock size={17} />
                   <DateFormatter date={createdAt} />
               </div>
-              <Link to={`/blogs/${slug}`} state={{blog}} className="flex items-center gap-1">
+              <Link to={`/blogs/${slug}`} state={{blog}} className="flex items-center gap-1.5 group-hover:gap-0 group-hover:text-black duration-300 font-medium relative ">
                   <p>Read more</p>
                   <ChevronRight size={17} />
               </Link>

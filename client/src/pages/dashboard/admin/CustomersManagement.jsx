@@ -8,7 +8,9 @@ import useDelete from "@/hooks/useDelete"
 import { useDeleteUserMutation, useUserListQuery } from "@/redux/apis/authApi"
 
 const CustomersManagement = () => {
-    const { data: userList, isLoading:isLoadingUserList, error } = useUserListQuery()
+    const { data: userList, isLoading: isLoadingUserList, error } = useUserListQuery()
+    
+    console.log({ userList });
 
     const { handleDelete, isLoading: isDeleting } = useDelete(useDeleteUserMutation)
     const onDeleteUser = (id) => {
@@ -29,17 +31,17 @@ const CustomersManagement = () => {
         {
             accessorKey: "phone",
             header: "Phone",
-            cell: ({ row }) => <p>{row.original?.phone}</p>,
+            cell: ({ row }) => <p>{row.original?.phone ? row.original?.phone : "null"}</p>,
         },
         {
             accessorKey: "address",
             header: "Address",
-            cell: ({ row }) => <p>{row.original?.address}</p>,
+            cell: ({ row }) => <p>{row.original?.address ? row.original?.address : "null"}</p>,
         },
         {
-            accessorKey: "isAdmin",
-            header: "IsAdmin",
-            cell: ({ row }) => <p>{row.original?.isAdmin ? "Yes" : "No"}</p>,
+            accessorKey: "role",
+            header: "Role",
+            cell: ({ row }) => <p>{row.original?.role}</p>,
         },
         {
             accessorKey: "registered",

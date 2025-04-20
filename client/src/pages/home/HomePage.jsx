@@ -35,7 +35,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className="px-2 space-y-24 md:space-y-28 ">
+    <div className="px-2 space-y-24 md:space-y-40 ">
       <div>
         <div className="w-full my-1.5">
           <BannerCarousel images={images} autoplayDelay={3000} />

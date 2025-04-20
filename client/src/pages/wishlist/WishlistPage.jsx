@@ -51,7 +51,7 @@ const WishlistPage = () => {
       cell: ({ row }) => (
         <div className="flex items-center gap-4">
           <Link
-            to={`/search/${row.original._id}`}>
+            to={`/products/${row.original._id}`}>
             <Eye
               size={17}
               className="cursor-pointer" />
