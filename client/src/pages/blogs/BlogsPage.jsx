@@ -14,8 +14,10 @@ import {
 } from "@/components/ui/select";
 import { useSearchBlogQuery } from "@/redux/apis/blogApi"
 import { Card, CardTitle } from "@/components/ui/card";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const BlogsPage = () => {
+  usePageTitle("Blogs")
     const [filter, setFilter] = useState("");
     const [search, setSearch] = useState("");
     const { register, handleSubmit } = useForm();

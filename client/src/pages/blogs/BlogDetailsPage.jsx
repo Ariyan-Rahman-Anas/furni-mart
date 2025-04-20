@@ -2,12 +2,15 @@ import BlogCard from "@/components/BlogCard"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Clock, Eye } from "lucide-react"
 import { useLocation } from "react-router-dom"
-import { useReadBlogsQuery } from "@/redux/apis/blogApi"
+import { useReadBlogsQuery, useTrackBlogViewsMutation } from "@/redux/apis/blogApi"
 import IsLoadingLoaderRTK from "@/components/dashboard/IsLoadingLoaderRTK"
+import usePageTitle from "@/hooks/usePageTitle"
+import { useEffect } from "react"
 
 const BlogDetailsPage = () => {
+  usePageTitle("Blog Details")
   const location = useLocation()
-  const { title, content, images, categories, tags, readingTime, views, createdAt } = location?.state?.blog || {}
+  const { title, content, images, slug, categories, tags, readingTime, views, createdAt } = location?.state?.blog || {}
 
   // formatting the content text
   const formatContent = (text) => {
@@ -24,6 +27,18 @@ const BlogDetailsPage = () => {
   // fetching data for showing on related blogs
   const { data, isLoading } = useReadBlogsQuery()
 
+  // tracking blog views and preventing fake views in useEffect
+  const [trackBlogViews] = useTrackBlogViewsMutation()
+  useEffect(() => {
+    if (slug) {
+      const viewed = localStorage.getItem(`viewed-${slug}`)
+      if (!viewed) {
+        trackBlogViews(slug)
+        localStorage.setItem(`viewed-${slug}`, "true")
+      }
+    }
+  }, [slug, trackBlogViews])
+  
   if (isLoading) {
     return <IsLoadingLoaderRTK h={"90vh"} />
   }

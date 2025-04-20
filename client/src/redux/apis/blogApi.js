@@ -27,6 +27,13 @@ export const blogApi = createApi({
             },
             providesTags:["blogs"]
         }),
+        trackBlogViews: builder.mutation({
+            query: (slug) => ({
+                url: `${slug}`,
+                method:"PATCH"
+            }),
+            invalidatesTags:["blogs"]
+        }),
         deleteBlog: builder.mutation({
             query: (id) => ({
                 url: `${id}`,
@@ -41,5 +48,6 @@ export const {
     usePostBlogMutation,
     useReadBlogsQuery,
     useSearchBlogQuery,
+    useTrackBlogViewsMutation,
     useDeleteBlogMutation
 } = blogApi

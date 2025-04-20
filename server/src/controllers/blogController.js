@@ -67,34 +67,56 @@ export const getBlogs = async (req, res, next) => {
 
 // search blog
 export const searchBlog = async (req, res, next) => {
-  try {
-    const { search, popular } = req.query;
-    const baseQuery = {};
-    if (search) {
-      baseQuery.title = {
-        $regex: search,
-        $options: "i",
-      };
+    try {
+        const { search, popular } = req.query;
+        const baseQuery = {};
+        if (search) {
+            baseQuery.title = {
+                $regex: search,
+                $options: "i",
+            };
+        }
+
+        const sortByViews = popular === "true" ? { views: -1 } : { createdAt: -1 };
+
+        const blogs = await BlogModel.find(baseQuery).sort(sortByViews);
+
+        if (blogs.length < 1) {
+            return next(new ErrorHandler("No blogs found!", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Blogs retrieved",
+            totalBlogs: blogs.length,
+            blogs,
+        });
+    } catch (error) {
+        next(error);
     }
-
-    const sortByViews = popular === "true" ? { views: -1 } : { createdAt: -1 };
-
-    const blogs = await BlogModel.find(baseQuery).sort(sortByViews);
-
-    if (blogs.length < 1) {
-      return next(new ErrorHandler("No blogs found!", 404));
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Blogs retrieved",
-      totalBlogs: blogs.length,
-      blogs,
-    });
-  } catch (error) {
-    next(error);
-  }
 };
+
+
+
+// track blog views
+export const trackBlogView = async (req, res, next) => {
+    try {
+        const blog = await BlogModel.findOneAndUpdate(
+            { slug: req.params.slug },
+            { $inc: { views: 1 } },
+            { new: true }
+        )
+        if (!blog) {
+            return next(new ErrorHandler("Blog not found!", 404))
+        }
+        res.status(200).json({
+            success: true,
+            message: "Views Tracked!"
+        })
+    } catch (error) {
+        next(error)
+    }
+}
 
 
 // delete a blog
